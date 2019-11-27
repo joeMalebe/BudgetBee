@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BudgetBee</string>
+    <string name="title_activity_registration">Registration</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="contact_number">Contact number</string>
+    <string name="register">Register</string>
 </resources>

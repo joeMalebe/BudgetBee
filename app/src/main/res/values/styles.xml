@@ -17,4 +17,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="BudgetBeeMainTheme.Launcher">
+        <item name="android:windowBackground">@drawable/ic_budget_bee_skeleton</item>
+    </style>
+    <style name="BudgetBeeMainTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="BudgetBeeMainTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="BudgetBeeMainTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
 </resources>
