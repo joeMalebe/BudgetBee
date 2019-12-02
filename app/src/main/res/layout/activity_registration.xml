@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:showIn="@layout/activity_registration"
+        tools:context="za.co.app.budgetbee.Registration"
+        android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+                                           android:layout_height="match_parent"
+    >
+
+        <LinearLayout android:orientation="vertical"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_margin="@dimen/gutterSpace"
+        >
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                     android:layout_height="wrap_content"
+                                                                     android:id="@+id/nameEditText"
+                                                                     android:inputType="text"
+                                                                     android:layout_marginBottom="@dimen/gutterSpace"
+                                                                     android:hint="@string/name"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                     android:layout_marginBottom="@dimen/gutterSpace"
+                                                                     android:id="@+id/surnameEditText"
+                                                                     android:inputType="text"
+                                                                     android:layout_height="wrap_content"
+                                                                     android:hint="@string/surname"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                         android:id="@+id/emailEditText"
+                                                                         android:inputType="textEmailAddress"
+                                                                         android:layout_marginBottom="@dimen/gutterSpace"
+                                                                         android:layout_height="wrap_content"
+                                                                         android:hint="@string/email"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                     android:id="@+id/passwordEditText"
+                                                                     android:inputType="textPassword"
+                                                                     android:layout_marginBottom="@dimen/gutterSpace"
+                                                                     android:layout_height="wrap_content"
+                                                                     android:hint="@string/password"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                                                                   android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText android:layout_width="match_parent"
+                                                                     android:id="@+id/contactNumberEditText"
+                                                                     android:layout_marginBottom="@dimen/gutterSpace"
+                                                                     android:layout_height="wrap_content"
+                                                                     android:inputType="phone"
+                                                                     android:hint="@string/contact_number"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register"
+                    android:id="@+id/register_button"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.budgetbee
+package za.co.app.budgetbee
 
 import org.junit.Test
 
