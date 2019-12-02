@@ -4,15 +4,20 @@
 
     <application
             android:allowBackup="true"
-
             android:fullBackupContent="true"
             android:icon="@mipmap/ic_budget_bee_logo"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_budget_bee_logo_round"
             android:supportsRtl="true"
             android:theme="@style/BudgetBeeMainTheme">
+        <activity android:name=".LandingActivity">
+        </activity>
         <activity
-                android:name="za.co.app.budgetbee.Registration"
+                android:name=".ui.login.LoginActivity"
+                android:label="@string/title_activity_login">
+        </activity>
+        <activity
+                android:name=".Registration"
                 android:label="@string/title_activity_registration"
                 android:theme="@style/BudgetBeeMainTheme">
             <intent-filter>
@@ -20,18 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-                android:name="za.co.app.budgetbee.SplashScreenActivity"
+                android:name=".SplashScreenActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/BudgetBeeMainTheme.Launcher">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
-        <activity
-                android:name="za.co.app.budgetbee.MainActivity"
-                android:theme="@style/BudgetBeeMainTheme.Launcher">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

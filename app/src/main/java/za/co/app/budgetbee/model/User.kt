@@ -1,3 +1,9 @@
 package za.co.app.budgetbee.model
 
-data class User(val userid: Int, val name: String, val email: String, val password: String)
+data class User(
+    val name: String,
+    val surname: String,
+    val email: String,
+    val contactNumber: String,
+    val password: String
+)
