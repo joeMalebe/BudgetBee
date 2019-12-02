@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "845697758015",
+    "firebase_url": "https://budgetbee-b50b3.firebaseio.com",
+    "project_id": "budgetbee-b50b3",
+    "storage_bucket": "budgetbee-b50b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845697758015:android:adca6c079198e6a399598a",
+        "android_client_info": {
+          "package_name": "za.co.app.budgetbee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "845697758015-0abk6opdbsrnodqabo68mhfkol1it8f3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.app.budgetbee",
+            "certificate_hash": "770b0f9b8a1232b6b738df289e02d7ad8cb9bac1"
+          }
+        },
+        {
+          "client_id": "845697758015-2u9u8fhf4qlg2kur1o0k3h90gen4g7fj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXETfyLr6MEif8bedLgpLOhlecBqxNpVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "845697758015-2u9u8fhf4qlg2kur1o0k3h90gen4g7fj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
