@@ -16,4 +16,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="income_heading">Income</string>
+    <string name="expense_heading">Expense</string>
+    <string name="balance_heading">Balance</string>
 </resources>
