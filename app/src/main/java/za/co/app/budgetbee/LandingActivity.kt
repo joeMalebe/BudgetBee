@@ -9,7 +9,8 @@ class LandingActivity : AppCompatActivity() {
 
     companion object {
         fun getStartIntent(context: Context): Intent {
-            return Intent(context, LandingActivity::class.java)
+            val intent = Intent(context, LandingActivity::class.java)
+            return intent
         }
     }
 
