@@ -10,9 +10,11 @@
             android:roundIcon="@mipmap/ic_budget_bee_logo_round"
             android:supportsRtl="true"
             android:theme="@style/BudgetBeeMainTheme">
-        <activity android:name=".LandingActivity"
-                  android:theme="@style/BudgetBeeMainTheme">
-
+        <activity android:name=".ui.AddExpenseActivity">
+        </activity>
+        <activity
+                android:name=".LandingActivity"
+                android:theme="@style/BudgetBeeMainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -20,14 +22,13 @@
             </intent-filter>
         </activity>
         <activity
-                android:label="@string/title_activity_registration"
                 android:name=".Registration"
+                android:label="@string/title_activity_registration"
                 android:theme="@style/BudgetBeeMainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
