@@ -132,4 +132,24 @@
 
     </androidx.cardview.widget.CardView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_expense_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@mipmap/ic_bee_face"
+            android:layout_margin="@dimen/gutterSpace"
+    />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_income_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src="@mipmap/ic_budget_bee_logo_round"
+            android:layout_margin="@dimen/gutterSpace"
+    />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
