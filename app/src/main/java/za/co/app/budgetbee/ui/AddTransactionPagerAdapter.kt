@@ -17,7 +17,7 @@ class AddTransactionPagerAdapter(fragmentManager: FragmentManager, val behavior:
             EXPENSE -> AddExpenseFragment.newInstance()
             INCOME -> AddIncomeFragment.newInstance()
             else -> {
-                throw IllegalArgumentException("Position $position is invalid")
+                throw Throwable("Position $position is invalid")
             }
         }
     }
@@ -26,4 +26,13 @@ class AddTransactionPagerAdapter(fragmentManager: FragmentManager, val behavior:
         return NUMBER_OF_PAGES
     }
 
+    override fun getPageTitle(position: Int): CharSequence? {
+        return when (position) {
+            EXPENSE -> "Expense"
+            INCOME -> "Income"
+            else -> {
+                throw Throwable("Position $position is invalid")
+            }
+        }
+    }
 }

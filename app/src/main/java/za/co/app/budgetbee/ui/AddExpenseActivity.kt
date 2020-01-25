@@ -11,4 +11,6 @@ class AddExpenseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_expense)
         supportActionBar?.setTitle(R.string.expenses_heading)
     }
+
+
 }
