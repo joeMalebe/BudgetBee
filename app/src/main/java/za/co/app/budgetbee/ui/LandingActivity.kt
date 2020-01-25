@@ -1,11 +1,11 @@
-package za.co.app.budgetbee
+package za.co.app.budgetbee.ui
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_landing.*
-import za.co.app.budgetbee.ui.AddExpenseActivity
+import za.co.app.budgetbee.R
 
 class LandingActivity : AppCompatActivity() {
 
@@ -27,7 +27,7 @@ class LandingActivity : AppCompatActivity() {
         val addIncomeButton = add_income_fab
 
         addExpenseButton.setOnClickListener({
-            startActivity(Intent(this, AddExpenseActivity::class.java))
+            startActivity(AddTransactionActivity.getStartIntent(this))
         })
 
     }

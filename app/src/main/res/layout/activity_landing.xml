@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/gutterSpace"
-        tools:context=".LandingActivity">
+        tools:context=".ui.LandingActivity">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/income_card_view"
@@ -71,7 +71,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/expense_value_text"
-                    android:text="@string/expense_heading"
+                    android:text="@string/expenses_heading"
                     android:layout_margin="@dimen/gutterSpace"
             />
 
