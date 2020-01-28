@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="za.co.app.budgetbee">
-
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -14,6 +13,13 @@
             android:supportsRtl="true"
             android:theme="@style/BudgetBeeMainTheme">
         <activity android:name=".ui.AddTransactionActivity">
+        </activity>
+        <activity
+                android:name=".ui.AddTransactionCategoryActivity"
+                android:label="@string/title_activity_add_transaction_category"
+                android:theme="@style/BudgetBeeMainTheme.NoActionBar">
+        </activity>
+        <activity android:name=".ui.TransactionCategoryActivity">
         </activity>
         <activity android:name=".ui.AddExpenseActivity">
         </activity>
