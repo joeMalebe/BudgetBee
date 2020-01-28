@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_landing.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 
 class LandingActivity : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class LandingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
+        BudgetBeeDatabase.getInstance(this)
         buildScreen()
     }
 
@@ -27,7 +29,7 @@ class LandingActivity : AppCompatActivity() {
         val addIncomeButton = add_income_fab
 
         addExpenseButton.setOnClickListener({
-            startActivity(AddTransactionActivity.getStartIntent(this))
+            startActivity(TransactionCategoryActivity.getStartIntent(this))
         })
 
     }

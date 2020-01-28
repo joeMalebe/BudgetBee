@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-private const val EXPENSE = 0
-private const val INCOME = 1
+private const val INCOME = 0
+private const val EXPENSE = 1
 private const val NUMBER_OF_PAGES = 2
 
 class AddTransactionPagerAdapter(fragmentManager: FragmentManager, val behavior: Int) :

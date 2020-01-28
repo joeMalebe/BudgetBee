@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_registration.*
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.model.User
+import za.co.app.budgetbee.data.model.User
 
 class Registration : AppCompatActivity() {
 

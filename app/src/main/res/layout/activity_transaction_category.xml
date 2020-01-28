@@ -22,6 +22,7 @@
                 android:layout_margin="@dimen/gutterSpaceHalf"
                 android:layout_height="wrap_content">
 
+
         </com.google.android.material.tabs.TabLayout>
 
     </androidx.viewpager.widget.ViewPager>
