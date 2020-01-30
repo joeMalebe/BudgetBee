@@ -30,7 +30,10 @@ class TransactionCategoryActivity : AppCompatActivity() {
             startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
         })
         transactionViewPager.adapter =
-            AddTransactionPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+            AddTransactionPagerAdapter(
+                supportFragmentManager,
+                BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+            )
         transactionTabs.setupWithViewPager(transactionViewPager)
     }
 }

@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="za.co.app.budgetbee">
+    package="za.co.app.budgetbee">
     <!-- To access Google+ APIs: -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-            android:allowBackup="true"
-            android:fullBackupContent="true"
-            android:icon="@mipmap/ic_budget_bee_logo"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_budget_bee_logo_round"
-            android:supportsRtl="true"
-            android:theme="@style/BudgetBeeMainTheme">
-        <activity android:name=".ui.AddTransactionActivity">
-        </activity>
-        <activity
-                android:name=".ui.AddTransactionCategoryActivity"
-                android:label="@string/title_activity_add_transaction_category"
-                android:theme="@style/BudgetBeeMainTheme.NoActionBar">
-        </activity>
-        <activity android:name=".ui.TransactionCategoryActivity">
-        </activity>
-        <activity android:name=".ui.AddExpenseActivity">
-        </activity>
-        <activity
-                android:name=".ui.LandingActivity"
-                android:theme="@style/BudgetBeeMainTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_budget_bee_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_budget_bee_logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/BudgetBeeMainTheme">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+        <activity android:name=".ui.AddTransactionActivity"></activity>
+
+        <activity
+            android:name=".ui.AddTransactionCategoryActivity"
+            android:label="@string/title_activity_add_transaction_category"
+            android:theme="@style/BudgetBeeMainTheme.NoActionBar"></activity>
+
+        <activity android:name=".ui.TransactionCategoryActivity"></activity>
+
+        <activity android:name=".ui.AddExpenseActivity"></activity>
+
+        <activity
+            android:name=".ui.LandingActivity"
+            android:theme="@style/BudgetBeeMainTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-                android:name=".ui.Registration"
-                android:label="@string/title_activity_registration"
-                android:theme="@style/BudgetBeeMainTheme">
+            android:name=".ui.Registration"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/BudgetBeeMainTheme">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
     </application>

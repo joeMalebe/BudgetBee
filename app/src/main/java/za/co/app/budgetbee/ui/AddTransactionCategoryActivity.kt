@@ -50,15 +50,17 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
             }
             val categoryName = input_category_name_editText.text.toString()
 
-            BudgetBeeDatabase.getInstance(view.context).getTransactionCategoryDao().addTransationCategory(
-                TransactionCategory(categoryName, categoryType.value)
-            ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+            BudgetBeeDatabase.getInstance(view.context).getTransactionCategoryDao()
+                .addTransationCategory(
+                    TransactionCategory(categoryName, categoryType.value)
+                ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(TransactionCategoryObserver(this))
 
         }
     }
 
-    class TransactionCategoryObserver(activity: AddTransactionCategoryActivity) : CompletableObserver {
+    class TransactionCategoryObserver(activity: AddTransactionCategoryActivity) :
+        CompletableObserver {
 
         val activity = WeakReference(activity).get()
         override fun onComplete() {

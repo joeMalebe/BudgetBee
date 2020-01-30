@@ -14,20 +14,5 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_height="wrap_content"
-            android:text="income button"/>
-
-    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_budget_bee_logo"
-            android:id="@+id/add_income_fab"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

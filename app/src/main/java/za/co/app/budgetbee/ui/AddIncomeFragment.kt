@@ -37,7 +37,8 @@ class AddIncomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        BudgetBeeDatabase.getInstance(this.requireContext()).getTransactionCategoryDao().getAllTransactionCategories()
+        BudgetBeeDatabase.getInstance(this.requireContext()).getTransactionCategoryDao()
+            .getAllTransactionCategories()
             .subscribeOn(
                 Schedulers.io()
             ).observeOn(AndroidSchedulers.mainThread()).subscribe(TransactionCategoryObserver(this))
@@ -47,16 +48,23 @@ class AddIncomeFragment : Fragment() {
         val incomeRecyclerView = income_category_recyclerView
         incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
         val transactionCategoryListAdapter = TransactionCategoryListAdapter(transactionCategoryList)
-        transactionCategoryListAdapter.getClickTransactionCategory().subscribe({ transactionCategory ->
-            startActivity(AddTransactionActivity.getStartIntent(this.activity?.applicationContext, transactionCategory))
-        })
+        transactionCategoryListAdapter.getClickTransactionCategory()
+            .subscribe({ transactionCategory ->
+                startActivity(
+                    AddTransactionActivity.getStartIntent(
+                        this.activity?.applicationContext,
+                        transactionCategory
+                    )
+                )
+            })
 
         incomeRecyclerView.adapter = transactionCategoryListAdapter
 
 
     }
 
-    class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) : Observer<List<TransactionCategory>> {
+    class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) :
+        Observer<List<TransactionCategory>> {
         val fragment = WeakReference(addIncomeFragment).get()
         override fun onComplete() {
             //do nothing
@@ -72,7 +80,11 @@ class AddIncomeFragment : Fragment() {
         }
 
         override fun onError(e: Throwable) {
-            Toast.makeText(fragment?.context, "Error in database lookup ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                fragment?.context,
+                "Error in database lookup ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

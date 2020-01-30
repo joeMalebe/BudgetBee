@@ -15,7 +15,10 @@ class TransactionCategoryListAdapter(transactionCategoryList: List<TransactionCa
     val onClickSubject: PublishSubject<TransactionCategory> = PublishSubject.create()
     val transactionCategoryList = transactionCategoryList
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionCategoryViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TransactionCategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_transaction, parent, false)
         return TransactionCategoryViewHolder(view)
