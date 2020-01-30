@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_add_transaction_category.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
+import za.co.app.budgetbee.data.model.TransactionCategoryDataModel
 import za.co.app.budgetbee.data.model.TransactionCategoryType
 import java.lang.ref.WeakReference
 
@@ -49,14 +50,24 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
                 TransactionCategoryType.EXPENSE
             }
             val categoryName = input_category_name_editText.text.toString()
-
+            val transactionCategory = createTransactionCategory(categoryName, categoryType)
             BudgetBeeDatabase.getInstance(view.context).getTransactionCategoryDao()
-                .addTransationCategory(
-                    TransactionCategory(categoryName, categoryType.value)
+                .addTransactionCategory(
+                    TransactionCategoryDataModel(
+                        transactionCategory.transactionCategoryName,
+                        transactionCategory.transactionCategoryType
+                    )
                 ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(TransactionCategoryObserver(this))
 
         }
+    }
+
+    private fun createTransactionCategory(
+        categoryName: String,
+        categoryType: TransactionCategoryType
+    ): TransactionCategory {
+        return TransactionCategory(categoryName, categoryType.value)
     }
 
     class TransactionCategoryObserver(activity: AddTransactionCategoryActivity) :
@@ -66,6 +77,7 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
         override fun onComplete() {
             if (activity != null) {
                 Log.i(activity.localClassName, "OnComplete called")
+                activity.startActivity(TransactionCategoryActivity.getStartIntent(activity))
             }
         }
 

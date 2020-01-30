@@ -26,9 +26,9 @@ class TransactionCategoryActivity : AppCompatActivity() {
         val transactionViewPager = transaction_view_pager
         val transactionTabs = transaction_type_tab_layout
         val addIncomeButton = add_income_fab
-        addIncomeButton.setOnClickListener({
+        addIncomeButton.setOnClickListener {
             startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
-        })
+        }
         transactionViewPager.adapter =
             AddTransactionPagerAdapter(
                 supportFragmentManager,

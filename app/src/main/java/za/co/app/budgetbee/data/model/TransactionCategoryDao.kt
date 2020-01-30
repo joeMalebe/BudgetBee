@@ -8,18 +8,18 @@ import io.reactivex.Single
 @Dao
 interface TransactionCategoryDao {
 
-    @Query("SELECT * FROM TransactionCategory")
-    fun getAllTransactionCategories(): Observable<List<TransactionCategory>>
+    @Query("SELECT * FROM TransactionCategoryDataModel")
+    fun getAllTransactionCategories(): Observable<List<TransactionCategoryDataModel>>
 
-    @Query("SELECT * FROM TransactionCategory WHERE transactionCategoryName LIKE :transactionCategoryName")
-    fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategory>
+    @Query("SELECT * FROM TransactionCategoryDataModel WHERE transactionCategoryName LIKE :transactionCategoryName")
+    fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategoryDataModel>
 
     @Insert
-    fun addTransationCategory(transactionCategory: TransactionCategory): Completable
+    fun addTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
     @Delete
-    fun removeTransactionCategory(transactionCategory: TransactionCategory): Completable
+    fun removeTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
     @Update
-    fun updateTransactionCategory(transactionCategory: TransactionCategory): Completable
+    fun updateTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 }
