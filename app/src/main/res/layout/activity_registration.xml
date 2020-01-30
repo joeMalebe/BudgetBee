@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="za.co.app.budgetbee.Registration"
+        tools:context="za.co.app.budgetbee.ui.Registration"
         tools:showIn="@layout/activity_registration">
 
     <androidx.core.widget.NestedScrollView

@@ -17,6 +17,10 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="income_heading">Income</string>
-    <string name="expense_heading">Expense</string>
+    <string name="expenses_heading">Expenses</string>
     <string name="balance_heading">Balance</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_add_transaction_category">AddTransactionCategoryActivity</string>
 </resources>

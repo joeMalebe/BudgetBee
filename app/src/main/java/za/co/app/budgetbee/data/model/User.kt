@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.model
+package za.co.app.budgetbee.data.model
 
 data class User(
     val name: String,

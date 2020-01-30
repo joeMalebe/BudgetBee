@@ -1,4 +1,4 @@
-package za.co.app.budgetbee
+package za.co.app.budgetbee.ui
 
 import android.content.Context
 import android.content.Intent
@@ -11,7 +11,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_registration.*
-import za.co.app.budgetbee.model.User
+import za.co.app.budgetbee.R
+import za.co.app.budgetbee.data.model.User
 
 class Registration : AppCompatActivity() {
 
