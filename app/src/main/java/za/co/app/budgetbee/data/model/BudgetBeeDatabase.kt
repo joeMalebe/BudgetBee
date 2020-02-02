@@ -11,7 +11,10 @@ import za.co.app.budgetbee.base.BaseCompletableObserver
 import za.co.app.budgetbee.utils.SingletonHolder
 import java.lang.ref.WeakReference
 
-@Database(entities = [TransactionCategoryDataModel::class], version = 1)
+@Database(
+    entities = [TransactionCategoryDataModel::class, TransactionDataModel::class],
+    version = 1
+)
 abstract class BudgetBeeDatabase : RoomDatabase() {
     abstract fun getTransactionCategoryDao(): BudgetBeeDoa
 

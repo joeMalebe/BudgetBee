@@ -22,5 +22,5 @@ data class TransactionDataModel(
     val transactionCategoryId: Int
 ) {
     @PrimaryKey(autoGenerate = true)
-    val transactionId: Int = 0
+    var transactionId: Int = 0
 }
