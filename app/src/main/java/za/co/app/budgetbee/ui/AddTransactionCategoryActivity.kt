@@ -3,16 +3,14 @@ package za.co.app.budgetbee.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction_category.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.BaseCompletableObserver
 import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
 import za.co.app.budgetbee.data.model.TransactionCategoryDataModel
@@ -52,14 +50,13 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
             val categoryName = input_category_name_editText.text.toString()
             val transactionCategory = createTransactionCategory(categoryName, categoryType)
             BudgetBeeDatabase.getInstance(view.context).getTransactionCategoryDao()
-                .addTransactionCategory(
+                .insertTransactionCategory(
                     TransactionCategoryDataModel(
                         transactionCategory.transactionCategoryName,
                         transactionCategory.transactionCategoryType
                     )
                 ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe(TransactionCategoryObserver(this))
-
         }
     }
 
@@ -71,31 +68,12 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
     }
 
     class TransactionCategoryObserver(activity: AddTransactionCategoryActivity) :
-        CompletableObserver {
+        BaseCompletableObserver() {
 
         val activity = WeakReference(activity).get()
         override fun onComplete() {
-            if (activity != null) {
-                Log.i(activity.localClassName, "OnComplete called")
-                activity.startActivity(TransactionCategoryActivity.getStartIntent(activity))
-            }
-        }
-
-        override fun onSubscribe(d: Disposable) {
-            if (activity != null) {
-                Log.d(activity.localClassName, d.toString())
-            }
+            activity?.startActivity(TransactionCategoryActivity.getStartIntent(activity))
 
         }
-
-        override fun onError(e: Throwable) {
-            if (activity != null) {
-                Toast.makeText(activity, "$e", Toast.LENGTH_SHORT).show()
-                Log.e(activity.localClassName, e.message, e)
-            }
-
-        }
-
     }
-
 }

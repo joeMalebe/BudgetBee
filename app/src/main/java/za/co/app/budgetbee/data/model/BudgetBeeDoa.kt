@@ -1,12 +1,13 @@
 package za.co.app.budgetbee.data.model
 
 import androidx.room.*
+import androidx.room.Transaction
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
 @Dao
-interface TransactionCategoryDao {
+interface BudgetBeeDoa {
 
     @Query("SELECT * FROM TransactionCategoryDataModel")
     fun getAllTransactionCategories(): Observable<List<TransactionCategoryDataModel>>
@@ -15,13 +16,17 @@ interface TransactionCategoryDao {
     fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategoryDataModel>
 
     @Insert
-    fun addTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
+    fun insertTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
     @Insert
-    fun addAllTransactionCategory(transactionCategoryDataModel: Array<TransactionCategoryDataModel>): Completable
+    fun insertAllTransactionCategory(transactionCategoryDataModel: Array<TransactionCategoryDataModel>): Completable
+
+    @Insert
+    @Transaction
+    fun insertTransaction(transaction: TransactionDataModel): Completable
 
     @Delete
-    fun removeTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
+    fun deleteTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
     @Update
     fun updateTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable

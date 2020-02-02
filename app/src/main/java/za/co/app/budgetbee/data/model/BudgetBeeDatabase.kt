@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 
 @Database(entities = [TransactionCategoryDataModel::class], version = 1)
 abstract class BudgetBeeDatabase : RoomDatabase() {
-    abstract fun getTransactionCategoryDao(): TransactionCategoryDao
+    abstract fun getTransactionCategoryDao(): BudgetBeeDoa
 
     companion object : SingletonHolder<BudgetBeeDatabase, Context>({
         val databaseName = "BudgetBeeDatabsae.db"
@@ -31,14 +31,12 @@ class InitialiseDatabase(val context: Context) : RoomDatabase.Callback() {
     override fun onCreate(db: SupportSQLiteDatabase) {
 
         BudgetBeeDatabase.getInstance(context).getTransactionCategoryDao()
-            .addAllTransactionCategory(
+            .insertAllTransactionCategory(
                 arrayOf(
                     TransactionCategoryDataModel("Salary", TransactionCategoryType.INCOME.value),
                     TransactionCategoryDataModel("Loan", TransactionCategoryType.EXPENSE.value)
                 )
             ).subscribeOn(Schedulers.io()).subscribe(TransactionCategoryObserver(context))
-
-
     }
 }
 
