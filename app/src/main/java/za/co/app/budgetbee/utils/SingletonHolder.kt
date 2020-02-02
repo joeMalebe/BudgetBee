@@ -1,5 +1,7 @@
 package za.co.app.budgetbee.utils
 
+import android.util.Log
+
 open class SingletonHolder<out T : Any, in A>(creator: (A) -> T) {
     private var creator: ((A) -> T)? = creator
     @Volatile
@@ -8,6 +10,7 @@ open class SingletonHolder<out T : Any, in A>(creator: (A) -> T) {
     fun getInstance(arg: A): T {
         val i = instance
         if (i != null) {
+            Log.i("SingletonHolder", "Old instance returned")
             return i
         }
 
@@ -18,6 +21,7 @@ open class SingletonHolder<out T : Any, in A>(creator: (A) -> T) {
             } else {
                 val created = creator!!(arg)
                 instance = created
+                Log.i("SingletonHolder", "New instance created")
                 creator = null
                 created
             }

@@ -22,8 +22,6 @@
 
         <activity android:name=".ui.TransactionCategoryActivity"></activity>
 
-        <activity android:name=".ui.AddExpenseActivity"></activity>
-
         <activity
             android:name=".ui.LandingActivity"
             android:theme="@style/BudgetBeeMainTheme">

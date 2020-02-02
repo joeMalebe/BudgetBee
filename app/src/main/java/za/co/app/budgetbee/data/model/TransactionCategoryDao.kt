@@ -17,6 +17,9 @@ interface TransactionCategoryDao {
     @Insert
     fun addTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
+    @Insert
+    fun addAllTransactionCategory(transactionCategoryDataModel: Array<TransactionCategoryDataModel>): Completable
+
     @Delete
     fun removeTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
