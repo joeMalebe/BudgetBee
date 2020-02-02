@@ -10,12 +10,14 @@ import kotlinx.android.synthetic.main.item_transaction.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.TransactionCategory
 
-class TransactionCategoryListAdapter(transactionCategoryList: List<TransactionCategory>) :
+class TransactionCategoryListAdapter(val transactionCategoryList: List<TransactionCategory>) :
     RecyclerView.Adapter<TransactionCategoryListAdapter.TransactionCategoryViewHolder>() {
     val onClickSubject: PublishSubject<TransactionCategory> = PublishSubject.create()
-    val transactionCategoryList = transactionCategoryList
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionCategoryViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TransactionCategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_transaction, parent, false)
         return TransactionCategoryViewHolder(view)

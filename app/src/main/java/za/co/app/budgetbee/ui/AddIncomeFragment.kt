@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_add_income.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
+import za.co.app.budgetbee.data.model.TransactionCategoryDataModel
 import java.lang.ref.WeakReference
 
 
@@ -37,7 +38,8 @@ class AddIncomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        BudgetBeeDatabase.getInstance(this.requireContext()).getTransactionCategoryDao().getAllTransactionCategories()
+        BudgetBeeDatabase.getInstance(this.requireContext()).getTransactionCategoryDao()
+            .getAllTransactionCategories()
             .subscribeOn(
                 Schedulers.io()
             ).observeOn(AndroidSchedulers.mainThread()).subscribe(TransactionCategoryObserver(this))
@@ -46,17 +48,24 @@ class AddIncomeFragment : Fragment() {
     fun buildScreen(transactionCategoryList: List<TransactionCategory>) {
         val incomeRecyclerView = income_category_recyclerView
         incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        val transactionCategoryListAdapter = TransactionCategoryListAdapter(transactionCategoryList)
-        transactionCategoryListAdapter.getClickTransactionCategory().subscribe({ transactionCategory ->
-            startActivity(AddTransactionActivity.getStartIntent(this.activity?.applicationContext, transactionCategory))
-        })
+
+        val transactionCategoryListAdapter =
+            TransactionCategoryListAdapter(transactionCategoryList)
+        transactionCategoryListAdapter.getClickTransactionCategory()
+            .subscribe { transactionCategory ->
+                startActivity(
+                    AddTransactionActivity.getStartIntent(
+                        this.activity?.applicationContext,
+                        transactionCategory
+                    )
+                )
+            }
 
         incomeRecyclerView.adapter = transactionCategoryListAdapter
-
-
     }
 
-    class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) : Observer<List<TransactionCategory>> {
+    class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) :
+        Observer<List<TransactionCategoryDataModel>> {
         val fragment = WeakReference(addIncomeFragment).get()
         override fun onComplete() {
             //do nothing
@@ -65,14 +74,28 @@ class AddIncomeFragment : Fragment() {
         override fun onSubscribe(d: Disposable) {
         }
 
-        override fun onNext(transactionCategoryList: List<TransactionCategory>) {
+        override fun onNext(transactionCategoryDataModelList: List<TransactionCategoryDataModel>) {
             if (fragment != null) {
-                fragment.buildScreen(transactionCategoryList)
+                //todo move this mapping to repo
+                val transactionCategoryList = arrayListOf<TransactionCategory>()
+                transactionCategoryDataModelList.forEach {
+                    transactionCategoryList.add(
+                        TransactionCategory(
+                            it.transactionCategoryName,
+                            it.transactionCategoryType
+                        )
+                    )
+                    fragment.buildScreen(transactionCategoryList)
+                }
             }
         }
 
         override fun onError(e: Throwable) {
-            Toast.makeText(fragment?.context, "Error in database lookup ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                fragment?.context,
+                "Error in database lookup ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
