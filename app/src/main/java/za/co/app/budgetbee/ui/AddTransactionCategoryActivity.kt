@@ -64,7 +64,7 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
         categoryName: String,
         categoryType: TransactionCategoryType
     ): TransactionCategory {
-        return TransactionCategory(categoryName, categoryType.value)
+        return TransactionCategory(0, categoryName, categoryType.value)
     }
 
     class TransactionCategoryObserver(activity: AddTransactionCategoryActivity) :

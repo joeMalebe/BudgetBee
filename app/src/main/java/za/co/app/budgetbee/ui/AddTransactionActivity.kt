@@ -1,21 +1,28 @@
 package za.co.app.budgetbee.ui
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.BaseCompletableObserver
+import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
+import za.co.app.budgetbee.data.model.TransactionDataModel
 import za.co.app.budgetbee.utils.getDateStringByFormat
+import java.lang.ref.WeakReference
 import java.util.*
 
 class AddTransactionActivity : AppCompatActivity() {
 
     companion object {
-        val EXTRA_TRANSACTION_ID = "EXTRA_TRANSACTION_ID"
         val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
 
         fun getStartIntent(context: Context?, transactionCategory: TransactionCategory): Intent {
@@ -38,6 +45,28 @@ class AddTransactionActivity : AppCompatActivity() {
         input_date.setOnClickListener {
             setupDateDialogue(calendar)
         }
+
+        button_add_transaction.setOnClickListener {
+            val date = calendar.timeInMillis
+            val description = if (input_description.text.toString().isEmpty()) {
+                input_description.text.toString()
+            } else {
+                transactionCategory.transactionCategoryName
+            }
+            val amount = input_amount.text.toString().toDouble()
+            BudgetBeeDatabase.getInstance(this).getTransactionCategoryDao().insertTransaction(
+                TransactionDataModel(
+                    date,
+                    description,
+                    amount,
+                    transactionCategory.transactionCategoryId
+                )
+            ).observeOn(
+                AndroidSchedulers.mainThread()
+            ).subscribeOn(Schedulers.io()).subscribe(
+                TransactionObserver(this)
+            )
+        }
     }
 
     fun setupDateDialogue(calendar: Calendar) {
@@ -56,5 +85,16 @@ class AddTransactionActivity : AppCompatActivity() {
                 ).show()
             }), year, monthOfYear, dayOfMonth
         ).show()
+    }
+
+    class TransactionObserver(activity: Activity) :
+        BaseCompletableObserver() {
+        val activity = WeakReference(activity).get()
+        override fun onComplete() {
+            if (activity != null) {
+                Log.d("TransactionObserver", "Oncomplete(Added Transaction")
+                activity.startActivity(LandingActivity.getStartIntent(activity))
+            }
+        }
     }
 }

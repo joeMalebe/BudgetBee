@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.item_transaction.view.*
+import kotlinx.android.synthetic.main.item_transaction_category.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.TransactionCategory
 
@@ -19,7 +19,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
         viewType: Int
     ): TransactionCategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaction, parent, false)
+            .inflate(R.layout.item_transaction_category, parent, false)
         return TransactionCategoryViewHolder(view)
 
     }

@@ -81,6 +81,7 @@ class AddIncomeFragment : Fragment() {
                 transactionCategoryDataModelList.forEach {
                     transactionCategoryList.add(
                         TransactionCategory(
+                            it.transactionCategoryId,
                             it.transactionCategoryName,
                             it.transactionCategoryType
                         )

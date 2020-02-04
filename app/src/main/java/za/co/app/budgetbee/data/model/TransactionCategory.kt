@@ -5,15 +5,18 @@ import android.os.Parcelable
 
 
 data class TransactionCategory(
+    var transactionCategoryId: Int,
     var transactionCategoryName: String,
     var transactionCategoryType: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString(),
         parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(transactionCategoryId)
         parcel.writeString(transactionCategoryName)
         parcel.writeInt(transactionCategoryType)
     }
