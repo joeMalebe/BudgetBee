@@ -12,7 +12,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_landing.*
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.BudgetBeeDatabase.Companion.getInstance
 import za.co.app.budgetbee.data.model.TransactionDataModel
 
@@ -34,7 +33,7 @@ class LandingActivity : AppCompatActivity() {
 
     private fun buildScreen() {
         val addExpenseButton = add_expense_fab
-
+        //todo add adapter
         addExpenseButton.setOnClickListener {
             startActivity(TransactionCategoryActivity.getStartIntent(this))
         }
@@ -42,7 +41,7 @@ class LandingActivity : AppCompatActivity() {
     }
 
     fun getTransactions() {
-        BudgetBeeDatabase.getInstance(this).getTransactionCategoryDao()
+        getInstance(this).getTransactionCategoryDao()
             .getTransactions().observeOn(
                 AndroidSchedulers.mainThread()
             ).subscribeOn(Schedulers.io()).subscribe(TransactionsObserver(this))
@@ -57,12 +56,15 @@ class LandingActivity : AppCompatActivity() {
         override fun onComplete() {
         }
 
-        override fun onNext(t: List<TransactionDataModel>) {
-            if (t != null && t.isNotEmpty()) {
+        override fun onNext(transactionDataModelList: List<TransactionDataModel>) {
+            if (transactionDataModelList.isNotEmpty()) {
 
-                Log.d("TransactionsObserver", "size ${t.size}- ${t.get(0)}")
+                Log.d(
+                    "TransactionsObserver",
+                    "size ${transactionDataModelList.size}- ${transactionDataModelList.get(0)}"
+                )
             }
-            activity.buildScreen(t)
+            activity.buildScreen(transactionDataModelList)
 
         }
 
@@ -73,7 +75,7 @@ class LandingActivity : AppCompatActivity() {
 
     private fun buildScreen(transactions: List<TransactionDataModel>?) {
         if (transactions != null && transactions.isNotEmpty()) {
-
+            //todo add adapter
             Toast.makeText(
                 this,
                 "list size ${transactions.size} - ${transactions.get(0)}",
