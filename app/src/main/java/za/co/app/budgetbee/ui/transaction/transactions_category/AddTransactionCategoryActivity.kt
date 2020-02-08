@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction.transactions_category
 
 import android.content.Context
 import android.content.Intent
@@ -9,15 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction_category.*
+import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseCompletableObserver
-import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
-import za.co.app.budgetbee.data.model.TransactionCategoryDataModel
 import za.co.app.budgetbee.data.model.TransactionCategoryType
+import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
+import za.co.app.budgetbee.data.model.database.TransactionCategoryDataModel
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 class AddTransactionCategoryActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var budgetBeeDoa: BudgetBeeDoa
 
     companion object {
         fun getStartIntent(context: Context): Intent {
@@ -28,6 +33,7 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction_category)
+        BudgetBeeApplication.instance.feather.injectFields(this)
         buildScreen()
 
     }
@@ -49,14 +55,18 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
             }
             val categoryName = input_category_name_editText.text.toString()
             val transactionCategory = createTransactionCategory(categoryName, categoryType)
-            BudgetBeeDatabase.getInstance(view.context).getTransactionCategoryDao()
+            budgetBeeDoa
                 .insertTransactionCategory(
                     TransactionCategoryDataModel(
                         transactionCategory.transactionCategoryName,
                         transactionCategory.transactionCategoryType
                     )
                 ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
-                .subscribe(TransactionCategoryObserver(this))
+                .subscribe(
+                    TransactionCategoryObserver(
+                        this
+                    )
+                )
         }
     }
 
@@ -64,7 +74,7 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
         categoryName: String,
         categoryType: TransactionCategoryType
     ): TransactionCategory {
-        return TransactionCategory(categoryName, categoryType.value)
+        return TransactionCategory(0, categoryName, categoryType.value)
     }
 
     class TransactionCategoryObserver(activity: AddTransactionCategoryActivity) :
@@ -72,7 +82,11 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
 
         val activity = WeakReference(activity).get()
         override fun onComplete() {
-            activity?.startActivity(TransactionCategoryActivity.getStartIntent(activity))
+            activity?.startActivity(
+                TransactionCategoryActivity.getStartIntent(
+                    activity
+                )
+            )
 
         }
     }

@@ -7,7 +7,7 @@ data class Transaction(
     val transactionDate: Long,
     val transactionDescription: String?,
     val transactionAmount: Double,
-    val transactionType: Int
+    val transactionCategoryId: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -20,7 +20,7 @@ data class Transaction(
         parcel.writeLong(transactionDate)
         parcel.writeString(transactionDescription)
         parcel.writeDouble(transactionAmount)
-        parcel.writeInt(transactionType)
+        parcel.writeInt(transactionCategoryId)
     }
 
     override fun describeContents(): Int {

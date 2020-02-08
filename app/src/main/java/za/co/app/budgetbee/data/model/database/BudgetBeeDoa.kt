@@ -1,7 +1,6 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.database
 
 import androidx.room.*
-import androidx.room.Transaction
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -11,6 +10,9 @@ interface BudgetBeeDoa {
 
     @Query("SELECT * FROM TransactionCategoryDataModel")
     fun getAllTransactionCategories(): Observable<List<TransactionCategoryDataModel>>
+
+    @Query("SELECT * FROM TransactionDataModel")
+    fun getTransactions(): Observable<List<TransactionDataModel>>
 
     @Query("SELECT * FROM TransactionCategoryDataModel WHERE transactionCategoryName LIKE :transactionCategoryName")
     fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategoryDataModel>
@@ -22,7 +24,6 @@ interface BudgetBeeDoa {
     fun insertAllTransactionCategory(transactionCategoryDataModel: Array<TransactionCategoryDataModel>): Completable
 
     @Insert
-    @Transaction
     fun insertTransaction(transaction: TransactionDataModel): Completable
 
     @Delete

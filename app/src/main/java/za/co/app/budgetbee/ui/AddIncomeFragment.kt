@@ -1,5 +1,6 @@
 package za.co.app.budgetbee.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,19 +13,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_income.*
+import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
-import za.co.app.budgetbee.data.model.TransactionCategoryDataModel
+import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
+import za.co.app.budgetbee.data.model.database.TransactionCategoryDataModel
+import za.co.app.budgetbee.ui.transaction.AddTransactionActivity
+import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryListAdapter
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 
 class AddIncomeFragment : Fragment() {
+
+    @Inject
+    lateinit var budgetBeeDoa: BudgetBeeDoa
 
     companion object {
         fun newInstance(): AddIncomeFragment {
             return AddIncomeFragment()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        BudgetBeeApplication.instance.feather.injectFields(this)
     }
 
     override fun onCreateView(
@@ -33,13 +46,13 @@ class AddIncomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_income, container, false)
+
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        BudgetBeeDatabase.getInstance(this.requireContext()).getTransactionCategoryDao()
-            .getAllTransactionCategories()
+        budgetBeeDoa.getAllTransactionCategories()
             .subscribeOn(
                 Schedulers.io()
             ).observeOn(AndroidSchedulers.mainThread()).subscribe(TransactionCategoryObserver(this))
@@ -50,7 +63,9 @@ class AddIncomeFragment : Fragment() {
         incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
         val transactionCategoryListAdapter =
-            TransactionCategoryListAdapter(transactionCategoryList)
+            TransactionCategoryListAdapter(
+                transactionCategoryList
+            )
         transactionCategoryListAdapter.getClickTransactionCategory()
             .subscribe { transactionCategory ->
                 startActivity(
@@ -81,6 +96,7 @@ class AddIncomeFragment : Fragment() {
                 transactionCategoryDataModelList.forEach {
                     transactionCategoryList.add(
                         TransactionCategory(
+                            it.transactionCategoryId,
                             it.transactionCategoryName,
                             it.transactionCategoryType
                         )

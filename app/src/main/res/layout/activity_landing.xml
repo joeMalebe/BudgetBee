@@ -124,6 +124,16 @@
 
     </androidx.cardview.widget.CardView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_transactions"
+        app:layout_constraintTop_toBottomOf="@id/expense_card_view"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/item_transaction"
+        tools:itemCount="5"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_expense_fab"
         android:layout_width="wrap_content"
