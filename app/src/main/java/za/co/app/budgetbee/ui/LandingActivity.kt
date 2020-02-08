@@ -11,11 +11,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_landing.*
+import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.BudgetBeeDatabase.Companion.getInstance
-import za.co.app.budgetbee.data.model.TransactionDataModel
+import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
+import za.co.app.budgetbee.data.model.database.TransactionDataModel
+import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryActivity
+import javax.inject.Inject
 
 class LandingActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var budgetBeeDoa: BudgetBeeDoa
 
     companion object {
         fun getStartIntent(context: Context): Intent {
@@ -27,7 +33,7 @@ class LandingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-        getInstance(this)
+        BudgetBeeApplication.instance.feather.injectFields(this)
         buildScreen()
     }
 
@@ -41,10 +47,9 @@ class LandingActivity : AppCompatActivity() {
     }
 
     fun getTransactions() {
-        getInstance(this).getTransactionCategoryDao()
-            .getTransactions().observeOn(
-                AndroidSchedulers.mainThread()
-            ).subscribeOn(Schedulers.io()).subscribe(TransactionsObserver(this))
+        budgetBeeDoa.getTransactions().observeOn(
+            AndroidSchedulers.mainThread()
+        ).subscribeOn(Schedulers.io()).subscribe(TransactionsObserver(this))
     }
 
     class TransactionsObserver(val activity: LandingActivity) :

@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -13,14 +13,19 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseCompletableObserver
-import za.co.app.budgetbee.data.model.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.TransactionCategory
-import za.co.app.budgetbee.data.model.TransactionDataModel
+import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
+import za.co.app.budgetbee.data.model.database.TransactionDataModel
+import za.co.app.budgetbee.ui.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.lang.ref.WeakReference
 import java.util.*
+import javax.inject.Inject
 
 class AddTransactionActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var budgetBeeDoa: BudgetBeeDoa
 
     companion object {
         val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
@@ -54,7 +59,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 transactionCategory.transactionCategoryName
             }
             val amount = input_amount.text.toString().toDouble()
-            BudgetBeeDatabase.getInstance(this).getTransactionCategoryDao().insertTransaction(
+            budgetBeeDoa.insertTransaction(
                 TransactionDataModel(
                     date,
                     description,
@@ -93,7 +98,11 @@ class AddTransactionActivity : AppCompatActivity() {
         override fun onComplete() {
             if (activity != null) {
                 Log.d("TransactionObserver", "Oncomplete(Added Transaction")
-                activity.startActivity(LandingActivity.getStartIntent(activity))
+                activity.startActivity(
+                    LandingActivity.getStartIntent(
+                        activity
+                    )
+                )
             }
         }
     }
