@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction_category.*
+import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseCompletableObserver
 import za.co.app.budgetbee.data.model.TransactionCategory
@@ -32,6 +33,7 @@ class AddTransactionCategoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction_category)
+        BudgetBeeApplication.instance.feather.injectFields(this)
         buildScreen()
 
     }

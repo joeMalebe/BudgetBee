@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.database
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
         ForeignKey(
             entity = TransactionCategoryDataModel::class,
             parentColumns = arrayOf("transactionCategoryId"),
-            childColumns = arrayOf("transactionId"),
+            childColumns = arrayOf("transactionCategoryId"),
             onDelete = ForeignKey.CASCADE
         )
     )
