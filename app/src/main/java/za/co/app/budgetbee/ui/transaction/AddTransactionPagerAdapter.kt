@@ -1,15 +1,17 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction
 
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import za.co.app.budgetbee.ui.AddExpenseFragment
+import za.co.app.budgetbee.ui.AddIncomeFragment
 
 private const val INCOME = 0
 private const val EXPENSE = 1
 private const val NUMBER_OF_PAGES = 2
 
-class AddTransactionPagerAdapter(fragmentManager: FragmentManager, val behavior: Int) :
+class AddTransactionPagerAdapter(fragmentManager: FragmentManager, behavior: Int) :
     FragmentPagerAdapter(fragmentManager, behavior) {
 
     override fun getItem(position: Int): Fragment {

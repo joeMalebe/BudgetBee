@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.Transaction
-import za.co.app.budgetbee.ui.TransactionsAdapter.TransactionsViewHolder
+import za.co.app.budgetbee.ui.transaction.TransactionsAdapter.TransactionsViewHolder
 
 class TransactionsAdapter(val transactions: ArrayList<Transaction>) :
     RecyclerView.Adapter<TransactionsViewHolder>() {

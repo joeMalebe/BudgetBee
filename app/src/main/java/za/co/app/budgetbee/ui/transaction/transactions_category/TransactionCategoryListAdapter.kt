@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction.transactions_category
 
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +20,9 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
     ): TransactionCategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_transaction_category, parent, false)
-        return TransactionCategoryViewHolder(view)
+        return TransactionCategoryViewHolder(
+            view
+        )
 
     }
 

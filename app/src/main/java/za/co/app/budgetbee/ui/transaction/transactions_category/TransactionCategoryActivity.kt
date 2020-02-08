@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction.transactions_category
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 import kotlinx.android.synthetic.main.activity_transaction_category.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.ui.transaction.AddTransactionPagerAdapter
 
 class TransactionCategoryActivity : AppCompatActivity() {
 
@@ -27,7 +28,11 @@ class TransactionCategoryActivity : AppCompatActivity() {
         val transactionTabs = transaction_type_tab_layout
         val addIncomeButton = add_income_fab
         addIncomeButton.setOnClickListener {
-            startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
+            startActivity(
+                AddTransactionCategoryActivity.getStartIntent(
+                    it.context
+                )
+            )
         }
         transactionViewPager.adapter =
             AddTransactionPagerAdapter(

@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.database
 
 import androidx.room.*
 import io.reactivex.Completable

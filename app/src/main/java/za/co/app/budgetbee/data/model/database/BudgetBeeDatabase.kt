@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.database
 
 import android.content.Context
 import android.util.Log
@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.reactivex.schedulers.Schedulers
 import za.co.app.budgetbee.base.BaseCompletableObserver
+import za.co.app.budgetbee.data.model.TransactionCategoryType
 import za.co.app.budgetbee.utils.SingletonHolder
 import java.lang.ref.WeakReference
 
@@ -36,10 +37,20 @@ class InitialiseDatabase(val context: Context) : RoomDatabase.Callback() {
         BudgetBeeDatabase.getInstance(context).getTransactionCategoryDao()
             .insertAllTransactionCategory(
                 arrayOf(
-                    TransactionCategoryDataModel("Salary", TransactionCategoryType.INCOME.value),
-                    TransactionCategoryDataModel("Loan", TransactionCategoryType.EXPENSE.value)
+                    TransactionCategoryDataModel(
+                        "Salary",
+                        TransactionCategoryType.INCOME.value
+                    ),
+                    TransactionCategoryDataModel(
+                        "Loan",
+                        TransactionCategoryType.EXPENSE.value
+                    )
                 )
-            ).subscribeOn(Schedulers.io()).subscribe(TransactionCategoryObserver(context))
+            ).subscribeOn(Schedulers.io()).subscribe(
+                TransactionCategoryObserver(
+                    context
+                )
+            )
     }
 }
 
