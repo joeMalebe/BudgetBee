@@ -7,7 +7,7 @@ import za.co.app.budgetbee.data.model.Transaction
 import za.co.app.budgetbee.data.model.TransactionCategory
 
 interface IDatabaseRepository {
-    fun getAllTransactionCategories(): Observable<List<TransactionCategory>>
+    fun getAllTransactionCategories(): Observable<ArrayList<TransactionCategory>>
 
     fun getTransactions(): Observable<List<Transaction>>
 
