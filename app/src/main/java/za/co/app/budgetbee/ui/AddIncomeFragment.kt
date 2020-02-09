@@ -15,9 +15,8 @@ import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_income.*
 import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.TransactionCategory
-import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
-import za.co.app.budgetbee.data.model.database.TransactionCategoryDataModel
+import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryListAdapter
 import java.lang.ref.WeakReference
@@ -27,7 +26,7 @@ import javax.inject.Inject
 class AddIncomeFragment : Fragment() {
 
     @Inject
-    lateinit var budgetBeeDoa: BudgetBeeDoa
+    lateinit var transactionsRepository: TransactionsRepository
 
     companion object {
         fun newInstance(): AddIncomeFragment {
@@ -52,7 +51,7 @@ class AddIncomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        budgetBeeDoa.getAllTransactionCategories()
+        transactionsRepository.getAllTransactionCategories()
             .subscribeOn(
                 Schedulers.io()
             ).observeOn(AndroidSchedulers.mainThread()).subscribe(TransactionCategoryObserver(this))
@@ -80,7 +79,7 @@ class AddIncomeFragment : Fragment() {
     }
 
     class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) :
-        Observer<List<TransactionCategoryDataModel>> {
+        Observer<ArrayList<TransactionCategory>> {
         val fragment = WeakReference(addIncomeFragment).get()
         override fun onComplete() {
             //do nothing
@@ -89,7 +88,7 @@ class AddIncomeFragment : Fragment() {
         override fun onSubscribe(d: Disposable) {
         }
 
-        override fun onNext(transactionCategoryDataModelList: List<TransactionCategoryDataModel>) {
+        override fun onNext(transactionCategoryDataModelList: ArrayList<TransactionCategory>) {
             if (fragment != null) {
                 //todo move this mapping to repo
                 val transactionCategoryList = arrayListOf<TransactionCategory>()

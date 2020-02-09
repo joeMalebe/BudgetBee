@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.Transaction
+import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.transaction.TransactionsAdapter.TransactionsViewHolder
 
 class TransactionsAdapter(val transactions: ArrayList<Transaction>) :

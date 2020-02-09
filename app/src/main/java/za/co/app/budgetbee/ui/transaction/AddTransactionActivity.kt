@@ -14,9 +14,10 @@ import kotlinx.android.synthetic.main.activity_add_transaction.*
 import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseCompletableObserver
-import za.co.app.budgetbee.data.model.TransactionCategory
-import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
-import za.co.app.budgetbee.data.model.database.TransactionDataModel
+import za.co.app.budgetbee.data.model.domain.Transaction
+import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.lang.ref.WeakReference
@@ -26,10 +27,10 @@ import javax.inject.Inject
 class AddTransactionActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var budgetBeeDoa: BudgetBeeDoa
+    lateinit var transactionsRepository: TransactionsRepository
 
     companion object {
-        val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
+        const val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
 
         fun getStartIntent(context: Context?, transactionCategory: TransactionCategory): Intent {
             val intent = Intent(context, AddTransactionActivity::class.java)
@@ -55,14 +56,11 @@ class AddTransactionActivity : AppCompatActivity() {
 
         button_add_transaction.setOnClickListener {
             val date = calendar.timeInMillis
-            val description = if (input_description.text.toString().isEmpty()) {
-                input_description.text.toString()
-            } else {
-                transactionCategory.transactionCategoryName
-            }
+            val description = getTransactionDescription(transactionCategory.transactionCategoryType)
             val amount = input_amount.text.toString().toDouble()
-            budgetBeeDoa.insertTransaction(
-                TransactionDataModel(
+
+            transactionsRepository.insertTransaction(
+                Transaction(
                     date,
                     description,
                     amount,
@@ -76,7 +74,19 @@ class AddTransactionActivity : AppCompatActivity() {
         }
     }
 
-    fun setupDateDialogue(calendar: Calendar) {
+    private fun getTransactionDescription(transactionCategoryType: Int): String {
+        return if (!input_description.text.toString().isEmpty()) {
+            input_description.text.toString()
+        } else {
+            when (transactionCategoryType) {
+                TransactionCategoryType.INCOME.value -> "Income"
+                TransactionCategoryType.EXPENSE.value -> "Expense"
+                else -> "Other"
+            }
+        }
+    }
+
+    private fun setupDateDialogue(calendar: Calendar) {
         val year = calendar.get(Calendar.YEAR)
         val monthOfYear = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
@@ -96,10 +106,10 @@ class AddTransactionActivity : AppCompatActivity() {
 
     class TransactionObserver(activity: Activity) :
         BaseCompletableObserver() {
-        val activity = WeakReference(activity).get()
+        private val activity = WeakReference(activity).get()
         override fun onComplete() {
             if (activity != null) {
-                Log.d("TransactionObserver", "Oncomplete(Added Transaction")
+                Log.d("TransactionObserver", "OnComplete(Added Transaction")
                 activity.startActivity(
                     LandingActivity.getStartIntent(
                         activity
