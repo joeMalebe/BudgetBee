@@ -36,9 +36,9 @@ class LandingActivity : AppCompatActivity() {
     }
 
     private fun buildScreen() {
-        val addExpenseButton = add_expense_fab
+        val addTransactionButton = add_transaction_fab
         //todo add adapter
-        addExpenseButton.setOnClickListener {
+        addTransactionButton.setOnClickListener {
             startActivity(TransactionCategoryActivity.getStartIntent(this))
         }
         getTransactions()
