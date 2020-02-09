@@ -24,7 +24,7 @@ class LandingPresenter(
     }
 
     override fun stop() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Logger.getAnonymousLogger().info("LandingPresenter Stopped")
     }
 
     class TransactionsObserver(val view: ILandingMvp.View) :
