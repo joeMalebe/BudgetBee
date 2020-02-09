@@ -4,8 +4,6 @@ package za.co.app.budgetbee.ui.transaction
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import za.co.app.budgetbee.ui.AddExpenseFragment
-import za.co.app.budgetbee.ui.AddIncomeFragment
 
 private const val INCOME = 0
 private const val EXPENSE = 1

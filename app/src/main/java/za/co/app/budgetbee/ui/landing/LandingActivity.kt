@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.landing
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_landing.*
 import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.ui.ILandingMvp.View
-import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryActivity
+import za.co.app.budgetbee.ui.landing.ILandingMvp.View
+import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryActivity
 import javax.inject.Inject
 
 class LandingActivity : AppCompatActivity(), View {

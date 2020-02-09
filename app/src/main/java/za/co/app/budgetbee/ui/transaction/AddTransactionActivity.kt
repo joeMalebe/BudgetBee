@@ -18,7 +18,7 @@ import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.data.repository.TransactionsRepository
-import za.co.app.budgetbee.ui.LandingActivity
+import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.lang.ref.WeakReference
 import java.util.*

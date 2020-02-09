@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.landing
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -16,7 +16,11 @@ class LandingPresenter(
     override fun getTransactions() {
         transactionsRepository.getTransactions().observeOn(
             AndroidSchedulers.mainThread()
-        ).subscribeOn(Schedulers.io()).subscribe(TransactionsObserver(view))
+        ).subscribeOn(Schedulers.io()).subscribe(
+            TransactionsObserver(
+                view
+            )
+        )
     }
 
     override fun start(view: IBaseView) {
