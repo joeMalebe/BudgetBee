@@ -4,6 +4,7 @@ import android.util.Log
 import org.codejargon.feather.Provides
 import za.co.app.budgetbee.data.model.database.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
+import za.co.app.budgetbee.data.repository.TransactionsRepository
 import javax.inject.Singleton
 
 class BudgetBeeAppModule(val application: BudgetBeeApplication) {
@@ -14,5 +15,11 @@ class BudgetBeeAppModule(val application: BudgetBeeApplication) {
     fun budgetBeeDoa(): BudgetBeeDoa {
         Log.d(TAG, "get budgetBeeDoa doa instance")
         return BudgetBeeDatabase.getInstance(application).getTransactionCategoryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun transactionsRepository(budgetBeeDoa: BudgetBeeDoa): TransactionsRepository {
+        return TransactionsRepository(budgetBeeDoa)
     }
 }
