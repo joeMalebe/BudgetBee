@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction
 
 import android.content.Context
 import android.os.Bundle
@@ -16,8 +16,7 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseObserver
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.repository.TransactionsRepository
-import za.co.app.budgetbee.ui.transaction.AddTransactionActivity
-import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryListAdapter
+import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryListAdapter
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -53,7 +52,11 @@ class AddIncomeFragment : Fragment() {
         transactionsRepository.getAllTransactionCategories()
             .subscribeOn(
                 Schedulers.io()
-            ).observeOn(AndroidSchedulers.mainThread()).subscribe(TransactionCategoryObserver(this))
+            ).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                TransactionCategoryObserver(
+                    this
+                )
+            )
     }
 
     fun buildScreen(transactionCategoryList: List<TransactionCategory>) {

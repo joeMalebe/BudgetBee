@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.landing
 
 import za.co.app.budgetbee.base.IBasePresenter
 import za.co.app.budgetbee.base.IBaseView

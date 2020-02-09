@@ -17,14 +17,14 @@
         <activity android:name=".ui.transaction.AddTransactionActivity" />
 
         <activity
-            android:name=".ui.transaction.transactions_category.AddTransactionCategoryActivity"
+            android:name=".ui.transactions_category.AddTransactionCategoryActivity"
             android:label="@string/title_activity_add_transaction_category"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
 
-        <activity android:name=".ui.transaction.transactions_category.TransactionCategoryActivity" />
+        <activity android:name=".ui.transactions_category.TransactionCategoryActivity" />
 
         <activity
-            android:name=".ui.LandingActivity"
+            android:name=".ui.landing.LandingActivity"
             android:theme="@style/BudgetBeeMainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

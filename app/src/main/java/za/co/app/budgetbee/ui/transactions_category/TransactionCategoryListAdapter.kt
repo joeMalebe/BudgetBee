@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.transaction.transactions_category
+package za.co.app.budgetbee.ui.transactions_category
 
 import android.view.LayoutInflater
 import android.view.View

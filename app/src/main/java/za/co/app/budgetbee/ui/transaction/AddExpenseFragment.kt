@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.transaction
 
 import android.os.Bundle
 import android.view.LayoutInflater

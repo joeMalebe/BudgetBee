@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui
+package za.co.app.budgetbee.ui.landing
 
 import android.content.Context
 import android.content.Intent
@@ -9,8 +9,8 @@ import kotlinx.android.synthetic.main.activity_landing.*
 import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.ui.ILandingMvp.View
-import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryActivity
+import za.co.app.budgetbee.ui.landing.ILandingMvp.View
+import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryActivity
 import javax.inject.Inject
 
 class LandingActivity : AppCompatActivity(), View {
@@ -33,15 +33,6 @@ class LandingActivity : AppCompatActivity(), View {
         BudgetBeeApplication.instance.feather.injectFields(this)
         displayScreen()
         presenter.start(this)
-    }
-
-    private fun buildScreen() {
-        val addTransactionButton = add_transaction_fab
-        //todo add adapter
-        addTransactionButton.setOnClickListener {
-            startActivity(TransactionCategoryActivity.getStartIntent(this))
-        }
-        presenter.getTransactions()
     }
 
     override fun showLoading() {
