@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_transaction_category.view.*
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.TransactionCategory
+import za.co.app.budgetbee.data.model.domain.TransactionCategory
 
 class TransactionCategoryListAdapter(val transactionCategoryList: List<TransactionCategory>) :
     RecyclerView.Adapter<TransactionCategoryListAdapter.TransactionCategoryViewHolder>() {

@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.domain
 
 data class User(
     val name: String,

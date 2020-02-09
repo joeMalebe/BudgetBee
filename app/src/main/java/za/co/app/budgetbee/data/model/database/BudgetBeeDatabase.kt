@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import io.reactivex.schedulers.Schedulers
 import za.co.app.budgetbee.base.BaseCompletableObserver
-import za.co.app.budgetbee.data.model.TransactionCategoryType
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.utils.SingletonHolder
 import java.lang.ref.WeakReference
 

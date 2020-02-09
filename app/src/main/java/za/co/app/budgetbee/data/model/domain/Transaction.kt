@@ -1,11 +1,11 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.domain
 
 import android.os.Parcel
 import android.os.Parcelable
 
 data class Transaction(
     val transactionDate: Long,
-    val transactionDescription: String?,
+    val transactionDescription: String,
     val transactionAmount: Double,
     val transactionCategoryId: Int
 ) : Parcelable {

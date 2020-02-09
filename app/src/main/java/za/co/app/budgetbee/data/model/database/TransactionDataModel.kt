@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(
-    indices = arrayOf(Index(value = arrayOf("transactionCategoryId"), unique = true)),
+    indices = arrayOf(Index(value = arrayOf("transactionCategoryId"), unique = false)),
     foreignKeys = [ForeignKey(
         entity = TransactionCategoryDataModel::class,
         parentColumns = arrayOf("transactionCategoryId"),

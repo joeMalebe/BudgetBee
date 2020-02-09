@@ -4,24 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_landing.*
 import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
-import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
-import za.co.app.budgetbee.data.model.database.TransactionDataModel
+import za.co.app.budgetbee.base.BaseObserver
+import za.co.app.budgetbee.data.model.domain.Transaction
+import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.transaction.transactions_category.TransactionCategoryActivity
 import javax.inject.Inject
 
 class LandingActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var budgetBeeDoa: BudgetBeeDoa
+    lateinit var transactionsRepository: TransactionsRepository
 
     companion object {
         fun getStartIntent(context: Context): Intent {
@@ -47,45 +45,28 @@ class LandingActivity : AppCompatActivity() {
     }
 
     fun getTransactions() {
-        budgetBeeDoa.getTransactions().observeOn(
+        transactionsRepository.getTransactions().observeOn(
             AndroidSchedulers.mainThread()
         ).subscribeOn(Schedulers.io()).subscribe(TransactionsObserver(this))
     }
 
     class TransactionsObserver(val activity: LandingActivity) :
-        Observer<List<TransactionDataModel>> {
-        override fun onSubscribe(d: Disposable) {
-
-        }
-
-        override fun onComplete() {
-        }
-
-        override fun onNext(transactionDataModelList: List<TransactionDataModel>) {
-            if (transactionDataModelList.isNotEmpty()) {
+        BaseObserver<ArrayList<Transaction>>() {
+        override fun onNext(value: ArrayList<Transaction>) {
+            if (value.isNotEmpty()) {
 
                 Log.d(
                     "TransactionsObserver",
-                    "size ${transactionDataModelList.size}- ${transactionDataModelList.get(0)}"
+                    "size ${value.size}- ${value[(value.size - 1)]}"
                 )
             }
-            activity.buildScreen(transactionDataModelList)
-
+            activity.buildScreen(value)
         }
-
-        override fun onError(e: Throwable) {
-        }
-
     }
 
-    private fun buildScreen(transactions: List<TransactionDataModel>?) {
-        if (transactions != null && transactions.isNotEmpty()) {
+    private fun buildScreen(transactions: List<Transaction>) {
+        if (transactions.isNotEmpty()) {
             //todo add adapter
-            Toast.makeText(
-                this,
-                "list size ${transactions.size} - ${transactions.get(0)}",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 }
