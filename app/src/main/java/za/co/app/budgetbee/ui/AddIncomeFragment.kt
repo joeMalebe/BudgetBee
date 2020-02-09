@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_income.*
 import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.BaseObserver
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.transaction.AddTransactionActivity
@@ -65,6 +64,7 @@ class AddIncomeFragment : Fragment() {
             TransactionCategoryListAdapter(
                 transactionCategoryList
             )
+
         transactionCategoryListAdapter.getClickTransactionCategory()
             .subscribe { transactionCategory ->
                 startActivity(
@@ -79,36 +79,19 @@ class AddIncomeFragment : Fragment() {
     }
 
     class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) :
-        Observer<ArrayList<TransactionCategory>> {
+        BaseObserver<ArrayList<TransactionCategory>>() {
         val fragment = WeakReference(addIncomeFragment).get()
-        override fun onComplete() {
-            //do nothing
-        }
 
-        override fun onSubscribe(d: Disposable) {
-        }
-
-        override fun onNext(transactionCategoryDataModelList: ArrayList<TransactionCategory>) {
+        override fun onNext(value: ArrayList<TransactionCategory>) {
             if (fragment != null) {
-                //todo move this mapping to repo
-                val transactionCategoryList = arrayListOf<TransactionCategory>()
-                transactionCategoryDataModelList.forEach {
-                    transactionCategoryList.add(
-                        TransactionCategory(
-                            it.transactionCategoryId,
-                            it.transactionCategoryName,
-                            it.transactionCategoryType
-                        )
-                    )
-                    fragment.buildScreen(transactionCategoryList)
-                }
+                fragment.buildScreen(value)
             }
         }
 
-        override fun onError(e: Throwable) {
+        override fun onError(error: Throwable) {
             Toast.makeText(
                 fragment?.context,
-                "Error in database lookup ${e.message}",
+                "Error in database lookup ${error.message}",
                 Toast.LENGTH_SHORT
             ).show()
         }

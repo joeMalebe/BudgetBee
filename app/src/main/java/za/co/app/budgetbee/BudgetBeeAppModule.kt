@@ -5,6 +5,8 @@ import org.codejargon.feather.Provides
 import za.co.app.budgetbee.data.model.database.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
 import za.co.app.budgetbee.data.repository.TransactionsRepository
+import za.co.app.budgetbee.ui.ILandingMvp
+import za.co.app.budgetbee.ui.LandingPresenter
 import javax.inject.Singleton
 
 class BudgetBeeAppModule(val application: BudgetBeeApplication) {
@@ -21,5 +23,11 @@ class BudgetBeeAppModule(val application: BudgetBeeApplication) {
     @Singleton
     fun transactionsRepository(budgetBeeDoa: BudgetBeeDoa): TransactionsRepository {
         return TransactionsRepository(budgetBeeDoa)
+    }
+
+    @Provides
+    @Singleton
+    fun landingActivityPresenter(transactionsRepository: TransactionsRepository): ILandingMvp.Presenter {
+        return LandingPresenter(transactionsRepository)
     }
 }
