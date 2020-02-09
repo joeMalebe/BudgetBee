@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.data.model
+package za.co.app.budgetbee.data.model.domain
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -27,7 +27,9 @@ data class TransactionCategory(
 
     companion object CREATOR : Parcelable.Creator<TransactionCategory> {
         override fun createFromParcel(parcel: Parcel): TransactionCategory {
-            return TransactionCategory(parcel)
+            return TransactionCategory(
+                parcel
+            )
         }
 
         override fun newArray(size: Int): Array<TransactionCategory?> {
