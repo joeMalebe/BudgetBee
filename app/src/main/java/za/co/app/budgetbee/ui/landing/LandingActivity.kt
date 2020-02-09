@@ -35,15 +35,6 @@ class LandingActivity : AppCompatActivity(), View {
         presenter.start(this)
     }
 
-    private fun buildScreen() {
-        val addTransactionButton = add_transaction_fab
-        //todo add adapter
-        addTransactionButton.setOnClickListener {
-            startActivity(TransactionCategoryActivity.getStartIntent(this))
-        }
-        presenter.getTransactions()
-    }
-
     override fun showLoading() {
         Log.d(TAG, "showLoading")
     }
