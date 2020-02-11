@@ -15,7 +15,7 @@ class AddTransactionPagerAdapter(fragmentManager: FragmentManager, behavior: Int
     override fun getItem(position: Int): Fragment {
         return when (position) {
             EXPENSE -> AddExpenseFragment.newInstance()
-            INCOME -> AddIncomeFragment.newInstance()
+            INCOME -> AddTransactionFragment.newInstance()
             else -> {
                 throw Throwable("Position $position is invalid")
             }
