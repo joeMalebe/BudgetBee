@@ -4,16 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_landing.*
-import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.landing.ILandingMvp.View
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryActivity
 import javax.inject.Inject
 
-class LandingActivity : AppCompatActivity(), View {
+class LandingActivity : AppCompatBaseActivity(), View {
 
     val TAG = LandingActivity::class.simpleName
 
@@ -30,9 +30,8 @@ class LandingActivity : AppCompatActivity(), View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-        BudgetBeeApplication.instance.feather.injectFields(this)
-        displayScreen()
         presenter.start(this)
+        displayScreen()
     }
 
     override fun showLoading() {
@@ -51,6 +50,9 @@ class LandingActivity : AppCompatActivity(), View {
         dismissLoading()
         if (transactions.isNotEmpty()) {
             //todo add adapter
+            val adapter = TransactionsAdapter(transactions)
+            recycler_transactions.adapter = adapter
+            recycler_transactions.layoutManager = LinearLayoutManager(this)
             Log.d(
                 TAG,
                 "displayTransactions size ${transactions.size}- ${transactions[(transactions.size - 1)]}"

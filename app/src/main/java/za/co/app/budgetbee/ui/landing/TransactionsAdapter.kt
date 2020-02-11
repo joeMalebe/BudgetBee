@@ -31,11 +31,14 @@ class TransactionsAdapter(val transactions: ArrayList<Transaction>) :
             view.findViewById(R.id.text_transaction_category)
         val transactionDescriptionTextView: TextView =
             view.findViewById(R.id.text_transaction_description)
+        val transactionAmountTextView: TextView =
+            view.findViewById(R.id.text_transaction_amount)
 
         val transactionDate = R.id.text_transaction_amount
         fun display(transaction: Transaction) {
             transactionCategoryTextView.text = transaction.transactionCategoryName
             transactionDescriptionTextView.text = transaction.transactionDescription
+            transactionAmountTextView.text = transaction.transactionAmount.toString()
         }
     }
 }
