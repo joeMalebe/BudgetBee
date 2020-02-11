@@ -50,7 +50,8 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
                     model.transactionDate,
                     model.transactionDescription,
                     model.transactionAmount,
-                    model.transactionCategoryId
+                    model.transactionCategoryId,
+                    model.transactionCategoryName
                 )
             )
         }
@@ -77,7 +78,8 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
                 transaction.transactionDate,
                 transaction.transactionDescription,
                 transaction.transactionAmount,
-                transaction.transactionCategoryId
+                transaction.transactionCategoryId,
+                transaction.transactionCategoryName
             )
         )
     }
