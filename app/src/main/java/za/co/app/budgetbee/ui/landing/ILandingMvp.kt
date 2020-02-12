@@ -12,7 +12,6 @@ interface ILandingMvp {
         fun showError(error: Throwable)
         fun displayTransactions(transactions: ArrayList<Transaction>)
         fun openTransactionCategoryActivity()
-        fun displayScreen()
     }
 
     interface Presenter : IBasePresenter {

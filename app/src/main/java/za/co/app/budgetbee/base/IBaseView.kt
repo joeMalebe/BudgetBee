@@ -1,3 +1,5 @@
 package za.co.app.budgetbee.base
 
-interface IBaseView
+interface IBaseView {
+    fun displayScreen()
+}

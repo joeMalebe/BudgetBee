@@ -30,7 +30,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-        presenter.start(this)
+        presenter.attachView(this)
         displayScreen()
     }
 
@@ -74,7 +74,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
     }
 
     override fun onDestroy() {
-        presenter.stop()
+        presenter.detachView()
         super.onDestroy()
     }
 }

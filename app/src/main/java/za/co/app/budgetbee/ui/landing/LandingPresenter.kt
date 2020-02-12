@@ -23,11 +23,11 @@ class LandingPresenter(
         )
     }
 
-    override fun start(view: IBaseView) {
+    override fun attachView(view: IBaseView) {
         this.view = view as ILandingMvp.View
     }
 
-    override fun stop() {
+    override fun detachView() {
         Logger.getAnonymousLogger().info("LandingPresenter Stopped")
     }
 
