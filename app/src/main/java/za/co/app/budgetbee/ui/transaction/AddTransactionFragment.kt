@@ -1,18 +1,16 @@
 package za.co.app.budgetbee.ui.transaction
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_income.*
-import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.BaseFragment
 import za.co.app.budgetbee.base.BaseObserver
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.repository.TransactionsRepository
@@ -21,7 +19,7 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 
-class AddTransactionFragment : Fragment() {
+class AddTransactionFragment : BaseFragment() {
 
     @Inject
     lateinit var transactionsRepository: TransactionsRepository
@@ -30,11 +28,6 @@ class AddTransactionFragment : Fragment() {
         fun newInstance(): AddTransactionFragment {
             return AddTransactionFragment()
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        BudgetBeeApplication.instance.feather.injectFields(this)
     }
 
     override fun onCreateView(
