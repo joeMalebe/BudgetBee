@@ -17,11 +17,11 @@
         <activity android:name=".ui.transaction.AddTransactionActivity" />
 
         <activity
-            android:name=".ui.transactions_category.AddTransactionCategoryActivity"
+            android:name=".ui.transactions_category.TransactionCategoryAddCategoryActivity"
             android:label="@string/title_activity_add_transaction_category"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
 
-        <activity android:name=".ui.transactions_category.TransactionCategoryActivity" />
+        <activity android:name=".ui.transactions_category.TransactionCategorySelectCategoryActivity" />
 
         <activity
             android:name=".ui.landing.LandingActivity"
