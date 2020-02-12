@@ -7,12 +7,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction.*
-import za.co.app.budgetbee.BudgetBeeApplication
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.BaseCompletableObserver
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
@@ -24,7 +23,7 @@ import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
 
-class AddTransactionActivity : AppCompatActivity() {
+class AddTransactionActivity : AppCompatBaseActivity() {
 
     @Inject
     lateinit var transactionsRepository: TransactionsRepository
@@ -42,7 +41,6 @@ class AddTransactionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
-        BudgetBeeApplication.instance.feather.injectFields(this)
 
         val transactionCategory =
             intent.getParcelableExtra<TransactionCategory>(EXTRA_TRANSACTION_CATEGORY)

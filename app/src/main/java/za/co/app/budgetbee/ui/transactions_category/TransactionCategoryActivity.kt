@@ -3,13 +3,13 @@ package za.co.app.budgetbee.ui.transactions_category
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 import kotlinx.android.synthetic.main.activity_transaction_category.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.ui.transaction.AddTransactionPagerAdapter
 
-class TransactionCategoryActivity : AppCompatActivity() {
+class TransactionCategoryActivity : AppCompatBaseActivity() {
 
     companion object {
         fun getStartIntent(context: Context): Intent {
