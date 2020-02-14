@@ -64,7 +64,8 @@ class AddTransactionActivity : AppCompatActivity() {
                     date,
                     description,
                     amount,
-                    transactionCategory.transactionCategoryId
+                    transactionCategory.transactionCategoryId,
+                    transactionCategory.transactionCategoryName
                 )
             ).observeOn(
                 AndroidSchedulers.mainThread()

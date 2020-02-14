@@ -44,6 +44,7 @@ class LandingPresenter(
 
         override fun onError(error: Throwable) {
             super.onError(error)
+            Logger.getAnonymousLogger().info(error.stackTrace.toString())
             view.showError(error)
         }
     }

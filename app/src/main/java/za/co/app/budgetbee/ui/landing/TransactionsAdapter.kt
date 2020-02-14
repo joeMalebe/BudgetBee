@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.transaction
+package za.co.app.budgetbee.ui.landing
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.ui.transaction.TransactionsAdapter.TransactionsViewHolder
+import za.co.app.budgetbee.ui.landing.TransactionsAdapter.TransactionsViewHolder
 
 class TransactionsAdapter(val transactions: ArrayList<Transaction>) :
     RecyclerView.Adapter<TransactionsViewHolder>() {
@@ -31,11 +31,14 @@ class TransactionsAdapter(val transactions: ArrayList<Transaction>) :
             view.findViewById(R.id.text_transaction_category)
         val transactionDescriptionTextView: TextView =
             view.findViewById(R.id.text_transaction_description)
+        val transactionAmountTextView: TextView =
+            view.findViewById(R.id.text_transaction_amount)
 
         val transactionDate = R.id.text_transaction_amount
         fun display(transaction: Transaction) {
-            transactionCategoryTextView.setText(transaction.transactionCategoryId)
+            transactionCategoryTextView.text = transaction.transactionCategoryName
             transactionDescriptionTextView.text = transaction.transactionDescription
+            transactionAmountTextView.text = transaction.transactionAmount.toString()
         }
     }
 }

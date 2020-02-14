@@ -7,4 +7,5 @@
     <dimen name="cardview_width">70dp</dimen>
     <dimen name="cardview_height">70dp</dimen>
     <dimen name="gutterSpaceHalf">8dp</dimen>
+    <dimen name="card_elevation">4dp</dimen>
 </resources>

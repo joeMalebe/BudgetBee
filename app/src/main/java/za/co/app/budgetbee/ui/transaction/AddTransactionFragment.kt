@@ -21,14 +21,14 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 
-class AddIncomeFragment : Fragment() {
+class AddTransactionFragment : Fragment() {
 
     @Inject
     lateinit var transactionsRepository: TransactionsRepository
 
     companion object {
-        fun newInstance(): AddIncomeFragment {
-            return AddIncomeFragment()
+        fun newInstance(): AddTransactionFragment {
+            return AddTransactionFragment()
         }
     }
 
@@ -81,9 +81,9 @@ class AddIncomeFragment : Fragment() {
         incomeRecyclerView.adapter = transactionCategoryListAdapter
     }
 
-    class TransactionCategoryObserver(addIncomeFragment: AddIncomeFragment) :
+    class TransactionCategoryObserver(addTransactionFragment: AddTransactionFragment) :
         BaseObserver<ArrayList<TransactionCategory>>() {
-        val fragment = WeakReference(addIncomeFragment).get()
+        val fragment = WeakReference(addTransactionFragment).get()
 
         override fun onNext(value: ArrayList<TransactionCategory>) {
             if (fragment != null) {
