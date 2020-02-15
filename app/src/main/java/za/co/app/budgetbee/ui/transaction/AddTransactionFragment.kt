@@ -13,20 +13,22 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseFragment
 import za.co.app.budgetbee.base.BaseObserver
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryListAdapter
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 
-class AddTransactionFragment : BaseFragment() {
+class AddTransactionFragment(val transactionCategoryType: TransactionCategoryType) :
+    BaseFragment() {
 
     @Inject
     lateinit var transactionsRepository: TransactionsRepository
 
     companion object {
-        fun newInstance(): AddTransactionFragment {
-            return AddTransactionFragment()
+        fun newInstance(transactionCategoryType: TransactionCategoryType): AddTransactionFragment {
+            return AddTransactionFragment(transactionCategoryType)
         }
     }
 
@@ -42,7 +44,7 @@ class AddTransactionFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        transactionsRepository.getAllTransactionCategories()
+        transactionsRepository.getAllTransactionCategoriesByType(transactionCategoryType.value)
             .subscribeOn(
                 Schedulers.io()
             ).observeOn(AndroidSchedulers.mainThread()).subscribe(

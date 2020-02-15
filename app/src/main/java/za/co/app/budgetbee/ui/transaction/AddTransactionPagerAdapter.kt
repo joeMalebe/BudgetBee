@@ -4,6 +4,7 @@ package za.co.app.budgetbee.ui.transaction
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 
 private const val INCOME = 0
 private const val EXPENSE = 1
@@ -14,8 +15,8 @@ class AddTransactionPagerAdapter(fragmentManager: FragmentManager, behavior: Int
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            EXPENSE -> AddExpenseFragment.newInstance()
-            INCOME -> AddTransactionFragment.newInstance()
+            EXPENSE -> AddTransactionFragment.newInstance(TransactionCategoryType.EXPENSE)
+            INCOME -> AddTransactionFragment.newInstance(TransactionCategoryType.INCOME)
             else -> {
                 throw Throwable("Position $position is invalid")
             }
