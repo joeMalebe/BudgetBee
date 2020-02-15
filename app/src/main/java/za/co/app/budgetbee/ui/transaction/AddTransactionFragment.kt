@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_add_income.*
+import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseFragment
 import za.co.app.budgetbee.base.BaseObserver
@@ -37,7 +37,7 @@ class AddTransactionFragment(val transactionCategoryType: TransactionCategoryTyp
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add_income, container, false)
+        val view = inflater.inflate(R.layout.fragment_add_transaction, container, false)
 
         return view
     }
