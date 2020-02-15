@@ -22,6 +22,14 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
             }
     }
 
+    override fun getAllTransactionCategoriesByType(transactionCategoryType: Int): Observable<ArrayList<TransactionCategory>> {
+        return this.budgetBeeDoa
+            .getAllTransactionCategoriesByType(transactionCategoryType).map { modelList ->
+                Log.d(TAG, "mapping Model To TransactionCategory")
+                mapModelToTransactionCategory(modelList)
+            }
+    }
+
     private fun mapModelToTransactionCategory(modelList: List<TransactionCategoryDataModel>): ArrayList<TransactionCategory> {
         val transactionCategoryList = arrayListOf<TransactionCategory>()
         modelList.forEach { model ->
