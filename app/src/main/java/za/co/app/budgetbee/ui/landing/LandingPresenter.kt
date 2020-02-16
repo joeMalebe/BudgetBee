@@ -5,11 +5,11 @@ import io.reactivex.schedulers.Schedulers
 import za.co.app.budgetbee.base.BaseObserver
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.data.repository.TransactionsRepository
+import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import java.util.logging.Logger
 
 class LandingPresenter(
-    val transactionsRepository: TransactionsRepository
+    val transactionsRepository: IDatabaseRepository
 ) : ILandingMvp.Presenter {
     private lateinit var view: ILandingMvp.View
 

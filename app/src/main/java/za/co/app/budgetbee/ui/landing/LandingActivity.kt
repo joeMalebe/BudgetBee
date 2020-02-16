@@ -31,6 +31,11 @@ class LandingActivity : AppCompatBaseActivity(), View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
         presenter.attachView(this)
+        /*displayScreen()*/
+    }
+
+    override fun onResume() {
+        super.onResume()
         displayScreen()
     }
 
@@ -53,6 +58,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
             val adapter = TransactionsAdapter(transactions)
             recycler_transactions.adapter = adapter
             recycler_transactions.layoutManager = LinearLayoutManager(this)
+            recycler_transactions.isNestedScrollingEnabled = false
             Log.d(
                 TAG,
                 "displayTransactions size ${transactions.size}- ${transactions[(transactions.size - 1)]}"
