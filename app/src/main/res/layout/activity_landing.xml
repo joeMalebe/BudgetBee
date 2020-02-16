@@ -128,9 +128,11 @@
         android:id="@+id/recycler_transactions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/gutterSpace"
+        android:paddingTop="@dimen/gutterSpace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:paddingBottom="@dimen/cardview_height"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/expense_card_view"
         tools:itemCount="5"
         tools:listitem="@layout/item_transaction" />
