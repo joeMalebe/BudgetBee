@@ -2,7 +2,7 @@ package za.co.app.budgetbee.base
 
 interface IBasePresenter {
 
-    fun start(view: IBaseView)
+    fun attachView(view: IBaseView)
 
-    fun stop()
+    fun detachView()
 }

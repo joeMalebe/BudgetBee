@@ -10,7 +10,7 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.landing.ILandingMvp.View
-import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryActivity
+import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
 import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), View {
@@ -30,7 +30,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
-        presenter.start(this)
+        presenter.attachView(this)
         displayScreen()
     }
 
@@ -61,7 +61,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
     }
 
     override fun openTransactionCategoryActivity() {
-        startActivity(TransactionCategoryActivity.getStartIntent(this))
+        startActivity(TransactionCategorySelectCategoryActivity.getStartIntent(this))
     }
 
     override fun displayScreen() {
@@ -74,7 +74,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
     }
 
     override fun onDestroy() {
-        presenter.stop()
+        presenter.detachView()
         super.onDestroy()
     }
 }

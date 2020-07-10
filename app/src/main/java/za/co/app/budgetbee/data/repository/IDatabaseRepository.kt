@@ -9,6 +9,8 @@ import za.co.app.budgetbee.data.model.domain.TransactionCategory
 interface IDatabaseRepository {
     fun getAllTransactionCategories(): Observable<ArrayList<TransactionCategory>>
 
+    fun getAllTransactionCategoriesByType(transactionCategoryType: Int): Observable<ArrayList<TransactionCategory>>
+
     fun getTransactions(): Observable<ArrayList<Transaction>>
 
     fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategory>
