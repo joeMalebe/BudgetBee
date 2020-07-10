@@ -11,10 +11,12 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.landing.ILandingMvp.View
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), View {
 
+    private val DECIMAL_FORMAT_PATTERN = "0.00"
     val TAG = LandingActivity::class.simpleName
 
     @Inject
@@ -31,7 +33,6 @@ class LandingActivity : AppCompatBaseActivity(), View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
         presenter.attachView(this)
-        /*displayScreen()*/
     }
 
     override fun onResume() {
@@ -53,21 +54,31 @@ class LandingActivity : AppCompatBaseActivity(), View {
 
     override fun displayTransactions(transactions: ArrayList<Transaction>) {
         dismissLoading()
-        if (transactions.isNotEmpty()) {
-            //todo add adapter
-            val adapter = TransactionsAdapter(transactions)
-            recycler_transactions.adapter = adapter
-            recycler_transactions.layoutManager = LinearLayoutManager(this)
-            recycler_transactions.isNestedScrollingEnabled = false
-            Log.d(
-                TAG,
-                "displayTransactions size ${transactions.size}- ${transactions[(transactions.size - 1)]}"
-            )
-        }
+        val adapter = TransactionsAdapter(transactions)
+        recycler_transactions.adapter = adapter
+        recycler_transactions.layoutManager = LinearLayoutManager(this)
+        recycler_transactions.isNestedScrollingEnabled = false
+
     }
 
     override fun openTransactionCategoryActivity() {
         startActivity(TransactionCategorySelectCategoryActivity.getStartIntent(this))
+    }
+
+    override fun displayTotalIncome(income: Double) {
+        income_value_text.text = twoDecimalPointsValue(income)
+    }
+
+    override fun displayTotalExpense(expense: Double) {
+        expense_value_text.text = twoDecimalPointsValue(expense)
+    }
+
+    override fun displayBalance(balance: Double) {
+        balance_value_text.text = twoDecimalPointsValue(balance)
+    }
+
+    override fun displayNoTransactions() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun displayScreen() {
@@ -82,5 +93,10 @@ class LandingActivity : AppCompatBaseActivity(), View {
     override fun onDestroy() {
         presenter.detachView()
         super.onDestroy()
+    }
+
+    fun twoDecimalPointsValue(value: Double): String? {
+        val decimalFormat = DecimalFormat(DECIMAL_FORMAT_PATTERN)
+        return decimalFormat.format(value)
     }
 }
