@@ -12,9 +12,15 @@ interface ILandingMvp {
         fun showError(error: Throwable)
         fun displayTransactions(transactions: ArrayList<Transaction>)
         fun openTransactionCategoryActivity()
+        fun displayTotalIncome(income: Double)
+        fun displayTotalExpense(expense: Double)
+        fun displayBalance(balance: Double)
+        fun displayNoTransactions()
     }
 
     interface Presenter : IBasePresenter {
         fun getTransactions()
+        fun getTotalIncome(transactions: java.util.ArrayList<Transaction>)
+        fun getTotalExpense(transactions: java.util.ArrayList<Transaction>): Any
     }
 }
