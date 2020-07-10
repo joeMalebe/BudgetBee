@@ -5,17 +5,21 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
+import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.data.repository.IDatabaseRepository
+import za.co.app.budgetbee.data.repository.TransactionsRepository
 import java.util.*
 
 class LandingPresenterTest {
 
     private lateinit var presenter: LandingPresenter
 
-    var repository: IDatabaseRepository = mock(IDatabaseRepository::class.java)
+    val MARGIN_FOR_ERROR = 0.2
+    val budgetBeeDoa: BudgetBeeDoa = mock(BudgetBeeDoa::class.java)
+    lateinit var repository: IDatabaseRepository
 
     fun getMockTransactions(): ArrayList<Transaction> {
         val date = Calendar.getInstance().timeInMillis
@@ -81,6 +85,7 @@ class LandingPresenterTest {
 
     @Before
     fun setUp() {
+        repository = TransactionsRepository(budgetBeeDoa)
         presenter = LandingPresenter(repository)
     }
 
@@ -107,15 +112,23 @@ class LandingPresenterTest {
             getMockTransactions(),
             getMockTransactionCategories()
         )
-        val incomeTotal = presenter.calculateIncomeTotal(combinedTransactionAndCategory)
-        assertEquals(301.5, incomeTotal, 1.0)
+        val incomeTotal = presenter.calculateTotalIncome(combinedTransactionAndCategory)
+        assertEquals(301.5, incomeTotal, MARGIN_FOR_ERROR)
     }
 
     @Test
-    fun calculateIncomeExpenseTotal() {
+    fun calculateExpenseTotal() {
+        val combinedTransactionAndCategory = LandingPresenter.CombinedTransactionAndCategory(
+            getMockTransactions(),
+            getMockTransactionCategories()
+        )
+        val incomeTotal = presenter.calculateExpenseTotal(combinedTransactionAndCategory)
+        assertEquals(100.5, incomeTotal, MARGIN_FOR_ERROR)
     }
 
     @Test
     fun calculateBalance() {
+        assertEquals(-20.0, presenter.calculateBalance(30.0, 50.0), MARGIN_FOR_ERROR)
+        assertEquals(19.8, presenter.calculateBalance(120.5, 100.7), MARGIN_FOR_ERROR)
     }
 }

@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/gutterSpace"
-                android:text="@string/income_heading"
+                android:text="@string/balance_heading"
                 app:layout_constraintBottom_toTopOf="@id/balance_value_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -125,6 +125,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintVertical_bias="1.0"
         android:id="@+id/recycler_transactions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -134,7 +135,7 @@
         android:paddingBottom="@dimen/cardview_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/expense_card_view"
-        tools:itemCount="5"
+        tools:itemCount="8"
         tools:listitem="@layout/item_transaction" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
