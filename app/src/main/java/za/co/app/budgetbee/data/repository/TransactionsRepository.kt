@@ -9,6 +9,7 @@ import za.co.app.budgetbee.data.model.database.TransactionCategoryDataModel
 import za.co.app.budgetbee.data.model.database.TransactionDataModel
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 
 
 class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabaseRepository {
@@ -90,5 +91,16 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
                 transaction.transactionCategoryName
             )
         )
+    }
+
+    fun getTransactionsByCategoryType(
+        transactionCategory: ArrayList<TransactionCategory>,
+        transactions: ArrayList<Transaction>, transactionCategoryType: TransactionCategoryType
+    ): List<Transaction> {
+        return transactions.filter { transaction ->
+            transactionCategory.filter { transactionCategory -> transactionCategory.transactionCategoryType == transactionCategoryType.value }
+                .map { transactionCategory -> transactionCategory.transactionCategoryId }
+                .contains(transaction.transactionCategoryId)
+        }
     }
 }
