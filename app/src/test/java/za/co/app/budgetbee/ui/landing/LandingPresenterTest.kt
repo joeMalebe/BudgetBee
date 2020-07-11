@@ -1,6 +1,5 @@
 package za.co.app.budgetbee.ui.landing
 
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -89,25 +88,8 @@ class LandingPresenterTest {
         presenter = LandingPresenter(repository)
     }
 
-    @After
-    fun tearDown() {
-    }
-
     @Test
-    fun getTransactions() {
-    }
-
-    @Test
-    fun getTotalIncome() {
-
-    }
-
-    @Test
-    fun getTotalExpense() {
-    }
-
-    @Test
-    fun calculateIncomeTotal() {
+    fun givenTransactions_and_transactionCategories_calculateTotalIncome() {
         val combinedTransactionAndCategory = LandingPresenter.CombinedTransactionAndCategory(
             getMockTransactions(),
             getMockTransactionCategories()
@@ -117,7 +99,7 @@ class LandingPresenterTest {
     }
 
     @Test
-    fun calculateExpenseTotal() {
+    fun givenTransactions_and_transactionCategories_calculateTotalExpenses() {
         val combinedTransactionAndCategory = LandingPresenter.CombinedTransactionAndCategory(
             getMockTransactions(),
             getMockTransactionCategories()
@@ -127,7 +109,7 @@ class LandingPresenterTest {
     }
 
     @Test
-    fun calculateBalance() {
+    fun givenIncome_and_expenseTotal_calculateBalance() {
         assertEquals(-20.0, presenter.calculateBalance(30.0, 50.0), MARGIN_FOR_ERROR)
         assertEquals(19.8, presenter.calculateBalance(120.5, 100.7), MARGIN_FOR_ERROR)
     }
