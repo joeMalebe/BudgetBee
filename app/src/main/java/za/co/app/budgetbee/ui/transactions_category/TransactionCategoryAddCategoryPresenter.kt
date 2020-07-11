@@ -6,10 +6,10 @@ import za.co.app.budgetbee.base.BaseCompletableObserver
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
-import za.co.app.budgetbee.data.repository.TransactionsRepository
+import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import java.util.logging.Logger
 
-class TransactionCategoryAddCategoryPresenter(val transactionsRepository: TransactionsRepository) :
+class TransactionCategoryAddCategoryPresenter(val transactionsRepository: IDatabaseRepository) :
     ITransactionCategoryMvp.Presenter {
     private lateinit var view: ITransactionCategoryMvp.View
 

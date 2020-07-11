@@ -14,7 +14,7 @@ import za.co.app.budgetbee.base.BaseFragment
 import za.co.app.budgetbee.base.BaseObserver
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
-import za.co.app.budgetbee.data.repository.TransactionsRepository
+import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryListAdapter
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class AddTransactionFragment(val transactionCategoryType: TransactionCategoryTyp
     BaseFragment() {
 
     @Inject
-    lateinit var transactionsRepository: TransactionsRepository
+    lateinit var transactionsRepository: IDatabaseRepository
 
     companion object {
         fun newInstance(transactionCategoryType: TransactionCategoryType): AddTransactionFragment {

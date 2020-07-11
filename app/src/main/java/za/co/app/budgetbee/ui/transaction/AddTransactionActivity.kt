@@ -1,32 +1,23 @@
 package za.co.app.budgetbee.ui.transaction
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_transaction.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
-import za.co.app.budgetbee.base.BaseCompletableObserver
-import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
-import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
-import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
 
-class AddTransactionActivity : AppCompatBaseActivity() {
+class AddTransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
 
     @Inject
-    lateinit var transactionsRepository: TransactionsRepository
+    lateinit var presenter: ITransactionMvp.Presenter
 
     companion object {
         const val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
@@ -41,36 +32,8 @@ class AddTransactionActivity : AppCompatBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
-
-        val transactionCategory =
-            intent.getParcelableExtra<TransactionCategory>(EXTRA_TRANSACTION_CATEGORY)
-        Toast.makeText(this, transactionCategory.transactionCategoryName, Toast.LENGTH_SHORT).show()
-
-        val calendar = Calendar.getInstance()
-        input_date.setText(calendar.getDateStringByFormat())
-        input_date.setOnClickListener {
-            setupDateDialogue(calendar)
-        }
-
-        button_add_transaction.setOnClickListener {
-            val date = calendar.timeInMillis
-            val description = getTransactionDescription(transactionCategory.transactionCategoryType)
-            val amount = input_amount.text.toString().toDouble()
-
-            transactionsRepository.insertTransaction(
-                Transaction(
-                    date,
-                    description,
-                    amount,
-                    transactionCategory.transactionCategoryId,
-                    transactionCategory.transactionCategoryName
-                )
-            ).observeOn(
-                AndroidSchedulers.mainThread()
-            ).subscribeOn(Schedulers.io()).subscribe(
-                TransactionObserver(this)
-            )
-        }
+        presenter.attachView(this)
+        displayScreen()
     }
 
     private fun getTransactionDescription(transactionCategoryType: Int): String {
@@ -94,27 +57,49 @@ class AddTransactionActivity : AppCompatBaseActivity() {
             ({ view, selectedYear, selectedMonth, selectedDay ->
                 calendar.set(selectedYear, selectedMonth, selectedDay)
                 input_date.setText(calendar.getDateStringByFormat())
-                Toast.makeText(
-                    view.context,
-                    "$selectedYear/${selectedMonth + 1}/$selectedDay",
-                    Toast.LENGTH_LONG
-                ).show()
             }), year, monthOfYear, dayOfMonth
         ).show()
     }
 
-    class TransactionObserver(activity: Activity) :
-        BaseCompletableObserver() {
-        private val activity = WeakReference(activity).get()
-        override fun onComplete() {
-            if (activity != null) {
-                Log.d("TransactionObserver", "OnComplete(Added Transaction")
-                activity.startActivity(
-                    LandingActivity.getStartIntent(
-                        activity
-                    )
-                )
-            }
+    override fun addTransaction(calendar: Calendar, transactionCategory: TransactionCategory) {
+        val date = calendar.timeInMillis
+        val description = getTransactionDescription(transactionCategory.transactionCategoryType)
+        val amount = input_amount.text.toString().toDouble()
+
+        presenter.submitTransaction(
+            date,
+            description,
+            amount,
+            transactionCategory.transactionCategoryName,
+            transactionCategory.transactionCategoryId
+        )
+    }
+
+    override fun navigateToLanding() {
+        startActivity(
+            LandingActivity.getStartIntent(
+                this
+            )
+        )
+    }
+
+    override fun displayScreen() {
+        val transactionCategory =
+            intent.getParcelableExtra<TransactionCategory>(EXTRA_TRANSACTION_CATEGORY)
+
+        val calendar = Calendar.getInstance()
+        input_date.setText(calendar.getDateStringByFormat())
+        input_date.setOnClickListener {
+            setupDateDialogue(calendar)
         }
+
+        button_add_transaction.setOnClickListener {
+            addTransaction(calendar, transactionCategory)
+        }
+    }
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
     }
 }
