@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import za.co.app.budgetbee.R
@@ -21,10 +22,11 @@ import javax.inject.Inject
 
 
 class AddTransactionFragment(val transactionCategoryType: TransactionCategoryType) :
-    BaseFragment() {
+        BaseFragment() {
 
     @Inject
     lateinit var transactionsRepository: IDatabaseRepository
+    private val compositeDisposable = CompositeDisposable()
 
     companion object {
         fun newInstance(transactionCategoryType: TransactionCategoryType): AddTransactionFragment {
@@ -32,26 +34,24 @@ class AddTransactionFragment(val transactionCategoryType: TransactionCategoryTyp
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_transaction, container, false)
-
         return view
     }
 
     override fun onResume() {
         super.onResume()
         transactionsRepository.getAllTransactionCategoriesByType(transactionCategoryType.value)
-            .subscribeOn(
-                Schedulers.io()
-            ).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                TransactionCategoryObserver(
-                    this
-                )
-            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(TransactionCategoryObserver(this))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.dispose()
+
     }
 
     fun buildScreen(transactionCategoryList: List<TransactionCategory>) {
@@ -59,25 +59,18 @@ class AddTransactionFragment(val transactionCategoryType: TransactionCategoryTyp
         incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
         val transactionCategoryListAdapter =
-            TransactionCategoryListAdapter(
-                transactionCategoryList
-            )
+                TransactionCategoryListAdapter(transactionCategoryList)
 
-        transactionCategoryListAdapter.getClickTransactionCategory()
-            .subscribe { transactionCategory ->
-                startActivity(
-                    AddTransactionActivity.getStartIntent(
-                        this.activity?.applicationContext,
-                        transactionCategory
-                    )
-                )
-            }
-
+        val disposable = transactionCategoryListAdapter.getClickTransactionCategory()
+                .subscribe { transactionCategory ->
+                    startActivity(AddTransactionActivity.getStartIntent(this.activity?.applicationContext, transactionCategory))
+                }
+        compositeDisposable.add(disposable)
         incomeRecyclerView.adapter = transactionCategoryListAdapter
     }
 
     class TransactionCategoryObserver(addTransactionFragment: AddTransactionFragment) :
-        BaseObserver<ArrayList<TransactionCategory>>() {
+            BaseObserver<ArrayList<TransactionCategory>>() {
         val fragment = WeakReference(addTransactionFragment).get()
 
         override fun onNext(value: ArrayList<TransactionCategory>) {
@@ -88,12 +81,10 @@ class AddTransactionFragment(val transactionCategoryType: TransactionCategoryTyp
 
         override fun onError(error: Throwable) {
             Toast.makeText(
-                fragment?.context,
-                "Error in database lookup ${error.message}",
-                Toast.LENGTH_SHORT
+                    fragment?.context,
+                    "Error in database lookup ${error.message}",
+                    Toast.LENGTH_SHORT
             ).show()
         }
     }
-
-}// Required empty public constructor
-
+}

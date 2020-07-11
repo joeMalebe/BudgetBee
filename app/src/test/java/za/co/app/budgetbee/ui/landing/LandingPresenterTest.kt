@@ -23,39 +23,39 @@ class LandingPresenterTest {
     fun getMockTransactions(): ArrayList<Transaction> {
         val date = Calendar.getInstance().timeInMillis
         val transaction1 = Transaction(
-            date,
-            "This is a test 1",
-            100.5,
-            TransactionCategoryType.INCOME.value,
-            "Salary"
+                date,
+                "This is a test 1",
+                100.5,
+                TransactionCategoryType.INCOME.value,
+                "Salary"
         )
         val transaction5 = Transaction(
-            date,
-            "This is a test 5",
-            50.5,
-            TransactionCategoryType.EXPENSE.value,
-            "Gift"
+                date,
+                "This is a test 5",
+                50.5,
+                TransactionCategoryType.EXPENSE.value,
+                "Gift"
         )
         val transaction2 = Transaction(
-            date,
-            "This is a test 2",
-            100.5,
-            TransactionCategoryType.INCOME.value,
-            "Invest"
+                date,
+                "This is a test 2",
+                100.5,
+                TransactionCategoryType.INCOME.value,
+                "Invest"
         )
         val transaction3 = Transaction(
-            date,
-            "This is a test 3",
-            100.5,
-            TransactionCategoryType.INCOME.value,
-            "Olx sale"
+                date,
+                "This is a test 3",
+                100.5,
+                TransactionCategoryType.INCOME.value,
+                "Olx sale"
         )
         val transaction4 = Transaction(
-            date,
-            "This is a test 4",
-            50.0,
-            TransactionCategoryType.EXPENSE.value,
-            "Uber driver"
+                date,
+                "This is a test 4",
+                50.0,
+                TransactionCategoryType.EXPENSE.value,
+                "Uber driver"
         )
 
         return arrayListOf(transaction1, transaction2, transaction3, transaction4, transaction5)
@@ -63,22 +63,22 @@ class LandingPresenterTest {
 
     fun getMockTransactionCategories(): ArrayList<TransactionCategory> {
         val transactionCategory =
-            TransactionCategory(0, "Salary", TransactionCategoryType.INCOME.value)
+                TransactionCategory(0, "Salary", TransactionCategoryType.INCOME.value)
         val transactionCategory2 =
-            TransactionCategory(1, "Gift", TransactionCategoryType.EXPENSE.value)
+                TransactionCategory(1, "Gift", TransactionCategoryType.EXPENSE.value)
         val transactionCategory3 =
-            TransactionCategory(2, "Uber driver", TransactionCategoryType.EXPENSE.value)
+                TransactionCategory(2, "Uber driver", TransactionCategoryType.EXPENSE.value)
         val transactionCategory4 =
-            TransactionCategory(3, "Invest", TransactionCategoryType.INCOME.value)
+                TransactionCategory(3, "Invest", TransactionCategoryType.INCOME.value)
         val transactionCategory5 =
-            TransactionCategory(4, "Olx sale", TransactionCategoryType.INCOME.value)
+                TransactionCategory(4, "Olx sale", TransactionCategoryType.INCOME.value)
 
         return arrayListOf(
-            transactionCategory,
-            transactionCategory2,
-            transactionCategory3,
-            transactionCategory4,
-            transactionCategory5
+                transactionCategory,
+                transactionCategory2,
+                transactionCategory3,
+                transactionCategory4,
+                transactionCategory5
         )
     }
 
@@ -91,8 +91,8 @@ class LandingPresenterTest {
     @Test
     fun givenTransactions_and_transactionCategories_calculateTotalIncome() {
         val combinedTransactionAndCategory = LandingPresenter.CombinedTransactionAndCategory(
-            getMockTransactions(),
-            getMockTransactionCategories()
+                getMockTransactions(),
+                getMockTransactionCategories()
         )
         val incomeTotal = presenter.calculateTotalIncome(combinedTransactionAndCategory)
         assertEquals(301.5, incomeTotal, MARGIN_FOR_ERROR)
@@ -101,8 +101,8 @@ class LandingPresenterTest {
     @Test
     fun givenTransactions_and_transactionCategories_calculateTotalExpenses() {
         val combinedTransactionAndCategory = LandingPresenter.CombinedTransactionAndCategory(
-            getMockTransactions(),
-            getMockTransactionCategories()
+                getMockTransactions(),
+                getMockTransactionCategories()
         )
         val incomeTotal = presenter.calculateExpenseTotal(combinedTransactionAndCategory)
         assertEquals(100.5, incomeTotal, MARGIN_FOR_ERROR)
