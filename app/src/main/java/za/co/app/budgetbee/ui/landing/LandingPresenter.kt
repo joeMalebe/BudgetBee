@@ -14,23 +14,23 @@ import za.co.app.budgetbee.data.repository.TransactionsRepository
 import java.util.logging.Logger
 
 class LandingPresenter(
-    val transactionsRepository: IDatabaseRepository
+        val transactionsRepository: IDatabaseRepository
 ) : ILandingMvp.Presenter {
     private lateinit var view: ILandingMvp.View
 
     override fun getTransactions() {
         Observable.zip(
-            transactionsRepository.getAllTransactionCategories(),
-            transactionsRepository.getTransactions(),
-            BiFunction<ArrayList<TransactionCategory>, ArrayList<Transaction>, CombinedTransactionAndCategory> { transactionsCategrory, transactions ->
-                CombinedTransactionAndCategory(
-                    transactions,
-                    transactionsCategrory
+                transactionsRepository.getAllTransactionCategories(),
+                transactionsRepository.getTransactions(),
+                BiFunction<ArrayList<TransactionCategory>, ArrayList<Transaction>, CombinedTransactionAndCategory> { transactionsCategrory, transactions ->
+                    CombinedTransactionAndCategory(
+                            transactions,
+                            transactionsCategrory
+                    )
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                TransactionsObserver(
+                        view
                 )
-            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-            TransactionsObserver(
-                view
-            )
         )
     }
 
@@ -51,7 +51,7 @@ class LandingPresenter(
     }
 
     inner class TransactionsObserver(val view: ILandingMvp.View) :
-        BaseObserver<CombinedTransactionAndCategory>() {
+            BaseObserver<CombinedTransactionAndCategory>() {
         override fun onNext(value: CombinedTransactionAndCategory) {
             val transactions = value.transactions
             if (transactions.isNotEmpty()) {
@@ -78,21 +78,21 @@ class LandingPresenter(
 
     fun calculateTotalIncome(combinedTransactionAndCategory: CombinedTransactionAndCategory): Double {
         val incomeTransactions =
-            (transactionsRepository as TransactionsRepository).getTransactionsByCategoryType(
-                combinedTransactionAndCategory.transactionCategory,
-                combinedTransactionAndCategory.transactions,
-                TransactionCategoryType.INCOME
-            )
+                (transactionsRepository as TransactionsRepository).getTransactionsByCategoryType(
+                        combinedTransactionAndCategory.transactionCategory,
+                        combinedTransactionAndCategory.transactions,
+                        TransactionCategoryType.INCOME
+                )
         return incomeTransactions.sumByDouble { transaction -> transaction.transactionAmount }
     }
 
     fun calculateExpenseTotal(combinedTransactionAndCategory: CombinedTransactionAndCategory): Double {
         val expenseTransactions =
-            (transactionsRepository as TransactionsRepository).getTransactionsByCategoryType(
-                combinedTransactionAndCategory.transactionCategory,
-                combinedTransactionAndCategory.transactions,
-                TransactionCategoryType.EXPENSE
-            )
+                (transactionsRepository as TransactionsRepository).getTransactionsByCategoryType(
+                        combinedTransactionAndCategory.transactionCategory,
+                        combinedTransactionAndCategory.transactions,
+                        TransactionCategoryType.EXPENSE
+                )
         return expenseTransactions.sumByDouble { transaction -> transaction.transactionAmount }
     }
 
@@ -101,7 +101,7 @@ class LandingPresenter(
     }
 
     class CombinedTransactionAndCategory(
-        val transactions: ArrayList<Transaction>,
-        val transactionCategory: ArrayList<TransactionCategory>
+            val transactions: ArrayList<Transaction>,
+            val transactionCategory: ArrayList<TransactionCategory>
     )
 }

@@ -17,29 +17,29 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
 
     override fun getAllTransactionCategories(): Observable<ArrayList<TransactionCategory>> {
         return this.budgetBeeDoa
-            .getAllTransactionCategories().map { modelList ->
-                Log.d(TAG, "mapping Model To TransactionCategory")
-                mapModelToTransactionCategory(modelList)
-            }
+                .getAllTransactionCategories().map { modelList ->
+                    Log.d(TAG, "mapping Model To TransactionCategory")
+                    mapModelToTransactionCategory(modelList)
+                }
     }
 
     override fun getAllTransactionCategoriesByType(transactionCategoryType: Int): Observable<ArrayList<TransactionCategory>> {
         return this.budgetBeeDoa
-            .getAllTransactionCategoriesByType(transactionCategoryType).map { modelList ->
-                Log.d(TAG, "mapping Model To TransactionCategory")
-                mapModelToTransactionCategory(modelList)
-            }
+                .getAllTransactionCategoriesByType(transactionCategoryType).map { modelList ->
+                    Log.d(TAG, "mapping Model To TransactionCategory")
+                    mapModelToTransactionCategory(modelList)
+                }
     }
 
     private fun mapModelToTransactionCategory(modelList: List<TransactionCategoryDataModel>): ArrayList<TransactionCategory> {
         val transactionCategoryList = arrayListOf<TransactionCategory>()
         modelList.forEach { model ->
             transactionCategoryList.add(
-                TransactionCategory(
-                    model.transactionCategoryId,
-                    model.transactionCategoryName,
-                    model.transactionCategoryType
-                )
+                    TransactionCategory(
+                            model.transactionCategoryId,
+                            model.transactionCategoryName,
+                            model.transactionCategoryType
+                    )
             )
         }
         return transactionCategoryList
@@ -55,13 +55,13 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         val transactionsList: ArrayList<Transaction> = arrayListOf()
         modelIst.forEach { model ->
             transactionsList.add(
-                Transaction(
-                    model.transactionDate,
-                    model.transactionDescription,
-                    model.transactionAmount,
-                    model.transactionCategoryId,
-                    model.transactionCategoryName
-                )
+                    Transaction(
+                            model.transactionDate,
+                            model.transactionDescription,
+                            model.transactionAmount,
+                            model.transactionCategoryId,
+                            model.transactionCategoryName
+                    )
             )
         }
         return transactionsList
@@ -73,34 +73,34 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
 
     override fun insertTransactionCategory(transactionCategory: TransactionCategory): Completable {
         return budgetBeeDoa
-            .insertTransactionCategory(
-                TransactionCategoryDataModel(
-                    transactionCategory.transactionCategoryName,
-                    transactionCategory.transactionCategoryType
+                .insertTransactionCategory(
+                        TransactionCategoryDataModel(
+                                transactionCategory.transactionCategoryName,
+                                transactionCategory.transactionCategoryType
+                        )
                 )
-            )
     }
 
     override fun insertTransaction(transaction: Transaction): Completable {
         return budgetBeeDoa.insertTransaction(
-            TransactionDataModel(
-                transaction.transactionDate,
-                transaction.transactionDescription,
-                transaction.transactionAmount,
-                transaction.transactionCategoryId,
-                transaction.transactionCategoryName
-            )
+                TransactionDataModel(
+                        transaction.transactionDate,
+                        transaction.transactionDescription,
+                        transaction.transactionAmount,
+                        transaction.transactionCategoryId,
+                        transaction.transactionCategoryName
+                )
         )
     }
 
     fun getTransactionsByCategoryType(
-        transactionCategory: ArrayList<TransactionCategory>,
-        transactions: ArrayList<Transaction>, transactionCategoryType: TransactionCategoryType
+            transactionCategory: ArrayList<TransactionCategory>,
+            transactions: ArrayList<Transaction>, transactionCategoryType: TransactionCategoryType
     ): List<Transaction> {
         return transactions.filter { transaction ->
             transactionCategory.filter { transactionCategory -> transactionCategory.transactionCategoryType == transactionCategoryType.value }
-                .map { transactionCategory -> transactionCategory.transactionCategoryId }
-                .contains(transaction.transactionCategoryId)
+                    .map { transactionCategory -> transactionCategory.transactionCategoryId }
+                    .contains(transaction.transactionCategoryId)
         }
     }
 }
