@@ -124,6 +124,16 @@
 
     </androidx.cardview.widget.CardView>
 
+    <za.co.app.budgetbee.ui.views.Switcher
+        android:id="@+id/month_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/gutterSpace"
+        android:layout_marginBottom="@dimen/gutterSpace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expense_card_view" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_transactions"
         android:layout_width="match_parent"
@@ -133,7 +143,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expense_card_view"
+        app:layout_constraintTop_toBottomOf="@id/month_switcher"
         app:layout_constraintVertical_bias="0.0"
         tools:itemCount="8"
         tools:listitem="@layout/item_transaction" />

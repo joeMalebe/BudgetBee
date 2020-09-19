@@ -6,11 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageButton
         android:id="@+id/left_selector"
+        android:background="@color/white"
         android:layout_width="@dimen/image_medium"
         android:layout_height="@dimen/image_medium"
         android:src="@drawable/ic_chevron_left_24dp"
+        android:contentDescription="@string/left_selector_to_decrement_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,12 +28,15 @@
         app:layout_constraintTop_toTopOf="@id/left_selector"
         tools:text="2020 May" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageButton
         android:id="@+id/right_selector"
         android:layout_width="@dimen/image_medium"
         android:layout_height="@dimen/image_medium"
         android:src="@drawable/ic_chevron_right_24dp"
+        android:background="@color/white"
+        android:contentDescription="@string/right_selector_to_increment_value"
         app:layout_constraintBottom_toBottomOf="@id/selected_text"
         app:layout_constraintStart_toEndOf="@id/selected_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/selected_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
