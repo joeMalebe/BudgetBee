@@ -12,6 +12,7 @@ import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.landing.ILandingMvp.View
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
 import java.text.DecimalFormat
+import java.util.*
 import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), View {
@@ -85,6 +86,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
         showLoading()
         presenter.getTransactions()
         val addTransactionButton = add_transaction_fab
+        month_switcher.init(Calendar.getInstance())
         addTransactionButton.setOnClickListener {
             openTransactionCategoryActivity()
         }

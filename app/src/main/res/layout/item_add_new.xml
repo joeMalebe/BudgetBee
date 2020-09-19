@@ -3,8 +3,7 @@
     android:id="@+id/add_new_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/gutterSpace"
-    android:layout_marginBottom="@dimen/gutterSpace"
+    android:layout_margin="@dimen/imageGutterSpaceOffset"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView

@@ -31,4 +31,6 @@
     <string name="add_category">Add category</string>
     <string name="save">Save</string>
     <string name="add_new">Add new</string>
+    <string name="left_selector_to_decrement_value">left selector to decrement value</string>
+    <string name="right_selector_to_increment_value">right selector to increment value</string>
 </resources>
