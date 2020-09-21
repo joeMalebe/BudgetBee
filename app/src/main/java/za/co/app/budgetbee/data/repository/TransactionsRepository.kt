@@ -51,6 +51,12 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         }
     }
 
+    override fun getTransactionsByDateRange(startAndEndDate: Pair<Long, Long>): Observable<ArrayList<Transaction>> {
+        return budgetBeeDoa.getTransactionsByDate(startAndEndDate.first, startAndEndDate.second).map { modelIst ->
+            mapModelToTransactions(modelIst)
+        }
+    }
+
     private fun mapModelToTransactions(modelIst: List<TransactionDataModel>): ArrayList<Transaction> {
         val transactionsList: ArrayList<Transaction> = arrayListOf()
         modelIst.forEach { model ->

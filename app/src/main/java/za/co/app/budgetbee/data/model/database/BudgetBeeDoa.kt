@@ -17,6 +17,9 @@ interface BudgetBeeDoa {
     @Query("SELECT * FROM TransactionDataModel,TransactionCategoryDataModel WHERE TransactionDataModel.transactionCategoryId = TransactionCategoryDataModel.transactionCategoryId")
     fun getTransactions(): Observable<List<TransactionDataModel>>
 
+    @Query("SELECT * FROM TransactionDataModel,TransactionCategoryDataModel WHERE TransactionDataModel.transactionDate >= :transactionMinDate AND TransactionDataModel.transactionDate <= :transactionMaxDate AND TransactionDataModel.transactionCategoryId = TransactionCategoryDataModel.transactionCategoryId")
+    fun getTransactionsByDate(transactionMinDate: Long, transactionMaxDate: Long): Observable<List<TransactionDataModel>>
+
     @Query("SELECT * FROM TransactionCategoryDataModel WHERE transactionCategoryName LIKE :transactionCategoryName")
     fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategoryDataModel>
 
