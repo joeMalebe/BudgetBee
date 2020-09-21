@@ -8,7 +8,7 @@ import java.util.*
 interface ITransactionMvp {
     interface View : IBaseView {
         fun addTransaction(calendar: Calendar, transactionCategory: TransactionCategory)
-        fun navigateToLanding()
+        fun navigateToLanding(transactionDate: Long)
     }
 
     interface Presenter : IBasePresenter {
