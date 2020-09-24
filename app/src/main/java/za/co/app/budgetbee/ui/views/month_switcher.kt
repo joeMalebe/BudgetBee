@@ -4,28 +4,29 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.layout_switcher.view.*
+import kotlinx.android.synthetic.main.layout_month_switcher.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.util.*
 
-class Switcher @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    dyfStyleAttr: Int = 0
-) : ConstraintLayout(context, attrs, dyfStyleAttr) {
-    private val MONTH_YEAR__DATE_FORMAT = "MMM yyyy"
+class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, dyfStyleAttr: Int = 0) :
+        ConstraintLayout(context, attrs, dyfStyleAttr) {
+
+    private val MONTH_YEAR_DATE_FORMAT = "MMM yyyy"
     val calendar: Calendar = Calendar.getInstance()
     val publishCalender = PublishSubject.create<Calendar>()
+
     fun init(calendar: Calendar) {
         this.calendar.set(
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH), 1
         )
-        LayoutInflater.from(context).inflate(R.layout.layout_switcher, this)
-        selected_text.text = this.calendar.getDateStringByFormat(MONTH_YEAR__DATE_FORMAT)
+
+        LayoutInflater.from(context).inflate(R.layout.layout_month_switcher, this)
+        month_text.text = this.calendar.getDateStringByFormat(MONTH_YEAR_DATE_FORMAT)
+
         left_selector.setOnClickListener {
             updateCalenderMonths(-1)
         }
@@ -35,8 +36,13 @@ class Switcher @JvmOverloads constructor(
     }
 
     private fun updateCalenderMonths(monthsToUpdate: Int) {
+        this.calendar.set(Calendar.DAY_OF_MONTH, 1)
         this.calendar.add(Calendar.MONTH, monthsToUpdate)
-        selected_text.text = this.calendar.getDateStringByFormat(MONTH_YEAR__DATE_FORMAT)
+        month_text.text = this.calendar.getDateStringByFormat(MONTH_YEAR_DATE_FORMAT)
         publishCalender.onNext(this.calendar)
+    }
+
+    fun getSelectedDate(): Observable<Calendar> {
+        return publishCalender.hide()
     }
 }
