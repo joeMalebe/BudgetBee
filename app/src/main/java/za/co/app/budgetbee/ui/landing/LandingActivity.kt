@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_landing.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
@@ -17,6 +20,7 @@ import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), View {
 
+    private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
     val TAG = LandingActivity::class.simpleName
 
@@ -24,8 +28,11 @@ class LandingActivity : AppCompatBaseActivity(), View {
     lateinit var presenter: ILandingMvp.Presenter
 
     companion object {
-        fun getStartIntent(context: Context): Intent {
+        private val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
+
+        fun getStartIntent(context: Context, transactionDate: Long): Intent {
             val intent = Intent(context, LandingActivity::class.java)
+            intent.putExtra(CURRENT_DATE_EXTRA, transactionDate)
             return intent
         }
     }
@@ -79,21 +86,53 @@ class LandingActivity : AppCompatBaseActivity(), View {
     }
 
     override fun displayNoTransactions() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(this, "No transactins", Toast.LENGTH_SHORT).show()
     }
 
     override fun displayScreen() {
         showLoading()
-        presenter.getTransactions()
+
+        val currentDate = intent.getLongExtra(CURRENT_DATE_EXTRA, 0L)
+        month_switcher.init(
+                if (currentDate == 0L) {
+                    val date = Calendar.getInstance()
+                    presenter.getTransactionsByDate(getStartAndEndDate(date))
+                    date
+                } else {
+                    val date = Calendar.getInstance()
+                    date.timeInMillis = currentDate
+                    presenter.getTransactionsByDate(getStartAndEndDate(date))
+                    date
+                }
+        )
+
+        val disposable = getTransactionsInSelectedMonth()
+        compositeDisposable.add(disposable)
+
         val addTransactionButton = add_transaction_fab
-        month_switcher.init(Calendar.getInstance())
         addTransactionButton.setOnClickListener {
             openTransactionCategoryActivity()
         }
     }
 
+    private fun getTransactionsInSelectedMonth(): Disposable {
+        return month_switcher.getSelectedDate().subscribe { calendar ->
+            presenter.getTransactionsByDate(
+                    getStartAndEndDate(calendar))
+        }
+    }
+
+    fun getStartAndEndDate(calendar: Calendar): Pair<Long, Long> {
+        val startDate = Calendar.getInstance()
+        val endDate = Calendar.getInstance()
+        startDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1)
+        endDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.getMaximum(Calendar.DAY_OF_MONTH))
+        return Pair(startDate.timeInMillis, endDate.timeInMillis)
+    }
+
     override fun onDestroy() {
         presenter.detachView()
+        compositeDisposable.dispose()
         super.onDestroy()
     }
 

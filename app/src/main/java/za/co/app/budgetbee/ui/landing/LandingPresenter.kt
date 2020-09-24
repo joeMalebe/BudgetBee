@@ -2,6 +2,7 @@ package za.co.app.budgetbee.ui.landing
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import za.co.app.budgetbee.base.BaseObserver
@@ -17,7 +18,7 @@ class LandingPresenter(
         val transactionsRepository: IDatabaseRepository
 ) : ILandingMvp.Presenter {
     private lateinit var view: ILandingMvp.View
-
+    private val compositeDisposable = CompositeDisposable()
     override fun getTransactions() {
         Observable.zip(
                 transactionsRepository.getAllTransactionCategories(),
@@ -32,6 +33,18 @@ class LandingPresenter(
                         view
                 )
         )
+    }
+
+    override fun getTransactionsByDate(dateRange: Pair<Long, Long>) {
+        Observable.zip(
+                transactionsRepository.getAllTransactionCategories(),
+                transactionsRepository.getTransactionsByDateRange(dateRange),
+                BiFunction<ArrayList<TransactionCategory>, ArrayList<Transaction>, CombinedTransactionAndCategory> { transactionsCategrory, transactions ->
+                    CombinedTransactionAndCategory(transactions, transactionsCategrory)
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(TransactionsObserver(view))
     }
 
     override fun getTotalIncome(transactions: java.util.ArrayList<Transaction>) {
