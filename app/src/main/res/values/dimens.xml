@@ -11,4 +11,6 @@
     <dimen name="image_inline">28dp</dimen>
     <dimen name="imageGutterSpaceOffset">12dp</dimen>
     <dimen name="image_medium">32dp</dimen>
+    <dimen name="year_switcher_height">32dp</dimen>
+    <dimen name="month_item_width">56dp</dimen>
 </resources>

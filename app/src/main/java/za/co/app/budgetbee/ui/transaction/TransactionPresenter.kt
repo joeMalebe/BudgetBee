@@ -9,29 +9,29 @@ import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import java.util.logging.Logger
 
 class TransactionPresenter(val transactionsRepository: IDatabaseRepository) :
-    ITransactionMvp.Presenter {
+        ITransactionMvp.Presenter {
 
     private lateinit var view: ITransactionMvp.View
 
     override fun submitTransaction(
-        transactionDate: Long,
-        transactionDescription: String,
-        transactionAmount: Double,
-        transactionCategoryName: String,
-        transactionCategoryId: Int
+            transactionDate: Long,
+            transactionDescription: String,
+            transactionAmount: Double,
+            transactionCategoryName: String,
+            transactionCategoryId: Int
     ) {
         transactionsRepository.insertTransaction(
-            Transaction(
-                transactionDate,
-                transactionDescription,
-                transactionAmount,
-                transactionCategoryId,
-                transactionCategoryName
-            )
+                Transaction(
+                        transactionDate,
+                        transactionDescription,
+                        transactionAmount,
+                        transactionCategoryId,
+                        transactionCategoryName
+                )
         ).observeOn(
-            AndroidSchedulers.mainThread()
+                AndroidSchedulers.mainThread()
         ).subscribeOn(Schedulers.io()).subscribe(
-            TransactionObserver(view)
+                TransactionObserver(view, transactionDate)
         )
     }
 
@@ -43,11 +43,11 @@ class TransactionPresenter(val transactionsRepository: IDatabaseRepository) :
         Logger.getAnonymousLogger().info("detach View")
     }
 
-    class TransactionObserver(val view: ITransactionMvp.View) :
-        BaseCompletableObserver() {
+    class TransactionObserver(val view: ITransactionMvp.View, val transactionDate: Long) :
+            BaseCompletableObserver() {
         override fun onComplete() {
             Logger.getAnonymousLogger().info("TransactionObserver, OnComplete Added Transaction")
-            view.navigateToLanding()
+            view.navigateToLanding(transactionDate)
         }
     }
 

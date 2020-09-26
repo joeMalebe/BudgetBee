@@ -13,6 +13,8 @@ interface IDatabaseRepository {
 
     fun getTransactions(): Observable<ArrayList<Transaction>>
 
+    fun getTransactionsByDateRange(dateRange: Pair<Long, Long>): Observable<ArrayList<Transaction>>
+
     fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategory>
 
     fun insertTransactionCategory(transactionCategory: TransactionCategory): Completable

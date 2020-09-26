@@ -124,7 +124,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <za.co.app.budgetbee.ui.views.Switcher
+    <za.co.app.budgetbee.ui.views.MonthSwitcher
         android:id="@+id/month_switcher"
         android:layout_width="match_parent"
         android:layout_height="30dp"

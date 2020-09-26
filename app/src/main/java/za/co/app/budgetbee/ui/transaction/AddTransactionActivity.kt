@@ -75,11 +75,11 @@ class AddTransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
         )
     }
 
-    override fun navigateToLanding() {
+    override fun navigateToLanding(transactionDate: Long) {
         startActivity(
-            LandingActivity.getStartIntent(
-                this
-            )
+                LandingActivity.getStartIntent(
+                        this, transactionDate
+                )
         )
     }
 

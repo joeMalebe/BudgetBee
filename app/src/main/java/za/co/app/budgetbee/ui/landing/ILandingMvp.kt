@@ -20,6 +20,7 @@ interface ILandingMvp {
 
     interface Presenter : IBasePresenter {
         fun getTransactions()
+        fun getTransactionsByDate(dateRange: Pair<Long, Long>)
         fun getTotalIncome(transactions: java.util.ArrayList<Transaction>)
         fun getTotalExpense(transactions: java.util.ArrayList<Transaction>): Any
     }
