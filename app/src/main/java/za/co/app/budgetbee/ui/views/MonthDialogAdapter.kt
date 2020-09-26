@@ -12,7 +12,7 @@ import za.co.app.budgetbee.data.model.domain.Month
 import java.util.*
 
 open class MonthDialogAdapter(val months: ArrayList<Month>, var year: Int) : RecyclerView.Adapter<MonthDialogAdapter.MonthViewHolder>() {
-    val publishMonth = PublishSubject.create<Calendar>()
+    private val publishMonth = PublishSubject.create<Calendar>()
 
     override fun getItemCount(): Int {
         return months.size
@@ -25,6 +25,10 @@ open class MonthDialogAdapter(val months: ArrayList<Month>, var year: Int) : Rec
 
     override fun onBindViewHolder(holder: MonthViewHolder, position: Int) {
         holder.display(months[position], year)
+    }
+
+    fun updateYear(year: Int) {
+        this.year = year
     }
 
     fun getSelectedMonth(): Observable<Calendar> {
