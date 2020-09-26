@@ -3,18 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <za.co.app.budgetbee.ui.views.YearSwitcher
-        android:id="@+id/year_switcher"
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/first_six_months_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/gutterSpaceHalf"
+        android:layout_marginStart="@dimen/gutterSpaceHalf"
+        android:layout_marginTop="@dimen/gutterSpace"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="6"
@@ -24,8 +23,19 @@
         android:id="@+id/last_six_months_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/gutterSpace"
+        android:layout_marginLeft="@dimen/gutterSpaceHalf"
+        android:layout_marginStart="@dimen/gutterSpaceHalf"
+        android:layout_marginTop="@dimen/gutterSpaceHalf"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="6"
         tools:listitem="@layout/item_months" />
+
+    <za.co.app.budgetbee.ui.views.YearSwitcher
+        android:id="@+id/year_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/year_switcher_height"
+        android:layout_margin="@dimen/gutterSpace" />
 </LinearLayout>

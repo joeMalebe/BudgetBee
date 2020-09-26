@@ -8,11 +8,11 @@
 
     <ImageButton
         android:id="@+id/left_selector"
-        android:background="@color/white"
         android:layout_width="@dimen/image_medium"
         android:layout_height="@dimen/image_medium"
-        android:src="@drawable/ic_chevron_left_24dp"
+        android:background="@color/white"
         android:contentDescription="@string/left_selector_to_decrement_value"
+        android:src="@drawable/ic_chevron_left_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,23 +20,23 @@
         android:id="@+id/right_selector"
         android:layout_width="@dimen/image_medium"
         android:layout_height="@dimen/image_medium"
-        android:src="@drawable/ic_chevron_right_24dp"
         android:background="@color/white"
         android:contentDescription="@string/right_selector_to_increment_value"
+        android:src="@drawable/ic_chevron_right_24dp"
         app:layout_constraintBottom_toBottomOf="@id/month_text"
-        app:layout_constraintStart_toEndOf="@id/month_text"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/month_text"
         app:layout_constraintTop_toTopOf="@id/month_text" />
 
     <TextView
         android:id="@+id/month_text"
-        style="@style/text_heading6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/gutterSpace"
         android:paddingEnd="@dimen/gutterSpace"
+        android:paddingStart="@dimen/gutterSpace"
         app:layout_constraintBottom_toBottomOf="@id/left_selector"
         app:layout_constraintStart_toEndOf="@id/left_selector"
         app:layout_constraintTop_toTopOf="@id/left_selector"
-        tools:text="2020 May" />
+        tools:text="2020 May"
+        style="@style/text_heading6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
