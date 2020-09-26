@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -18,12 +19,22 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
     private val MONTH_YEAR_DATE_FORMAT = "MMM yyyy"
     val calendar: Calendar = Calendar.getInstance()
     var monthTextView: TextView
+    var leftSelector: AppCompatImageView
+    var rightSelector: AppCompatImageView
+
     private val publishCalender = PublishSubject.create<Calendar>()
     private val publishClickMnnthSubject = PublishSubject.create<Boolean>()
 
-    init{
+    init {
         LayoutInflater.from(context).inflate(R.layout.layout_month_switcher, this)
         monthTextView = month_text
+        leftSelector = left_selector
+        rightSelector = right_selector
+        val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MonthSwitcherStyle, 0, 0)
+        val switcherColor = typedArray.getColor(R.styleable.MonthSwitcherStyle_switcher_color, -1)
+        monthTextView.setTextColor(switcherColor)
+        leftSelector.setColorFilter(switcherColor)
+        rightSelector.setColorFilter(switcherColor)
     }
 
     fun init(calendar: Calendar) {
@@ -37,11 +48,11 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
             publishClickMnnthSubject.onNext(true)
         }
 
-        left_selector.setOnClickListener {
+        leftSelector.setOnClickListener {
             updateCalenderMonths(-1)
         }
 
-        right_selector.setOnClickListener {
+        rightSelector.setOnClickListener {
             updateCalenderMonths(1)
         }
     }
