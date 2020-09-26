@@ -17,9 +17,14 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
 
     private val MONTH_YEAR_DATE_FORMAT = "MMM yyyy"
     val calendar: Calendar = Calendar.getInstance()
-    lateinit var monthTextView: TextView
+    var monthTextView: TextView
     private val publishCalender = PublishSubject.create<Calendar>()
     private val publishClickMnnthSubject = PublishSubject.create<Boolean>()
+
+    init{
+        LayoutInflater.from(context).inflate(R.layout.layout_month_switcher, this)
+        monthTextView = month_text
+    }
 
     fun init(calendar: Calendar) {
         this.calendar.set(
@@ -27,8 +32,6 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
                 calendar.get(Calendar.MONTH), 1
         )
 
-        LayoutInflater.from(context).inflate(R.layout.layout_month_switcher, this)
-        monthTextView = month_text
         monthTextView.text = this.calendar.getDateStringByFormat(MONTH_YEAR_DATE_FORMAT)
         monthTextView.setOnClickListener {
             publishClickMnnthSubject.onNext(true)
