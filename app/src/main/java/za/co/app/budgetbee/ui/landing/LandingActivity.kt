@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_landing.*
+import kotlinx.android.synthetic.main.home_toolbar.*
 import kotlinx.android.synthetic.main.layout_month_selector_dialog.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
@@ -30,7 +31,6 @@ import java.util.*
 import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), View {
-
 
     private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
