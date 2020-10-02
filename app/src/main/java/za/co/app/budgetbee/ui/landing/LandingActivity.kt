@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -159,6 +161,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
         lastSixMonthsRecycler.adapter = lastSixMonthsAdapter
 
         dialog.init(firstSixMonthsAdapter, lastSixMonthsAdapter, dialogView, yearSwitcher, monthSwitcher)
+        showDialogAtTheTopOfTheScreen()
 
         monthSwitcher.onMonthClicked().subscribe {
             dialog.show()
@@ -170,6 +173,16 @@ class LandingActivity : AppCompatBaseActivity(), View {
         addTransactionButton.setOnClickListener {
             openTransactionCategoryActivity()
         }
+    }
+
+    private fun showDialogAtTheTopOfTheScreen() {
+        val window = dialog.window
+        val windowLayoutParams = window!!.attributes
+
+        windowLayoutParams.gravity = Gravity.TOP
+        windowLayoutParams.y = 100
+        windowLayoutParams.flags = windowLayoutParams.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
+        window.attributes = windowLayoutParams
     }
 
     private fun updateYearSwitcherMonths(firstSixMonthsAdapter: MonthDialogAdapter, selectedYear: Int, lastSixMonthsAdapter: MonthDialogAdapter) {

@@ -6,10 +6,10 @@ import android.view.View
 import java.util.*
 
 class YearSwitcherDialog(context: Context) : androidx.appcompat.app.AlertDialog(context) {
-    lateinit var firstSixMonthsAdapter: MonthDialogAdapter
-    lateinit var lastSixMonthsAdapter: MonthDialogAdapter
-    lateinit var yearSwitcher: YearSwitcher
-    lateinit var monthSwitcher: MonthSwitcher
+    private lateinit var firstSixMonthsAdapter: MonthDialogAdapter
+    private lateinit var lastSixMonthsAdapter: MonthDialogAdapter
+    private lateinit var yearSwitcher: YearSwitcher
+    private lateinit var monthSwitcher: MonthSwitcher
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
