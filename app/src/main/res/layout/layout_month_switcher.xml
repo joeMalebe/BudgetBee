@@ -6,23 +6,22 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/left_selector"
         android:layout_width="@dimen/image_medium"
         android:layout_height="@dimen/image_medium"
-        android:background="@color/white"
         android:contentDescription="@string/left_selector_to_decrement_value"
         android:src="@drawable/ic_chevron_left_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/right_selector"
         android:layout_width="@dimen/image_medium"
         android:layout_height="@dimen/image_medium"
-        android:background="@color/white"
         android:contentDescription="@string/right_selector_to_increment_value"
         android:src="@drawable/ic_chevron_right_24dp"
+
         app:layout_constraintBottom_toBottomOf="@id/month_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/month_text"

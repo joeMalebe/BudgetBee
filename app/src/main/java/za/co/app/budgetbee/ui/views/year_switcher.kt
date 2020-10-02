@@ -15,9 +15,16 @@ class YearSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private val publishYear = PublishSubject.create<Int>()
     var year = 0
+        set(value) {
+            field = value
+            year_text.text = year.toString()
+        }
+
+    init {
+        LayoutInflater.from(context).inflate(R.layout.layout_year_switcher, this)
+    }
 
     fun init(calendar: Calendar) {
-        LayoutInflater.from(context).inflate(R.layout.layout_year_switcher, this)
 
         year = calendar[Calendar.YEAR]
         year_text.text = year.toString()
