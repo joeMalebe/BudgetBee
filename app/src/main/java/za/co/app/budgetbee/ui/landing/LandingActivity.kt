@@ -1,6 +1,5 @@
 package za.co.app.budgetbee.ui.landing
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,7 +9,6 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
@@ -25,6 +23,7 @@ import za.co.app.budgetbee.ui.landing.ILandingMvp.View
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.views.MonthSwitcher
+import za.co.app.budgetbee.ui.views.YearSwitcherDialog
 import java.text.DateFormatSymbols
 import java.text.DecimalFormat
 import java.util.*
@@ -40,7 +39,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
     lateinit var presenter: ILandingMvp.Presenter
 
     private lateinit var transactionsRecyclerView: RecyclerView
-    private lateinit var dialog: Dialog
+    private lateinit var dialog: YearSwitcherDialog
     private lateinit var monthSwitcher: MonthSwitcher
     private lateinit var incomeValueText: TextView
     private lateinit var expenseValueText: TextView
@@ -132,16 +131,15 @@ class LandingActivity : AppCompatBaseActivity(), View {
 
         monthSwitcher.init(
                 if (currentDate == 0L) {
-                    presenter.getTransactionsByDate(getStartAndEndDate(date))
                     date
                 } else {
                     date.timeInMillis = currentDate
-                    presenter.getTransactionsByDate(getStartAndEndDate(date))
                     date
                 }
         )
 
-        val dialogBuilder = AlertDialog.Builder(this)
+        presenter.getTransactionsByDate(getStartAndEndDate(date))
+        dialog = YearSwitcherDialog(this)
         val dialogView = LayoutInflater.from(this).inflate(R.layout.layout_month_selector_dialog, null)
 
         val firstSixMonthsRecycler = dialogView.first_six_months_recycler
@@ -154,17 +152,13 @@ class LandingActivity : AppCompatBaseActivity(), View {
         yearSwitcher.init(date)
         yearSwitcher.getSelectedYear().subscribe { selectedYear ->
             date.set(Calendar.YEAR, selectedYear)
-            firstSixMonthsAdapter.updateYear(selectedYear)
-            firstSixMonthsAdapter.notifyDataSetChanged()
-            lastSixMonthsAdapter.updateYear(selectedYear)
-            lastSixMonthsAdapter.notifyDataSetChanged()
+            updateYearSwitcherMonths(firstSixMonthsAdapter, selectedYear, lastSixMonthsAdapter)
         }.let { compositeDisposable.add(it) }
 
         firstSixMonthsRecycler.adapter = firstSixMonthsAdapter
         lastSixMonthsRecycler.adapter = lastSixMonthsAdapter
-        dialogBuilder.setView(dialogView)
 
-        dialog = dialogBuilder.create()
+        dialog.init(firstSixMonthsAdapter, lastSixMonthsAdapter, dialogView, yearSwitcher, monthSwitcher)
 
         monthSwitcher.onMonthClicked().subscribe {
             dialog.show()
@@ -176,6 +170,13 @@ class LandingActivity : AppCompatBaseActivity(), View {
         addTransactionButton.setOnClickListener {
             openTransactionCategoryActivity()
         }
+    }
+
+    private fun updateYearSwitcherMonths(firstSixMonthsAdapter: MonthDialogAdapter, selectedYear: Int, lastSixMonthsAdapter: MonthDialogAdapter) {
+        firstSixMonthsAdapter.updateYear(selectedYear)
+        firstSixMonthsAdapter.notifyDataSetChanged()
+        lastSixMonthsAdapter.updateYear(selectedYear)
+        lastSixMonthsAdapter.notifyDataSetChanged()
     }
 
     private fun getfirstSixMonthsRecyclerAdapter(date: Calendar): MonthDialogAdapter {
