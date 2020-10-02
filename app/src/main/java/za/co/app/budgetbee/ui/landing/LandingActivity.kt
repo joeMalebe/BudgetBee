@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager
@@ -142,7 +141,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
 
         presenter.getTransactionsByDate(getStartAndEndDate(date))
         dialog = YearSwitcherDialog(this)
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.layout_month_selector_dialog, null)
+        val dialogView = android.view.View.inflate(this, R.layout.layout_month_selector_dialog, null)
 
         val firstSixMonthsRecycler = dialogView.first_six_months_recycler
         val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(date)
