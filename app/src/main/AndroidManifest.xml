@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_budget_bee_logo_round"
         android:supportsRtl="true"
         android:theme="@style/BudgetBeeMainTheme">
-        <activity android:name=".ui.transaction.Transaction"></activity>
+        <activity android:name=".ui.transaction.TransactionActivity"></activity>
         <activity android:name=".ui.add_transaction.AddTransactionActivity" />
         <activity
             android:label="@string/title_activity_add_transaction_category"

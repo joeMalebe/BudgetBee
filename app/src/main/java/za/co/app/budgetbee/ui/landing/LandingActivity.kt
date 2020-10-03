@@ -21,6 +21,7 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.landing.ILandingMvp.View
+import za.co.app.budgetbee.ui.transaction.TransactionActivity
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.views.MonthSwitcher
@@ -61,6 +62,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
         setContentView(R.layout.activity_landing)
         presenter.attachView(this)
         initialiseViews()
+        displayScreen()
     }
 
     private fun initialiseViews() {
@@ -73,7 +75,7 @@ class LandingActivity : AppCompatBaseActivity(), View {
 
     override fun onResume() {
         super.onResume()
-        displayScreen()
+
     }
 
     override fun showLoading() {
@@ -92,6 +94,9 @@ class LandingActivity : AppCompatBaseActivity(), View {
         dismissLoading()
         dialog.hide()
         val adapter = TransactionsAdapter(transactions)
+        adapter.getSelectedTransaction().subscribe { transaction ->
+            startActivity(TransactionActivity.getStartIntent(this, transaction))
+        }.let { compositeDisposable.add(it) }
         transactionsRecyclerView.adapter = adapter
         transactionsRecyclerView.layoutManager = LinearLayoutManager(this)
         transactionsRecyclerView.isNestedScrollingEnabled = false
