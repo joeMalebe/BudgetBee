@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_transaction_category.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
-import za.co.app.budgetbee.ui.transaction.AddTransactionPagerAdapter
+import za.co.app.budgetbee.ui.add_transaction.AddTransactionPagerAdapter
 
 class TransactionCategorySelectCategoryActivity : AppCompatBaseActivity(), IBaseView {
 

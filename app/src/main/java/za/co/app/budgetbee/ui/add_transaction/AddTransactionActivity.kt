@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.transaction
+package za.co.app.budgetbee.ui.add_transaction
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -14,10 +14,10 @@ import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.util.*
 import javax.inject.Inject
 
-class AddTransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
+class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View {
 
     @Inject
-    lateinit var presenter: ITransactionMvp.Presenter
+    lateinit var presenter: IAddTransactionMvp.Presenter
 
     companion object {
         const val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
