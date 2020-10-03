@@ -13,4 +13,8 @@
     <dimen name="image_medium">32dp</dimen>
     <dimen name="year_switcher_height">32dp</dimen>
     <dimen name="month_item_width">56dp</dimen>
+    <dimen name="transaction_text_margin">32dp</dimen>
+    <dimen name="transaction_text_width">96dp</dimen>
+    <dimen name="gutterSpaceDouble">32</dimen>
+    <dimen name="menu_icon_size">32dp</dimen>
 </resources>
