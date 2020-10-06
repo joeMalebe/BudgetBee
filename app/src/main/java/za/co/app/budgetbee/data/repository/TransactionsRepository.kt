@@ -109,4 +109,10 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
                     .contains(transaction.transactionCategoryId)
         }
     }
+
+    fun deleteTransaction(transaction: Transaction): Completable {
+        return budgetBeeDoa.deleteTransaction(
+                TransactionDataModel(transaction.transactionDate, transaction.transactionDescription,
+                        transaction.transactionAmount, transaction.transactionCategoryId, transaction.transactionCategoryName))
+    }
 }

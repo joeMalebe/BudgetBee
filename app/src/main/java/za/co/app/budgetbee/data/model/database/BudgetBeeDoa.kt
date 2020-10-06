@@ -35,6 +35,9 @@ interface BudgetBeeDoa {
     @Delete
     fun deleteTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
+    @Delete
+    fun deleteTransaction(transaction: TransactionDataModel): Completable
+
     @Update
     fun updateTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 }
