@@ -35,8 +35,8 @@ interface BudgetBeeDoa {
     @Delete
     fun deleteTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
-    @Delete
-    fun deleteTransaction(transaction: TransactionDataModel): Completable
+    @Query("DELETE FROM TransactionDataModel WHERE TransactionDataModel.transactionId = :transactionId")
+    fun deleteTransaction(transactionId: Int): Completable
 
     @Update
     fun updateTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable

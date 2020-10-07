@@ -51,8 +51,8 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         }
     }
 
-    override fun getTransactionsByDateRange(startAndEndDate: Pair<Long, Long>): Observable<ArrayList<Transaction>> {
-        return budgetBeeDoa.getTransactionsByDate(startAndEndDate.first, startAndEndDate.second).map { modelIst ->
+    override fun getTransactionsByDateRange(dateRange: Pair<Long, Long>): Observable<ArrayList<Transaction>> {
+        return budgetBeeDoa.getTransactionsByDate(dateRange.first, dateRange.second).map { modelIst ->
             mapModelToTransactions(modelIst)
         }
     }
@@ -62,6 +62,7 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         modelIst.forEach { model ->
             transactionsList.add(
                     Transaction(
+                            model.transactionId,
                             model.transactionDate,
                             model.transactionDescription,
                             model.transactionAmount,
@@ -110,9 +111,7 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         }
     }
 
-    fun deleteTransaction(transaction: Transaction): Completable {
-        return budgetBeeDoa.deleteTransaction(
-                TransactionDataModel(transaction.transactionDate, transaction.transactionDescription,
-                        transaction.transactionAmount, transaction.transactionCategoryId, transaction.transactionCategoryName))
+    override fun deleteTransaction(transaction: Transaction): Completable {
+        return budgetBeeDoa.deleteTransaction(transaction.transactionId)
     }
 }
