@@ -3,6 +3,7 @@ package za.co.app.budgetbee.ui.transaction
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageView
 import kotlinx.android.synthetic.main.activity_transaction.*
@@ -13,15 +14,21 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.util.*
+import javax.inject.Inject
 
 class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
+    val TAG = TransactionActivity::class.simpleName
 
     private lateinit var deleteButton: AppCompatImageView
     private lateinit var editButton: Button
     private lateinit var backButton: AppCompatImageView
     private lateinit var transaction: Transaction
+
+    @Inject
+    private lateinit var presenter: ITransactionMvp.Presenter
 
     companion object {
         private val EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
@@ -36,16 +43,35 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
+        presenter.attachView(this)
         transaction = intent.getParcelableExtra(EXTRA_TRANSACTION)
         backButton = back_button
         backButton.setOnClickListener { onBackPressed() }
         editButton = edit_button
         deleteButton = delete_button
+
     }
 
     override fun onResume() {
         super.onResume()
         displayScreen()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+    }
+
+    override fun navigateToLanding(transactionDate: Long) {
+        startActivity(LandingActivity.getStartIntent(this, transactionDate))
+    }
+
+    override fun showLoading() {
+        Log.d(TAG, "showLoading")
+    }
+
+    override fun dismissLoading() {
+        Log.d(TAG, "dismissLoading")
     }
 
     override fun displayScreen() {
@@ -57,5 +83,6 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = transaction.transactionDate
         date_text.text = calendar.getDateStringByFormat("dd MMMM yyyy")
+        deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
     }
 }
