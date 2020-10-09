@@ -3,22 +3,30 @@ package za.co.app.budgetbee.data.model.domain
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Transaction(
-    val transactionDate: Long,
-    val transactionDescription: String,
-    val transactionAmount: Double,
-    val transactionCategoryId: Int,
-    val transactionCategoryName: String
+data class Transaction(val transactionId: Int = 0,
+                       val transactionDate: Long,
+                       val transactionDescription: String,
+                       val transactionAmount: Double,
+                       val transactionCategoryId: Int,
+                       val transactionCategoryName: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readString(),
-        parcel.readDouble(),
-        parcel.readInt(),
-        parcel.readString()
+            parcel.readInt(),
+            parcel.readLong(),
+            parcel.readString(),
+            parcel.readDouble(),
+            parcel.readInt(),
+            parcel.readString()
     )
 
+    constructor(transactionDate: Long,
+                transactionDescription: String,
+                transactionAmount: Double,
+                transactionCategoryId: Int,
+                transactionCategoryName: String) : this(0, transactionDate, transactionDescription, transactionAmount, transactionCategoryId, transactionCategoryName)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(transactionId)
         parcel.writeLong(transactionDate)
         parcel.writeString(transactionDescription)
         parcel.writeDouble(transactionAmount)

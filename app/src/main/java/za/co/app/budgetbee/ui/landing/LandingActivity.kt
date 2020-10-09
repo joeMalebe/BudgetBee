@@ -20,7 +20,6 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.ui.landing.ILandingMvp.View
 import za.co.app.budgetbee.ui.transaction.TransactionActivity
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
@@ -31,7 +30,7 @@ import java.text.DecimalFormat
 import java.util.*
 import javax.inject.Inject
 
-class LandingActivity : AppCompatBaseActivity(), View {
+class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
