@@ -21,7 +21,7 @@ class AddTransactionPresenter(val transactionsRepository: IDatabaseRepository) :
             transactionCategoryId: Int
     ) {
         transactionsRepository.insertTransaction(
-                Transaction(0,
+                Transaction(
                         transactionDate,
                         transactionDescription,
                         transactionAmount,

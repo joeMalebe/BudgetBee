@@ -19,6 +19,12 @@ data class Transaction(val transactionId: Int = 0,
             parcel.readString()
     )
 
+    constructor(transactionDate: Long,
+                transactionDescription: String,
+                transactionAmount: Double,
+                transactionCategoryId: Int,
+                transactionCategoryName: String) : this(0, transactionDate, transactionDescription, transactionAmount, transactionCategoryId, transactionCategoryName)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(transactionId)
         parcel.writeLong(transactionDate)
