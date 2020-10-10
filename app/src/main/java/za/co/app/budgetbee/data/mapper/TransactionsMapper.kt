@@ -18,7 +18,7 @@ class TransactionsMapper {
             return transactionsList
         }
 
-        private fun mapModelToTransaction(model: TransactionDataModel): Transaction {
+        fun mapModelToTransaction(model: TransactionDataModel): Transaction {
             return Transaction(
                     model.transactionId,
                     model.transactionDate,
@@ -29,7 +29,7 @@ class TransactionsMapper {
             )
         }
 
-        private fun mapModelToTransaction(transaction: Transaction): TransactionDataModel {
+        fun mapTransactionToModel(transaction: Transaction): TransactionDataModel {
             return TransactionDataModel(
                     transaction.transactionDate,
                     transaction.transactionDescription,
@@ -39,18 +39,22 @@ class TransactionsMapper {
             )
         }
 
-        fun mapModelToTransactionCategory(modelList: List<TransactionCategoryDataModel>): ArrayList<TransactionCategory> {
+        fun mapModelListToTransactionCategoryList(modelList: List<TransactionCategoryDataModel>): ArrayList<TransactionCategory> {
             val transactionCategoryList = arrayListOf<TransactionCategory>()
             modelList.forEach { model ->
                 transactionCategoryList.add(
-                        TransactionCategory(
-                                model.transactionCategoryId,
-                                model.transactionCategoryName,
-                                model.transactionCategoryType
-                        )
+                        mapModelToTransactionCategory(model)
                 )
             }
             return transactionCategoryList
+        }
+
+        private fun mapModelToTransactionCategory(model: TransactionCategoryDataModel): TransactionCategory {
+            return TransactionCategory(
+                    model.transactionCategoryId,
+                    model.transactionCategoryName,
+                    model.transactionCategoryType
+            )
         }
     }
 }
