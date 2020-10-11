@@ -10,33 +10,35 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gutterSpace"
         android:focusable="false"
         android:hint="@string/date">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_date"
-            android:inputType="date"
-            android:focusable="false"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="date" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gutterSpace"
         android:hint="@string/amount">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_amount"
             android:layout_width="match_parent"
-            android:inputType="numberDecimal"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gutterSpace"
         android:hint="@string/description">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -46,8 +48,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_add_transaction"
+        android:id="@+id/button_edit_transaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gutterSpace"
         android:text="@string/save" />
 </LinearLayout>
