@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_budget_bee_logo_round"
         android:supportsRtl="true"
         android:theme="@style/BudgetBeeMainTheme">
+        <activity android:name=".ui.edit_transaction.EditTransactionActivity"/>
         <activity android:name=".ui.transaction.TransactionActivity" />
         <activity android:name=".ui.add_transaction.AddTransactionActivity" />
         <activity
@@ -25,7 +26,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
