@@ -77,12 +77,19 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     override fun displayScreen() {
         screen_title.text = getString(R.string.transaction)
         category_name_text.text = transaction.transactionCategoryName
-        category_type_text.text = if (transaction.transactionCategoryId == TransactionCategoryType.INCOME.value) "Income" else "Expense"
+        category_type_text.text = getCategoryTypeString()
         amount_text.text = transaction.transactionAmount.toString()
         description_text.text = transaction.transactionDescription
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = transaction.transactionDate
         date_text.text = calendar.getDateStringByFormat("dd MMMM yyyy")
         deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
+    }
+
+    private fun getCategoryTypeString(): CharSequence {
+        return if (transaction.transactionCategoryType == TransactionCategoryType.INCOME.value)
+            this.getString(R.string.income_heading)
+        else
+            this.getString(R.string.expense)
     }
 }
