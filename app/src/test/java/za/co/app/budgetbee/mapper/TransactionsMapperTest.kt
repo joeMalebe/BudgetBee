@@ -10,23 +10,25 @@ class TransactionsMapperTest {
 
     @Test
     fun mapTransactionToModelTest() {
-        val transaction = Transaction(123, "test", 12.2, 3, "Salary")
+        val transaction = Transaction(123, "test", 12.2, 3, "Salary", 1)
         val model = TransactionsMapper.mapTransactionToModel(transaction)
-        assertEquals(12.2, model.transactionAmount,0.4)
+        assertEquals(12.2, model.transactionAmount, 0.4)
         assertEquals(3, model.transactionCategoryId)
         assertEquals(123, model.transactionDate)
         assertEquals("test", model.transactionDescription)
         assertEquals("Salary", model.transactionCategoryName)
+        assertEquals(1, model.transactionCategoryType)
     }
 
     @Test
     fun mapModelToTransactionTest() {
-        val dataModel = TransactionDataModel(123, "test", 12.2, 3, "Salary")
+        val dataModel = TransactionDataModel(123, "test", 12.2, 3, "Salary", 2)
         val transaction = TransactionsMapper.mapModelToTransaction(dataModel)
-        assertEquals(12.2, transaction.transactionAmount,0.4)
+        assertEquals(12.2, transaction.transactionAmount, 0.4)
         assertEquals(3, transaction.transactionCategoryId)
         assertEquals(123, transaction.transactionDate)
         assertEquals("test", transaction.transactionDescription)
         assertEquals("Salary", transaction.transactionCategoryName)
+        assertEquals(2, transaction.transactionCategoryType)
     }
 }

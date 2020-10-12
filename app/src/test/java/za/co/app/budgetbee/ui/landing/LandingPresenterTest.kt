@@ -27,35 +27,40 @@ class LandingPresenterTest {
                 "This is a test 1",
                 100.5,
                 TransactionCategoryType.INCOME.value,
-                "Salary"
+                "Salary",
+                TransactionCategoryType.INCOME.value
         )
         val transaction5 = Transaction(
                 date,
                 "This is a test 5",
                 50.5,
                 TransactionCategoryType.EXPENSE.value,
-                "Gift"
+                "Gift",
+                TransactionCategoryType.EXPENSE.value
         )
         val transaction2 = Transaction(
                 date,
                 "This is a test 2",
                 100.5,
                 TransactionCategoryType.INCOME.value,
-                "Invest"
+                "Invest",
+                TransactionCategoryType.INCOME.value
         )
         val transaction3 = Transaction(
                 date,
                 "This is a test 3",
                 100.5,
                 TransactionCategoryType.INCOME.value,
-                "Olx sale"
+                "Olx sale",
+                TransactionCategoryType.INCOME.value
         )
         val transaction4 = Transaction(
                 date,
                 "This is a test 4",
                 50.0,
                 TransactionCategoryType.EXPENSE.value,
-                "Uber driver"
+                "Uber driver",
+                TransactionCategoryType.EXPENSE.value
         )
 
         return arrayListOf(transaction1, transaction2, transaction3, transaction4, transaction5)
