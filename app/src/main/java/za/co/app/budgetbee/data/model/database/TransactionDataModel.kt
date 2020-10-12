@@ -20,7 +20,8 @@ data class TransactionDataModel(
     val transactionDescription: String,
     val transactionAmount: Double,
     val transactionCategoryId: Int,
-    val transactionCategoryName: String
+    val transactionCategoryName: String,
+    val transactionCategoryType: Int
 ) {
     @PrimaryKey(autoGenerate = true)
     var transactionId: Int = 0

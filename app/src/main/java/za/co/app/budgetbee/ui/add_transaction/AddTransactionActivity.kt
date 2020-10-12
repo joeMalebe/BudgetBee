@@ -55,11 +55,15 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         return if (!input_description.text.toString().isEmpty()) {
             input_description.text.toString()
         } else {
-            when (transactionCategoryType) {
-                TransactionCategoryType.INCOME.value -> "Income"
-                TransactionCategoryType.EXPENSE.value -> "Expense"
-                else -> "Other"
-            }
+            getTransactionCategoryType(transactionCategoryType)
+        }
+    }
+
+    private fun getTransactionCategoryType(transactionCategoryType: Int): String {
+        return when (transactionCategoryType) {
+            TransactionCategoryType.INCOME.value -> "Income"
+            TransactionCategoryType.EXPENSE.value -> "Expense"
+            else -> "Other"
         }
     }
 
@@ -82,11 +86,12 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         val amount = inputAmount.text.toString().toDouble()
 
         presenter.submitTransaction(
-            date,
-            description,
-            amount,
-            transactionCategory.transactionCategoryName,
-            transactionCategory.transactionCategoryId
+                date,
+                description,
+                amount,
+                transactionCategory.transactionCategoryName,
+                transactionCategory.transactionCategoryId,
+                transactionCategory.transactionCategoryType
         )
     }
 

@@ -3,12 +3,15 @@ package za.co.app.budgetbee.data.model.domain
 import android.os.Parcel
 import android.os.Parcelable
 
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Transaction(val transactionId: Int = 0,
                        val transactionDate: Long,
                        val transactionDescription: String,
                        val transactionAmount: Double,
                        val transactionCategoryId: Int,
-                       val transactionCategoryName: String
+                       val transactionCategoryName: String,
+                       val transactionCategoryType: Int
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
@@ -16,14 +19,17 @@ data class Transaction(val transactionId: Int = 0,
             parcel.readString(),
             parcel.readDouble(),
             parcel.readInt(),
-            parcel.readString()
+            parcel.readString(),
+            parcel.readInt()
     )
 
     constructor(transactionDate: Long,
                 transactionDescription: String,
                 transactionAmount: Double,
                 transactionCategoryId: Int,
-                transactionCategoryName: String) : this(0, transactionDate, transactionDescription, transactionAmount, transactionCategoryId, transactionCategoryName)
+                transactionCategoryName: String,
+                transactionCategoryType: Int
+    ) : this(0, transactionDate, transactionDescription, transactionAmount, transactionCategoryId, transactionCategoryName, transactionCategoryType)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(transactionId)
@@ -32,6 +38,7 @@ data class Transaction(val transactionId: Int = 0,
         parcel.writeDouble(transactionAmount)
         parcel.writeInt(transactionCategoryId)
         parcel.writeString(transactionCategoryName)
+        parcel.writeInt(transactionCategoryType)
     }
 
     override fun describeContents(): Int {

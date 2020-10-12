@@ -25,7 +25,8 @@ class TransactionsMapper {
                     model.transactionDescription,
                     model.transactionAmount,
                     model.transactionCategoryId,
-                    model.transactionCategoryName
+                    model.transactionCategoryName,
+                    model.transactionCategoryType
             )
         }
 
@@ -35,7 +36,8 @@ class TransactionsMapper {
                     transaction.transactionDescription,
                     transaction.transactionAmount,
                     transaction.transactionCategoryId,
-                    transaction.transactionCategoryName
+                    transaction.transactionCategoryName,
+                    transaction.transactionCategoryType
             )
         }
 

@@ -67,7 +67,8 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
                         transaction.transactionDescription,
                         transaction.transactionAmount,
                         transaction.transactionCategoryId,
-                        transaction.transactionCategoryName
+                        transaction.transactionCategoryName,
+                        transaction.transactionCategoryType
                 )
         )
     }

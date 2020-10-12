@@ -13,11 +13,12 @@ interface IAddTransactionMvp {
 
     interface Presenter : IBasePresenter {
         fun submitTransaction(
-            transactionDate: Long,
-            transactionDescription: String,
-            transactionAmount: Double,
-            transactionCategoryName: String,
-            transactionCategoryId: Int
+                transactionDate: Long,
+                transactionDescription: String,
+                transactionAmount: Double,
+                transactionCategoryName: String,
+                transactionCategoryId: Int,
+                transactionCategoryType: Int
         )
     }
 }
