@@ -14,6 +14,7 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.util.*
@@ -84,6 +85,7 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
         calendar.timeInMillis = transaction.transactionDate
         date_text.text = calendar.getDateStringByFormat("dd MMMM yyyy")
         deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
+        editButton.setOnClickListener { startActivity(EditTransactionActivity.getStartIntent(this, transaction)) }
     }
 
     private fun getCategoryTypeString(): CharSequence {
