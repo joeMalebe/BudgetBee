@@ -1,6 +1,5 @@
 package za.co.app.budgetbee.ui.add_transaction
 
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +12,7 @@ import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
+import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
 import java.util.*
 import javax.inject.Inject
 
@@ -67,19 +67,6 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         }
     }
 
-    private fun setupDateDialogue(calendar: Calendar) {
-        val year = calendar.get(Calendar.YEAR)
-        val monthOfYear = calendar.get(Calendar.MONTH)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        DatePickerDialog(
-            this,
-            ({ view, selectedYear, selectedMonth, selectedDay ->
-                calendar.set(selectedYear, selectedMonth, selectedDay)
-                input_date.setText(calendar.getDateStringByFormat())
-            }), year, monthOfYear, dayOfMonth
-        ).show()
-    }
-
     override fun addTransaction(calendar: Calendar, transactionCategory: TransactionCategory) {
         val date = calendar.timeInMillis
         val description = getTransactionDescription(transactionCategory.transactionCategoryType)
@@ -117,7 +104,7 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         val calendar = Calendar.getInstance()
         inputDate.setText(calendar.getDateStringByFormat())
         inputDate.setOnClickListener {
-            setupDateDialogue(calendar)
+            calendar.showDatePickerDialogAndDisplaySelectedDateTextToView(this, inputDate)
         }
 
         button_add_transaction.setOnClickListener {
