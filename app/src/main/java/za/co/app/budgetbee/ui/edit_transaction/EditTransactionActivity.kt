@@ -11,6 +11,9 @@ import kotlinx.android.synthetic.main.activity_edit_transaction.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
+import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
+import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
 import java.util.*
@@ -56,7 +59,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         inputAmount.setText(transaction.transactionAmount.toString())
         inputDescription.setText(transaction.transactionDescription)
         inputTransactionCategory.setOnClickListener {
-
+            startActivityForResult(SelectTransactionCategoryActivity.getStartIntent(it.context),2)
         }
         inputTransactionCategory.setText(transaction.transactionCategoryName)
 
@@ -81,5 +84,13 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
                     input_date.setText(calendar.getDateStringByFormat())
                 }), year, monthOfYear, dayOfMonth
         ).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null) {
+            val transactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
+            inputTransactionCategory.setText(transactionCategory.transactionCategoryName)
+        }
     }
 }

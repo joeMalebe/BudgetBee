@@ -65,7 +65,7 @@ class AddTransactionCategoryActivity : AppCompatBaseActivity(),
 
     override fun navigateToTransactionCategorySelectScreen() {
         dismissLoading()
-        SelectTransactionCategoryActivity.getStartIntent(this)
+        setResult(2)
         finish()
     }
 
