@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.transactions_category
+package za.co.app.budgetbee.ui.add_transaction.select_transaction_category
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,7 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionPagerAdapter
+import za.co.app.budgetbee.ui.transactions_category.AddTransactionCategoryActivity
 
 class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
 
