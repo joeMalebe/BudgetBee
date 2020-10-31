@@ -1,6 +1,7 @@
 package za.co.app.budgetbee.ui.add_transaction.select_transaction_category
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,7 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseFragment
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
-import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
+import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity.Companion.EXTRA_TRANSACTION_CATEGORY
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryListAdapter
 import java.util.*
 import javax.inject.Inject
@@ -65,8 +66,13 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
                 TransactionCategoryListAdapter(transactionCategoryList)
 
         transactionCategoryListAdapter.getClickTransactionCategory()
+
                 .subscribe { transactionCategory ->
-                    startActivity(AddTransactionActivity.getStartIntent(this.activity?.applicationContext, transactionCategory))
+                    val intent = Intent()
+                    intent.putExtra(EXTRA_TRANSACTION_CATEGORY,transactionCategory)
+                    val TRANSACTION_CATEGORY = 2
+                    activity?.setResult(TRANSACTION_CATEGORY, intent)
+                    activity?.finish()
                 }.let { compositeDisposable.add(it) }
         incomeRecyclerView.adapter = transactionCategoryListAdapter
     }
