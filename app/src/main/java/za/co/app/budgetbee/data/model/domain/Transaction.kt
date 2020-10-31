@@ -8,9 +8,9 @@ data class Transaction(val transactionId: Int = 0,
                        val transactionDate: Long,
                        val transactionDescription: String,
                        val transactionAmount: Double,
-                       val transactionCategoryId: Int,
-                       val transactionCategoryName: String,
-                       val transactionCategoryType: Int
+                       var transactionCategoryId: Int,
+                       var transactionCategoryName: String,
+                       var transactionCategoryType: Int
 
 ) : Parcelable {
     constructor(parcel: Parcel) : this(

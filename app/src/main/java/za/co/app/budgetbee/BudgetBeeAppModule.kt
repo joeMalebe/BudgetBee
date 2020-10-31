@@ -46,7 +46,7 @@ class BudgetBeeAppModule(val application: BudgetBeeApplication) {
     @Provides
     @Singleton
     fun transactionCategoryAddCategoryActivityPresenter(transactionsRepository: IDatabaseRepository): ITransactionCategoryMvp.Presenter {
-        return za.co.app.budgetbee.ui.transactions_category.TransactionCategoryAddCategoryPresenter(
+        return za.co.app.budgetbee.ui.transactions_category.AddTransactionCategoryPresenter(
             transactionsRepository
         )
     }

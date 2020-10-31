@@ -21,7 +21,7 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.transaction.TransactionActivity
-import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
+import za.co.app.budgetbee.ui.transactions_category.SelectTransactionCategoryActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.views.MonthSwitcher
 import za.co.app.budgetbee.ui.views.YearSwitcherDialog
@@ -103,7 +103,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     }
 
     override fun openTransactionCategoryActivity() {
-        startActivity(TransactionCategorySelectCategoryActivity.getStartIntent(this))
+        startActivity(SelectTransactionCategoryActivity.getStartIntent(this))
     }
 
     override fun displayTotalIncome(income: Double) {

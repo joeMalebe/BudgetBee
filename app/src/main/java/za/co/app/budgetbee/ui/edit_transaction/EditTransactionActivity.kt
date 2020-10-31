@@ -27,7 +27,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
     lateinit var presenter: IEditTransactionMvp.Presenter
 
     companion object {
-        private val EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
+        const val EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
 
         fun getStartIntent(context: Context, transaction: Transaction): Intent {
             val intent = Intent(context, EditTransactionActivity::class.java)
@@ -55,6 +55,9 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         inputDate.setText(calendar.getDateStringByFormat("dd MMMM yyyy"))
         inputAmount.setText(transaction.transactionAmount.toString())
         inputDescription.setText(transaction.transactionDescription)
+        inputTransactionCategory.setOnClickListener {
+
+        }
         inputTransactionCategory.setText(transaction.transactionCategoryName)
 
         inputDate.setText(calendar.getDateStringByFormat())

@@ -11,13 +11,13 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionPagerAdapter
 
-class TransactionCategorySelectCategoryActivity : AppCompatBaseActivity(), IBaseView {
+class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
 
     lateinit var addIncomeButton: FloatingActionButton
 
     companion object {
         fun getStartIntent(context: Context): Intent {
-            return Intent(context, TransactionCategorySelectCategoryActivity::class.java)
+            return Intent(context, SelectTransactionCategoryActivity::class.java)
         }
     }
 
@@ -44,11 +44,6 @@ class TransactionCategorySelectCategoryActivity : AppCompatBaseActivity(), IBase
     }
 
     fun navigateToAddTransactionCategory() {
-        startActivity(
-            TransactionCategoryAddCategoryActivity.getStartIntent(
-                this
-            )
-        )
+        startActivity(AddTransactionCategoryActivity.getStartIntent(this))
     }
 }
-
