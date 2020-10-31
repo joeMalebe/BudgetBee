@@ -45,6 +45,11 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
     }
 
     fun navigateToAddTransactionCategory() {
-        startActivity(AddTransactionCategoryActivity.getStartIntent(this))
+        startActivityForResult(AddTransactionCategoryActivity.getStartIntent(this), 2)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        displayScreen()
     }
 }
