@@ -5,9 +5,9 @@ import android.os.Parcelable
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 data class Transaction(val transactionId: Int = 0,
-                       val transactionDate: Long,
-                       val transactionDescription: String,
-                       val transactionAmount: Double,
+                       var transactionDate: Long,
+                       var transactionDescription: String,
+                       var transactionAmount: Double,
                        var transactionCategoryId: Int,
                        var transactionCategoryName: String,
                        var transactionCategoryType: Int
