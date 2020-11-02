@@ -41,6 +41,6 @@ interface BudgetBeeDoa {
     @Update
     fun updateTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
-    @Update
-    fun updateTransaction(TransactionDataModel: TransactionDataModel): Completable
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateTransaction(transactionDataModel: TransactionDataModel): Completable
 }
