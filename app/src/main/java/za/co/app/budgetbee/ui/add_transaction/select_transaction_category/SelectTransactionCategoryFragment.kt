@@ -84,7 +84,6 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
     override fun showError() {
         Log.d(TAG, "showError() called")
     }
-
     override fun showLoading() {
         Log.d(TAG, "showLoading() called")
     }

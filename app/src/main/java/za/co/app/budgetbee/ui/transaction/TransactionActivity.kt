@@ -85,7 +85,7 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
         calendar.timeInMillis = transaction.transactionDate
         date_text.text = calendar.getDateStringByFormat("dd MMMM yyyy")
         deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
-        editButton.setOnClickListener { startActivity(EditTransactionActivity.getStartIntent(this, transaction)) }
+        editButton.setOnClickListener { startActivityForResult(EditTransactionActivity.getStartIntent(this, transaction), 2) }
     }
 
     private fun getCategoryTypeString(): CharSequence {
@@ -93,5 +93,20 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
             this.getString(R.string.income_heading)
         else
             this.getString(R.string.expense)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val SUCCESS = 200
+        if (resultCode == SUCCESS && data != null) {
+            transaction = data.getParcelableExtra(EXTRA_TRANSACTION)
+            displayScreen()
+        } else {
+            showError()
+        }
+    }
+
+    private fun showError() {
+        Log.e(TAG, "showError: ")
     }
 }
