@@ -31,7 +31,7 @@ class TransactionsMapper {
         }
 
         fun mapTransactionToModel(transaction: Transaction): TransactionDataModel {
-            return TransactionDataModel(
+            val transactionDataModel = TransactionDataModel(
                     transaction.transactionDate,
                     transaction.transactionDescription,
                     transaction.transactionAmount,
@@ -39,6 +39,8 @@ class TransactionsMapper {
                     transaction.transactionCategoryName,
                     transaction.transactionCategoryType
             )
+            transactionDataModel.transactionId = transaction.transactionId
+            return transactionDataModel
         }
 
         fun mapModelListToTransactionCategoryList(modelList: List<TransactionCategoryDataModel>): ArrayList<TransactionCategory> {
