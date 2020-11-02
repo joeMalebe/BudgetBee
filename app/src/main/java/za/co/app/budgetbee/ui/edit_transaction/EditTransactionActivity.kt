@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_transaction.input_amount
 import kotlinx.android.synthetic.main.activity_add_transaction.input_date
@@ -21,6 +22,8 @@ import javax.inject.Inject
 
 class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.View {
 
+    private lateinit var transaction: Transaction
+    private lateinit var transactionCategory: TransactionCategory
     private lateinit var inputDate: TextInputEditText
     private lateinit var inputAmount: TextInputEditText
     private lateinit var inputDescription: TextInputEditText
@@ -28,6 +31,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
 
     @Inject
     lateinit var presenter: IEditTransactionMvp.Presenter
+    val TAG = this.javaClass.canonicalName
 
     companion object {
         const val EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
@@ -47,11 +51,35 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         inputDate = input_date
         inputDescription = input_description
         inputTransactionCategory = input_transaction_category
+        transaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
+        transactionCategory = TransactionCategory(transaction.transactionCategoryId, transaction.transactionCategoryName, transaction.transactionCategoryType)
+
         displayScreen()
     }
 
+    override fun updateSuccessful() {
+        val SUCCESS = 200
+        val data = Intent()
+        data.putExtra(EXTRA_TRANSACTION, transaction)
+        setResult(SUCCESS, data)
+        finish()
+    }
+
+    override fun updateError(error: Throwable?) {
+        val ERROR = 500
+        setResult(ERROR)
+        finish()
+    }
+
+    override fun showLoading() {
+        Log.i(TAG, "showLoading: ")
+    }
+
+    override fun dismissLoading() {
+        Log.i(TAG, "dismissLoading: ")
+    }
+
     override fun displayScreen() {
-        val transaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
         inputAmount.setText(transaction.transactionAmount.toString())
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = transaction.transactionDate
@@ -69,8 +97,19 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         }
 
         button_edit_transaction.setOnClickListener {
-            //editTransaction(calendar, transactionCategory)
+            bindTransactionValues(transaction, calendar)
+            presenter.updateTransaction(transaction)
+
         }
+    }
+
+    private fun bindTransactionValues(transaction: Transaction, calendar: Calendar) {
+        transaction.transactionDescription = inputDescription.text.toString()
+        transaction.transactionDate = calendar.timeInMillis
+        transaction.transactionAmount = inputAmount.text.toString().toDouble()
+        transaction.transactionCategoryType = transactionCategory.transactionCategoryType
+        transaction.transactionCategoryId = transactionCategory.transactionCategoryId
+        transaction.transactionCategoryName = transactionCategory.transactionCategoryName
     }
 
     private fun setupDateDialogue(calendar: Calendar) {
@@ -89,7 +128,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
-            val transactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
+            transactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
             inputTransactionCategory.setText(transactionCategory.transactionCategoryName)
         }
     }

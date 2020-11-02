@@ -1,15 +1,18 @@
 package za.co.app.budgetbee.ui.edit_transaction
 
 import za.co.app.budgetbee.base.IBasePresenter
-import za.co.app.budgetbee.base.IBaseView
+import za.co.app.budgetbee.base.ILoadableView
+import za.co.app.budgetbee.data.model.domain.Transaction
 
 interface IEditTransactionMvp {
 
-    interface View : IBaseView {
+    interface View : ILoadableView {
+        fun updateSuccessful()
+        fun updateError(error: Throwable?)
 
     }
 
     interface Presenter : IBasePresenter {
-
+        fun updateTransaction(transaction: Transaction)
     }
 }
