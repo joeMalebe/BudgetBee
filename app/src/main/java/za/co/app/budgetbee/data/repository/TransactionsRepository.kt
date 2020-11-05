@@ -4,6 +4,9 @@ import android.util.Log
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import za.co.app.budgetbee.data.mapper.TransactionsMapper.Companion.mapModelListToTransactionCategoryList
+import za.co.app.budgetbee.data.mapper.TransactionsMapper.Companion.mapModelListToTransactionsList
+import za.co.app.budgetbee.data.mapper.TransactionsMapper.Companion.mapTransactionToModel
 import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
 import za.co.app.budgetbee.data.model.database.TransactionCategoryDataModel
 import za.co.app.budgetbee.data.model.database.TransactionDataModel
@@ -19,7 +22,7 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         return this.budgetBeeDoa
                 .getAllTransactionCategories().map { modelList ->
                     Log.d(TAG, "mapping Model To TransactionCategory")
-                    mapModelToTransactionCategory(modelList)
+                    mapModelListToTransactionCategoryList(modelList)
                 }
     }
 
@@ -27,51 +30,20 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
         return this.budgetBeeDoa
                 .getAllTransactionCategoriesByType(transactionCategoryType).map { modelList ->
                     Log.d(TAG, "mapping Model To TransactionCategory")
-                    mapModelToTransactionCategory(modelList)
+                    mapModelListToTransactionCategoryList(modelList)
                 }
-    }
-
-    private fun mapModelToTransactionCategory(modelList: List<TransactionCategoryDataModel>): ArrayList<TransactionCategory> {
-        val transactionCategoryList = arrayListOf<TransactionCategory>()
-        modelList.forEach { model ->
-            transactionCategoryList.add(
-                    TransactionCategory(
-                            model.transactionCategoryId,
-                            model.transactionCategoryName,
-                            model.transactionCategoryType
-                    )
-            )
-        }
-        return transactionCategoryList
     }
 
     override fun getTransactions(): Observable<ArrayList<Transaction>> {
         return budgetBeeDoa.getTransactions().map { modelIst ->
-            mapModelToTransactions(modelIst)
+            mapModelListToTransactionsList(modelIst)
         }
     }
 
     override fun getTransactionsByDateRange(dateRange: Pair<Long, Long>): Observable<ArrayList<Transaction>> {
         return budgetBeeDoa.getTransactionsByDate(dateRange.first, dateRange.second).map { modelIst ->
-            mapModelToTransactions(modelIst)
+            mapModelListToTransactionsList(modelIst)
         }
-    }
-
-    private fun mapModelToTransactions(modelIst: List<TransactionDataModel>): ArrayList<Transaction> {
-        val transactionsList: ArrayList<Transaction> = arrayListOf()
-        modelIst.forEach { model ->
-            transactionsList.add(
-                    Transaction(
-                            model.transactionId,
-                            model.transactionDate,
-                            model.transactionDescription,
-                            model.transactionAmount,
-                            model.transactionCategoryId,
-                            model.transactionCategoryName
-                    )
-            )
-        }
-        return transactionsList
     }
 
     override fun getTransactionsCategoryByName(transactionCategoryName: String): Single<TransactionCategory> {
@@ -95,7 +67,8 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
                         transaction.transactionDescription,
                         transaction.transactionAmount,
                         transaction.transactionCategoryId,
-                        transaction.transactionCategoryName
+                        transaction.transactionCategoryName,
+                        transaction.transactionCategoryType
                 )
         )
     }
@@ -113,5 +86,9 @@ class TransactionsRepository(private val budgetBeeDoa: BudgetBeeDoa) : IDatabase
 
     override fun deleteTransaction(transaction: Transaction): Completable {
         return budgetBeeDoa.deleteTransaction(transaction.transactionId)
+    }
+
+    override fun updateTransaction(transaction: Transaction): Completable {
+        return budgetBeeDoa.updateTransaction(mapTransactionToModel(transaction))
     }
 }

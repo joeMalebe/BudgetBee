@@ -12,20 +12,20 @@
         android:roundIcon="@mipmap/ic_budget_bee_logo_round"
         android:supportsRtl="true"
         android:theme="@style/BudgetBeeMainTheme">
+        <activity android:name=".ui.edit_transaction.EditTransactionActivity"/>
         <activity android:name=".ui.transaction.TransactionActivity" />
         <activity android:name=".ui.add_transaction.AddTransactionActivity" />
         <activity
             android:label="@string/title_activity_add_transaction_category"
-            android:name=".ui.transactions_category.TransactionCategoryAddCategoryActivity"
+            android:name=".ui.transactions_category.AddTransactionCategoryActivity"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
-        <activity android:name=".ui.transactions_category.TransactionCategorySelectCategoryActivity" />
+        <activity android:name=".ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity" />
         <activity
             android:name=".ui.landing.LandingActivity"
             android:theme="@style/BudgetBeeMainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -3,9 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/gutterSpace"
     android:orientation="vertical"
-    tools:context=".ui.add_transaction.AddTransactionActivity">
+    tools:context=".ui.edit_transaction.EditTransactionActivity">
+
+    <include
+        layout="@layout/transactions_activity_toolbar"
+        android:id="@+id/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/gutterSpace"
+        android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -16,29 +25,29 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:inputType="date"
             android:focusable="false"
-            android:inputType="date" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/gutterSpace"
+        android:layout_height="wrap_content"
         android:hint="@string/amount">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_amount"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginBottom="@dimen/gutterSpace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/gutterSpace"
         android:hint="@string/description">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -47,10 +56,24 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/button_add_transaction"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginBottom="@dimen/gutterSpace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="@string/category">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_transaction_category"
+            android:focusable="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
         android:layout_marginTop="@dimen/gutterSpace"
+        android:id="@+id/button_edit_transaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/save" />
+</LinearLayout>
 </LinearLayout>

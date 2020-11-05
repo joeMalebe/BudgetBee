@@ -10,6 +10,7 @@ import io.reactivex.subjects.PublishSubject
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.ui.landing.TransactionsAdapter.TransactionsViewHolder
+import za.co.app.budgetbee.utils.displayLongDouble
 
 class TransactionsAdapter(private val transactions: ArrayList<Transaction>) :
     RecyclerView.Adapter<TransactionsViewHolder>() {
@@ -44,7 +45,7 @@ class TransactionsAdapter(private val transactions: ArrayList<Transaction>) :
         fun display(transaction: Transaction) {
             transactionCategoryTextView.text = transaction.transactionCategoryName
             transactionDescriptionTextView.text = transaction.transactionDescription
-            transactionAmountTextView.text = transaction.transactionAmount.toString()
+            transactionAmountTextView.text = transaction.transactionAmount.displayLongDouble()
             itemView.setOnClickListener {
                 publishTransaction.onNext(transaction)
             }

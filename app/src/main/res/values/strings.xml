@@ -18,6 +18,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="income_heading">Income</string>
     <string name="expenses_heading">Expenses</string>
+    <string name="expense">Expense</string>
     <string name="balance_heading">Balance</string>
 
     <!-- TODO: Remove or change this placeholder text -->

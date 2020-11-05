@@ -52,7 +52,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
 
     private fun setupAddNewClickEvent(addNewViewHolder: AddNewViewHolder) {
         addNewViewHolder.addNewLayout.setOnClickListener {
-            it.context.startActivity(TransactionCategoryAddCategoryActivity.getStartIntent(it.context))
+            it.context.startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
         }
     }
 

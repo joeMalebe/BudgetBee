@@ -22,4 +22,6 @@ interface IDatabaseRepository {
     fun insertTransaction(transaction: Transaction): Completable
 
     fun deleteTransaction(transaction: Transaction): Completable
+
+    fun updateTransaction(transaction: Transaction): Completable
 }

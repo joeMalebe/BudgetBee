@@ -13,21 +13,18 @@ import za.co.app.budgetbee.utils.SingletonHolder
 import java.lang.ref.WeakReference
 
 @Database(
-    entities = [TransactionCategoryDataModel::class, TransactionDataModel::class],
-    version = 1
+        entities = [TransactionCategoryDataModel::class, TransactionDataModel::class],
+        version = 1
 )
 abstract class BudgetBeeDatabase : RoomDatabase() {
     abstract fun getTransactionCategoryDao(): BudgetBeeDoa
 
     companion object : SingletonHolder<BudgetBeeDatabase, Context>({
-        val databaseName = "BudgetBeeDatabsae.db"
-        Room.databaseBuilder(
-            it.applicationContext,
-            BudgetBeeDatabase::class.java, databaseName
-        ).addCallback(
-            InitialiseDatabase(it.applicationContext)
-        )
-            .build()
+        val databaseName = "BudgetBeeDatabase.db"
+        Room.databaseBuilder(it.applicationContext, BudgetBeeDatabase::class.java, databaseName)
+                .addCallback(InitialiseDatabase(it.applicationContext))
+                .fallbackToDestructiveMigration()// TODO: 10/12/2020 AD Remove this when going live https://stackoverflow.com/questions/44197309/room-cannot-verify-the-data-integrity
+                .build()
     })
 }
 
@@ -35,27 +32,21 @@ class InitialiseDatabase(val context: Context) : RoomDatabase.Callback() {
     override fun onCreate(db: SupportSQLiteDatabase) {
 
         BudgetBeeDatabase.getInstance(context).getTransactionCategoryDao()
-            .insertAllTransactionCategory(
-                arrayOf(
-                    TransactionCategoryDataModel(
-                        "Salary",
-                        TransactionCategoryType.INCOME.value
-                    ),
-                    TransactionCategoryDataModel(
-                        "Loan",
-                        TransactionCategoryType.EXPENSE.value
-                    )
-                )
-            ).subscribeOn(Schedulers.io()).subscribe(
-                TransactionCategoryObserver(
-                    context
-                )
-            )
+                .insertAllTransactionCategory(
+                        arrayOf(
+                                TransactionCategoryDataModel(
+                                        "Salary",
+                                        TransactionCategoryType.INCOME.value),
+                                TransactionCategoryDataModel(
+                                        "Loan",
+                                        TransactionCategoryType.EXPENSE.value)))
+                .subscribeOn(Schedulers.io())
+                .subscribe(TransactionCategoryObserver(context))
     }
 }
 
 class TransactionCategoryObserver(context: Context) :
-    BaseCompletableObserver() {
+        BaseCompletableObserver() {
     val activity = WeakReference(context).get()
     override fun onComplete() {
         if (activity != null) {

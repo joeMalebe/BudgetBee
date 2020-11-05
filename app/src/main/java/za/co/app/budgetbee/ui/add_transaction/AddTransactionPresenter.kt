@@ -18,7 +18,8 @@ class AddTransactionPresenter(val transactionsRepository: IDatabaseRepository) :
             transactionDescription: String,
             transactionAmount: Double,
             transactionCategoryName: String,
-            transactionCategoryId: Int
+            transactionCategoryId: Int,
+            transactionCategoryType: Int
     ) {
         transactionsRepository.insertTransaction(
                 Transaction(
@@ -26,7 +27,8 @@ class AddTransactionPresenter(val transactionsRepository: IDatabaseRepository) :
                         transactionDescription,
                         transactionAmount,
                         transactionCategoryId,
-                        transactionCategoryName
+                        transactionCategoryName,
+                        transactionCategoryType
                 )
         ).observeOn(
                 AndroidSchedulers.mainThread()

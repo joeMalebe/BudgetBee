@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 
 data class TransactionCategory(
-    var transactionCategoryId: Int,
+    var transactionCategoryId: Int = 0,
     var transactionCategoryName: String,
     var transactionCategoryType: Int
 ) : Parcelable {

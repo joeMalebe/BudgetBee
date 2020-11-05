@@ -13,10 +13,10 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import javax.inject.Inject
 
-class TransactionCategoryAddCategoryActivity : AppCompatBaseActivity(),
+class AddTransactionCategoryActivity : AppCompatBaseActivity(),
     ITransactionCategoryMvp.View {
 
-    val TAG = TransactionCategoryAddCategoryActivity::class.simpleName
+    val TAG = AddTransactionCategoryActivity::class.simpleName
 
     @Inject
     lateinit var presenter: ITransactionCategoryMvp.Presenter
@@ -25,7 +25,7 @@ class TransactionCategoryAddCategoryActivity : AppCompatBaseActivity(),
 
         const val UNCHECKED = -1
         fun getStartIntent(context: Context): Intent {
-            return Intent(context, TransactionCategoryAddCategoryActivity::class.java)
+            return Intent(context, AddTransactionCategoryActivity::class.java)
         }
     }
 
@@ -65,7 +65,7 @@ class TransactionCategoryAddCategoryActivity : AppCompatBaseActivity(),
 
     override fun navigateToTransactionCategorySelectScreen() {
         dismissLoading()
-        TransactionCategorySelectCategoryActivity.getStartIntent(this)
+        setResult(2)
         finish()
     }
 

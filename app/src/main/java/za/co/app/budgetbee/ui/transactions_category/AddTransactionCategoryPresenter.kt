@@ -9,7 +9,7 @@ import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import java.util.logging.Logger
 
-class TransactionCategoryAddCategoryPresenter(val transactionsRepository: IDatabaseRepository) :
+class AddTransactionCategoryPresenter(val transactionsRepository: IDatabaseRepository) :
     ITransactionCategoryMvp.Presenter {
     private lateinit var view: ITransactionCategoryMvp.View
 

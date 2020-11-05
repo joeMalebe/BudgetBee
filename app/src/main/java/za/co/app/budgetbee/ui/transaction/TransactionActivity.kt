@@ -14,6 +14,7 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import java.util.*
@@ -77,12 +78,35 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     override fun displayScreen() {
         screen_title.text = getString(R.string.transaction)
         category_name_text.text = transaction.transactionCategoryName
-        category_type_text.text = if (transaction.transactionCategoryId == TransactionCategoryType.INCOME.value) "Income" else "Expense"
+        category_type_text.text = getCategoryTypeString()
         amount_text.text = transaction.transactionAmount.toString()
         description_text.text = transaction.transactionDescription
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = transaction.transactionDate
         date_text.text = calendar.getDateStringByFormat("dd MMMM yyyy")
         deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
+        editButton.setOnClickListener { startActivityForResult(EditTransactionActivity.getStartIntent(this, transaction), 2) }
+    }
+
+    private fun getCategoryTypeString(): CharSequence {
+        return if (transaction.transactionCategoryType == TransactionCategoryType.INCOME.value)
+            this.getString(R.string.income_heading)
+        else
+            this.getString(R.string.expense)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val SUCCESS = 200
+        if (resultCode == SUCCESS && data != null) {
+            transaction = data.getParcelableExtra(EXTRA_TRANSACTION)
+            displayScreen()
+        } else {
+            showError()
+        }
+    }
+
+    private fun showError() {
+        Log.e(TAG, "showError: ")
     }
 }

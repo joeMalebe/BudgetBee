@@ -20,8 +20,10 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.ui.transaction.TransactionActivity
-import za.co.app.budgetbee.ui.transactions_category.TransactionCategorySelectCategoryActivity
+import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
+import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity
+import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.views.MonthSwitcher
 import za.co.app.budgetbee.ui.views.YearSwitcherDialog
@@ -94,7 +96,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         dialog.hide()
         val adapter = TransactionsAdapter(transactions)
         adapter.getSelectedTransaction().subscribe { transaction ->
-            startActivity(TransactionActivity.getStartIntent(this, transaction))
+            startActivity(EditTransactionActivity.getStartIntent(this, transaction))
         }.let { compositeDisposable.add(it) }
         transactionsRecyclerView.adapter = adapter
         transactionsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -103,7 +105,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     }
 
     override fun openTransactionCategoryActivity() {
-        startActivity(TransactionCategorySelectCategoryActivity.getStartIntent(this))
+        startActivityForResult(SelectTransactionCategoryActivity.getStartIntent(this), 2)
     }
 
     override fun displayTotalIncome(income: Double) {
@@ -254,5 +256,13 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     private fun twoDecimalPointsValue(value: Double): String? {
         val decimalFormat = DecimalFormat(DECIMAL_FORMAT_PATTERN)
         return decimalFormat.format(value)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data != null) {
+            val transactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
+            startActivity(AddTransactionActivity.getStartIntent(this, transactionCategory))
+        }
     }
 }
