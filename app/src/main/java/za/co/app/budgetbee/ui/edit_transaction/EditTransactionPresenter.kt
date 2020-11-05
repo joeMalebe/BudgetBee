@@ -12,6 +12,7 @@ class EditTransactionPresenter(val transactionsRepository: IDatabaseRepository) 
 
     private lateinit var view: IEditTransactionMvp.View
     private val compositeDisposable = CompositeDisposable()
+
     override fun updateTransaction(transaction: Transaction) {
         view.showLoading()
         transactionsRepository.updateTransaction(transaction)
@@ -21,6 +22,17 @@ class EditTransactionPresenter(val transactionsRepository: IDatabaseRepository) 
                 .subscribe({ view.updateSuccessful() }, { error -> view.updateError(error) })
                 .let { compositeDisposable.add(it) }
 
+    }
+
+    override fun deleteTransaction(transaction: Transaction) {
+        view.showLoading()
+        transactionsRepository.deleteTransaction(transaction)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    view.dismissLoading()
+                    view.deleteSuccessful(transaction.transactionDate)
+                }, { error -> Log.e("deleteTransaction", error.message) }).let { compositeDisposable.add(it) }
     }
 
     override fun attachView(view: IBaseView) {

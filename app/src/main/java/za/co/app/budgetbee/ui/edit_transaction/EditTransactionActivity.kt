@@ -1,20 +1,23 @@
 package za.co.app.budgetbee.ui.edit_transaction
 
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_transaction.input_amount
 import kotlinx.android.synthetic.main.activity_add_transaction.input_date
 import kotlinx.android.synthetic.main.activity_edit_transaction.*
+import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity
+import za.co.app.budgetbee.ui.landing.LandingActivity
+import za.co.app.budgetbee.utils.displayLongDouble
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
 import java.util.*
@@ -28,6 +31,8 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
     private lateinit var inputAmount: TextInputEditText
     private lateinit var inputDescription: TextInputEditText
     private lateinit var inputTransactionCategory: TextInputEditText
+    private lateinit var deleteButton: AppCompatImageView
+    private lateinit var backButton: AppCompatImageView
 
     @Inject
     lateinit var presenter: IEditTransactionMvp.Presenter
@@ -51,6 +56,9 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         inputDate = input_date
         inputDescription = input_description
         inputTransactionCategory = input_transaction_category
+        backButton = back_button
+        backButton.setOnClickListener { onBackPressed() }
+        deleteButton = delete_button
         transaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
         transactionCategory = TransactionCategory(transaction.transactionCategoryId, transaction.transactionCategoryName, transaction.transactionCategoryType)
 
@@ -58,16 +66,19 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
     }
 
     override fun updateSuccessful() {
-        val SUCCESS = 200
-        val data = Intent()
-        data.putExtra(EXTRA_TRANSACTION, transaction)
-        setResult(SUCCESS, data)
-        finish()
+        navigateToLanding(transaction.transactionDate)
     }
 
     override fun updateError(error: Throwable?) {
-        val ERROR = 500
-        setResult(ERROR)
+        Log.e(TAG, "updateError: ${error?.stackTrace}", error)
+    }
+
+    override fun deleteSuccessful(transactionDate: Long) {
+        navigateToLanding(transactionDate)
+    }
+
+    fun navigateToLanding(transactionDate: Long) {
+        startActivity(LandingActivity.getStartIntent(this, transactionDate))
         finish()
     }
 
@@ -84,18 +95,20 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = transaction.transactionDate
         inputDate.setText(calendar.getDateStringByFormat("dd MMMM yyyy"))
-        inputAmount.setText(transaction.transactionAmount.toString())
+        inputAmount.setText(transaction.transactionAmount.displayLongDouble())
         inputDescription.setText(transaction.transactionDescription)
+        inputTransactionCategory.setText(transaction.transactionCategoryName)
+        inputDate.setText(calendar.getDateStringByFormat())
+
         inputTransactionCategory.setOnClickListener {
             startActivityForResult(SelectTransactionCategoryActivity.getStartIntent(it.context),2)
         }
-        inputTransactionCategory.setText(transaction.transactionCategoryName)
 
-        inputDate.setText(calendar.getDateStringByFormat())
         inputDate.setOnClickListener {
             calendar.showDatePickerDialogAndDisplaySelectedDateTextToView(this, inputDate)
         }
 
+        deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
         button_edit_transaction.setOnClickListener {
             bindTransactionValues(transaction, calendar)
             presenter.updateTransaction(transaction)
@@ -110,19 +123,6 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         transaction.transactionCategoryType = transactionCategory.transactionCategoryType
         transaction.transactionCategoryId = transactionCategory.transactionCategoryId
         transaction.transactionCategoryName = transactionCategory.transactionCategoryName
-    }
-
-    private fun setupDateDialogue(calendar: Calendar) {
-        val year = calendar.get(Calendar.YEAR)
-        val monthOfYear = calendar.get(Calendar.MONTH)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-        DatePickerDialog(
-                this,
-                ({ view, selectedYear, selectedMonth, selectedDay ->
-                    calendar.set(selectedYear, selectedMonth, selectedDay)
-                    input_date.setText(calendar.getDateStringByFormat())
-                }), year, monthOfYear, dayOfMonth
-        ).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
