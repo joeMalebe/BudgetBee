@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
-import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryFragment
+import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryFragment
 
 private const val INCOME = 0
 private const val EXPENSE = 1
