@@ -96,4 +96,9 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
         showLoading()
         presenter.getAllTransactionCategoriesByType(transactionCategoryType)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        displayScreen()
+    }
 }
