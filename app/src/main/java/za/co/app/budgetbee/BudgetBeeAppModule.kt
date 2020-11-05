@@ -8,12 +8,12 @@ import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import za.co.app.budgetbee.data.repository.TransactionsRepository
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionPresenter
 import za.co.app.budgetbee.ui.add_transaction.IAddTransactionMvp
-import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.ISelectTransactionCategoryMvp
-import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryPresenter
 import za.co.app.budgetbee.ui.edit_transaction.EditTransactionPresenter
 import za.co.app.budgetbee.ui.edit_transaction.IEditTransactionMvp
 import za.co.app.budgetbee.ui.landing.ILandingMvp
 import za.co.app.budgetbee.ui.landing.LandingPresenter
+import za.co.app.budgetbee.ui.select_transaction_category.ISelectTransactionCategoryMvp
+import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryPresenter
 import za.co.app.budgetbee.ui.transaction.ITransactionMvp
 import za.co.app.budgetbee.ui.transaction.TransactionPresenter
 import za.co.app.budgetbee.ui.transactions_category.ITransactionCategoryMvp

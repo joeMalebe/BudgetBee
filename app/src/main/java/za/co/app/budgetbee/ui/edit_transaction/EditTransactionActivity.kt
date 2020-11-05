@@ -15,8 +15,8 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
-import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity
 import za.co.app.budgetbee.ui.landing.LandingActivity
+import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
 import za.co.app.budgetbee.utils.displayLongDouble
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
@@ -52,6 +52,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_transaction)
         presenter.attachView(this)
+        screen_title.text = getString(R.string.transaction)
         inputAmount = input_amount
         inputDate = input_date
         inputDescription = input_description

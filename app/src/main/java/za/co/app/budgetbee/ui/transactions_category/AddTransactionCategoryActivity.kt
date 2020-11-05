@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add_transaction_category.*
+import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
@@ -33,6 +34,8 @@ class AddTransactionCategoryActivity : AppCompatBaseActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction_category)
         presenter.attachView(this)
+        screen_title.text = getString(R.string.add_category)
+        back_button.setOnClickListener { navigateToTransactionCategorySelectScreen() }
         displayScreen()
     }
 

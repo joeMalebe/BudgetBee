@@ -19,7 +19,7 @@
             android:label="@string/title_activity_add_transaction_category"
             android:name=".ui.transactions_category.AddTransactionCategoryActivity"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
-        <activity android:name=".ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity" />
+        <activity android:name="za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity" />
         <activity
             android:name=".ui.landing.LandingActivity"
             android:theme="@style/BudgetBeeMainTheme">

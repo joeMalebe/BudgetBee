@@ -2,50 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/gutterSpace"
     android:orientation="vertical"
-    tools:context=".ui.transactions_category.AddTransactionCategoryActivity">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <include layout="@layout/normal_toolbar"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/gutterSpace"
+        android:orientation="vertical"
+        tools:context=".ui.transactions_category.AddTransactionCategoryActivity">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_category_name_editText"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/gutterSpaceHalf"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_category_name_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/radio_group_transation_category"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/gutterSpace"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <RadioButton
+                android:id="@+id/radio_income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/income_heading" />
+
+            <RadioButton
+                android:id="@+id/radio_expense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/expenses_heading" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button_add_transaction_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/category_name" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <RadioGroup
-        android:id="@+id/radio_group_transation_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <RadioButton
-            android:id="@+id/radio_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/income_heading" />
-
-        <RadioButton
-            android:id="@+id/radio_expense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/expenses_heading" />
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/button_add_transaction_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="addTransactionCategory"
-        android:text="@string/add_category" />
-
+            android:layout_marginTop="@dimen/gutterSpace"
+            android:onClick="addTransactionCategory"
+            android:text="@string/add_category" />
+    </LinearLayout>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.add_transaction.select_transaction_category
+package za.co.app.budgetbee.ui.select_transaction_category
 
 import android.content.Context
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_transaction_category.*
+import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
@@ -25,6 +26,8 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_category)
+        screen_title.text = getString(R.string.category)
+        back_button.setOnClickListener { onBackPressed() }
         displayScreen()
     }
 
@@ -33,14 +36,9 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
         val transactionTabs = transaction_type_tab_layout
         val addIncomeButton = add_income_fab
 
-        addIncomeButton.setOnClickListener {
-            navigateToAddTransactionCategory()
-        }
+        addIncomeButton.setOnClickListener { navigateToAddTransactionCategory() }
         transactionViewPager.adapter =
-            AddTransactionPagerAdapter(
-                supportFragmentManager,
-                BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-            )
+            AddTransactionPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         transactionTabs.setupWithViewPager(transactionViewPager)
     }
 
@@ -50,6 +48,6 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        displayScreen()
+
     }
 }

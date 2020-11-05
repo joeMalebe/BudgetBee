@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_transaction.*
+import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
@@ -48,6 +49,8 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         presenter.attachView(this)
         inputAmount = input_amount
         inputDate = input_date
+        screen_title.text = getString(R.string.add_transaction)
+        back_button.setOnClickListener { onBackPressed() }
         displayScreen()
     }
 

@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.add_transaction.select_transaction_category
+package za.co.app.budgetbee.ui.select_transaction_category
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
