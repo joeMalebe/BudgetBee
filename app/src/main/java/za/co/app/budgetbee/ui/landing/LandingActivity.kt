@@ -23,7 +23,7 @@ import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.add_transaction.select_transaction_category.SelectTransactionCategoryActivity
-import za.co.app.budgetbee.ui.transaction.TransactionActivity
+import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.views.MonthSwitcher
 import za.co.app.budgetbee.ui.views.YearSwitcherDialog
@@ -96,7 +96,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         dialog.hide()
         val adapter = TransactionsAdapter(transactions)
         adapter.getSelectedTransaction().subscribe { transaction ->
-            startActivity(TransactionActivity.getStartIntent(this, transaction))
+            startActivity(EditTransactionActivity.getStartIntent(this, transaction))
         }.let { compositeDisposable.add(it) }
         transactionsRecyclerView.adapter = adapter
         transactionsRecyclerView.layoutManager = LinearLayoutManager(this)
