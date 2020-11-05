@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.widget.DatePicker
 import com.google.android.material.textfield.TextInputEditText
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,4 +42,8 @@ private fun displaySelectedDateToView(calendar: Calendar, displaySelectedDateTex
         calendar.set(selectedYear, selectedMonth, selectedDay)
         displaySelectedDateTextView.setText(calendar.getDateStringByFormat())
     }
+}
+
+fun Double.displayLongDouble(): String {
+    return BigDecimal.valueOf(this).toPlainString()
 }
