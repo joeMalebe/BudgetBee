@@ -33,7 +33,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position == transactionCategoryList.size) {
-            setupAddNewClickEvent(holder as AddNewViewHolder)
+            setupAddNewCategoryClickEvent(holder as AddNewViewHolder)
         } else {
             bindTransactionCategoryViewHolder(holder as TransactionCategoryViewHolder, position)
         }
@@ -50,7 +50,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
         return if (viewType == DEFAULT_VIEW_TYPE) TransactionCategoryViewHolder(view) else AddNewViewHolder(view)
     }
 
-    private fun setupAddNewClickEvent(addNewViewHolder: AddNewViewHolder) {
+    private fun setupAddNewCategoryClickEvent(addNewViewHolder: AddNewViewHolder) {
         addNewViewHolder.addNewLayout.setOnClickListener {
             it.context.startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
         }
