@@ -39,4 +39,5 @@
     <string name="edit">edit</string>
     <string name="delete">delete</string>
     <string name="transaction">Transaction</string>
+    <string name="no_recorded_transactions">No recorded transactions</string>
 </resources>
