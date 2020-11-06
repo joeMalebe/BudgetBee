@@ -9,13 +9,14 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_landing.*
 import kotlinx.android.synthetic.main.home_toolbar.*
 import kotlinx.android.synthetic.main.layout_month_selector_dialog.view.*
+import kotlinx.android.synthetic.main.no_transaction_layout.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
@@ -34,6 +35,7 @@ import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
+
     private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
     val TAG = LandingActivity::class.simpleName
@@ -47,6 +49,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     private lateinit var incomeValueText: TextView
     private lateinit var expenseValueText: TextView
     private lateinit var balanceValueText: TextView
+    private lateinit var noTransactionsLayout: ConstraintLayout
 
     companion object {
         private val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
@@ -72,6 +75,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         expenseValueText = expense_value_text
         balanceValueText = balance_value_text
         transactionsRecyclerView = recycler_transactions
+        noTransactionsLayout = no_transactions_layout
     }
 
     override fun onResume() {
@@ -102,6 +106,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         transactionsRecyclerView.layoutManager = LinearLayoutManager(this)
         transactionsRecyclerView.isNestedScrollingEnabled = false
         transactionsRecyclerView.visibility = VISIBLE
+        noTransactionsLayout.visibility = GONE
     }
 
     override fun openTransactionCategoryActivity() {
@@ -121,7 +126,6 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     }
 
     override fun displayNoTransactions() {
-        Toast.makeText(this, "No transactins", Toast.LENGTH_SHORT).show()
         dismissLoading()
         dialog.hide()
 
@@ -129,6 +133,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         expenseValueText.text = twoDecimalPointsValue(0.0)
         balanceValueText.text = twoDecimalPointsValue(0.0)
         transactionsRecyclerView.visibility = GONE
+        noTransactionsLayout.visibility = VISIBLE
     }
 
     override fun displayScreen() {
