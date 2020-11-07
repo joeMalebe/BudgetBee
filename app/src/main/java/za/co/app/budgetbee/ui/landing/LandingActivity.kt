@@ -98,7 +98,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     override fun displayTransactions(transactions: ArrayList<Transaction>) {
         dismissLoading()
         dialog.hide()
-        val adapter = TransactionsAdapter(transactions)
+        val adapter = TransactionsListAdapter(transactions)
         adapter.getSelectedTransaction().subscribe { transaction ->
             startActivity(EditTransactionActivity.getStartIntent(this, transaction))
         }.let { compositeDisposable.add(it) }

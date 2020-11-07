@@ -9,10 +9,11 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.Transaction
-import za.co.app.budgetbee.ui.landing.TransactionsAdapter.TransactionsViewHolder
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.ui.landing.TransactionsListAdapter.TransactionsViewHolder
 import za.co.app.budgetbee.utils.displayLongDouble
 
-class TransactionsAdapter(private val transactions: ArrayList<Transaction>) :
+class TransactionsListAdapter(private val transactions: ArrayList<Transaction>) :
     RecyclerView.Adapter<TransactionsViewHolder>() {
     val publishTransaction = PublishSubject.create<Transaction>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionsViewHolder {
@@ -22,7 +23,11 @@ class TransactionsAdapter(private val transactions: ArrayList<Transaction>) :
     }
 
     override fun onBindViewHolder(holder: TransactionsViewHolder, position: Int) {
-        holder.display(transactions.get(position))
+        holder.display(transactions.get(position), isLastItem(position))
+    }
+
+    private fun isLastItem(position: Int): Boolean {
+        return position == getItemCount() - 1
     }
 
     override fun getItemCount(): Int {
@@ -40,15 +45,23 @@ class TransactionsAdapter(private val transactions: ArrayList<Transaction>) :
             view.findViewById(R.id.text_transaction_description)
         val transactionAmountTextView: TextView =
             view.findViewById(R.id.text_transaction_amount)
+        val divider: View = view.findViewById(R.id.transaction_divider)
 
         val transactionDate = R.id.text_transaction_amount
-        fun display(transaction: Transaction) {
+        fun display(transaction: Transaction, islastItem: Boolean) {
             transactionCategoryTextView.text = transaction.transactionCategoryName
             transactionDescriptionTextView.text = transaction.transactionDescription
             transactionAmountTextView.text = transaction.transactionAmount.displayLongDouble()
+            transactionAmountTextView.setTextColor(itemView.resources.getColor(getTransactionColor(transaction)))
+            divider.visibility = if (islastItem) View.GONE else View.VISIBLE
             itemView.setOnClickListener {
                 publishTransaction.onNext(transaction)
             }
+        }
+
+        private fun getTransactionColor(transaction: Transaction): Int {
+            return if (transaction.transactionCategoryType == TransactionCategoryType.INCOME.value)
+                 R.color.limeGreen else R.color.red
         }
     }
 }
