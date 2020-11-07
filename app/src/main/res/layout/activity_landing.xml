@@ -139,6 +139,10 @@
             tools:itemCount="8"
             tools:listitem="@layout/item_transaction" />
 
+        <include
+            layout="@layout/no_transaction_layout"
+            android:visibility="gone" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_transaction_fab"
             android:layout_width="wrap_content"
