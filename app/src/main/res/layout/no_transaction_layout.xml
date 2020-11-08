@@ -11,7 +11,7 @@
         android:layout_width="@dimen/no_transactions_icon_size"
         android:layout_height="@dimen/no_transactions_icon_size"
         android:src="@drawable/ic_baseline_money_off"
-        android:tint="@color/colorAccent"
+        android:tint="@color/gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +26,7 @@
         app:layout_constraintStart_toStartOf="@id/no_transactions_image_view"
         android:layout_margin="@dimen/gutterSpace"
         style="@style/text_body1"
+        android:textColor="@color/gray"
         android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@id/no_transactions_image_view" />
 
