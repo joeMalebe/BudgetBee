@@ -18,21 +18,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/gutterSpace"
-        android:focusable="false"
-        android:hint="@string/date">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_date"
-            android:inputType="date"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
         android:layout_marginBottom="@dimen/gutterSpace"
         android:layout_height="wrap_content"
         android:hint="@string/amount">
@@ -68,6 +53,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/gutterSpace"
+            android:focusable="false"
+            android:hint="@string/date">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_date"
+                android:inputType="date"
+                android:drawableRight="@drawable/ic_calendar"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:drawableTint="@color/colorAccent"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:layout_marginTop="@dimen/gutterSpace"

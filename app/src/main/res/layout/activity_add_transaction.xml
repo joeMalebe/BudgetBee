@@ -50,6 +50,9 @@
                 android:id="@+id/input_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:drawableRight="@drawable/ic_calendar"
+                android:drawableTint="@color/colorAccent"
                 android:focusable="false"
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
