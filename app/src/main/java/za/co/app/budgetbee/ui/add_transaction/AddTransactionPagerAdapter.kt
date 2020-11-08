@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentPagerAdapter
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryFragment
 
-private const val INCOME = 0
-private const val EXPENSE = 1
+private const val EXPENSE = 0
+private const val INCOME = 1
 private const val NUMBER_OF_PAGES = 2
 
 class AddTransactionPagerAdapter(fragmentManager: FragmentManager, behavior: Int) :
