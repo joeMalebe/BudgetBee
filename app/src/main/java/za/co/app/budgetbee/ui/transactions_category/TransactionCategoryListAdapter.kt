@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.item_add_new.view.*
 import kotlinx.android.synthetic.main.item_transaction_category.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
@@ -43,7 +42,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
         val layoutInflater = LayoutInflater.from(parent.context)
         return if (viewType == DEFAULT_VIEW_TYPE) layoutInflater
                 .inflate(R.layout.item_transaction_category, parent, false) else layoutInflater
-                .inflate(R.layout.item_add_new, parent, false)
+                .inflate(R.layout.item_add_new_category, parent, false)
     }
 
     fun getViewHolder(viewType: Int, view: View): RecyclerView.ViewHolder {
@@ -51,15 +50,18 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
     }
 
     private fun setupAddNewCategoryClickEvent(addNewViewHolder: AddNewViewHolder) {
-        addNewViewHolder.addNewLayout.setOnClickListener {
+        addNewViewHolder.itemView.setOnClickListener {
             it.context.startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
         }
     }
 
     fun bindTransactionCategoryViewHolder(holder: TransactionCategoryViewHolder, position: Int) {
         val transactionCategory = transactionCategoryList.get(position)
+
         holder.incomeText.text = transactionCategory.transactionCategoryName
-        holder.incomeText.setOnClickListener {
+        holder.divider.visibility = if (position == itemCount - 2) View.GONE else View.VISIBLE
+        holder.incomeText.setOnClickListener {}
+        holder.itemView.setOnClickListener {
             onClickSubject.onNext(transactionCategory)
         }
     }
@@ -70,9 +72,8 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
 
     class TransactionCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val incomeText = itemView.item_text_view
+        val divider = itemView.transaction_category_divider
     }
 
-    class AddNewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val addNewLayout = itemView.add_new_layout
-    }
+    class AddNewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -3,27 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/white"
-    android:layout_height="wrap_content">
+    app:cardBackgroundColor="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/gutterSpace"
+        android:paddingEnd="@dimen/gutterSpace"
         android:paddingStart="@dimen/gutterSpace"
-        android:paddingEnd="@dimen/gutterSpace">
+        android:paddingTop="@dimen/gutterSpace">
 
         <TextView
             android:id="@+id/text_transaction_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/gutterSpaceHalf"
+            app:layout_constraintBottom_toTopOf="@id/text_transaction_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/text_transaction_description"
             tools:text="Salary"
             style="@style/text_body1" />
 
@@ -31,9 +31,9 @@
             android:id="@+id/text_transaction_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/gutterSpace"
             app:layout_constraintBottom_toTopOf="@id/transaction_divider"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="@dimen/gutterSpace"
             tools:text="Pay day"
             style="@style/text_body2" />
 
@@ -41,9 +41,9 @@
             android:id="@+id/text_transaction_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/text_transaction_category"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="@id/text_transaction_category"
             tools:text="+ 2000"
             style="@style/text_body1" />

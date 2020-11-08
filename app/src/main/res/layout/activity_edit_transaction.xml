@@ -6,77 +6,84 @@
     android:orientation="vertical"
     tools:context=".ui.edit_transaction.EditTransactionActivity">
 
+
     <include
         layout="@layout/transactions_activity_toolbar"
         android:id="@+id/toolbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/gutterSpace"
-        android:orientation="vertical">
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_marginBottom="@dimen/gutterSpace"
-        android:layout_height="wrap_content"
-        android:hint="@string/amount">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_amount"
-            android:layout_width="match_parent"
-            android:inputType="numberDecimal"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginBottom="@dimen/gutterSpace"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/description">
+        android:layout_marginTop="@dimen/gutterSpace">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginBottom="@dimen/gutterSpace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/category">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_transaction_category"
-            android:focusable="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/gutterSpace"
-            android:focusable="false"
-            android:hint="@string/date">
+            android:layout_margin="@dimen/gutterSpace"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_date"
-                android:inputType="date"
-                android:drawableRight="@drawable/ic_calendar"
-                android:drawableEnd="@drawable/ic_calendar"
-                android:drawableTint="@color/colorAccent"
-                android:focusable="false"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/gutterSpace"
+                android:hint="@string/amount">
 
-    <Button
-        android:layout_marginTop="@dimen/gutterSpace"
-        android:id="@+id/button_edit_transaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save" />
-</LinearLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/gutterSpace"
+                android:hint="@string/description">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/gutterSpace"
+                android:hint="@string/category">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_transaction_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/gutterSpace"
+                android:focusable="false"
+                android:hint="@string/date">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:drawableRight="@drawable/ic_calendar"
+                    android:drawableTint="@color/colorAccent"
+                    android:focusable="false"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/button_edit_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gutterSpace"
+                android:text="@string/save" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
