@@ -1,5 +1,6 @@
 package za.co.app.budgetbee.ui.transactions_category
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,8 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
     private val ADD_NEW_CATEGORY = 1
     private val DEFAULT_VIEW_TYPE = 0
     private val NEW_CATEGORY_VIEW_TYPE = 1
-    val onClickSubject: PublishSubject<TransactionCategory> = PublishSubject.create()
+    val onCategorySelectSubject: PublishSubject<TransactionCategory> = PublishSubject.create()
+    val onAddNewCategorySubject: PublishSubject<Context> = PublishSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = getView(viewType, parent)
@@ -51,7 +53,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
 
     private fun setupAddNewCategoryClickEvent(addNewViewHolder: AddNewViewHolder) {
         addNewViewHolder.itemView.setOnClickListener {
-            it.context.startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
+            onAddNewCategorySubject.onNext(it.context)
         }
     }
 
@@ -62,12 +64,16 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
         holder.divider.visibility = if (position == itemCount - 2) View.GONE else View.VISIBLE
         holder.incomeText.setOnClickListener {}
         holder.itemView.setOnClickListener {
-            onClickSubject.onNext(transactionCategory)
+            onCategorySelectSubject.onNext(transactionCategory)
         }
     }
 
-    fun getClickTransactionCategory(): Observable<TransactionCategory> {
-        return onClickSubject.hide()
+    fun getSelectedTransactionCategory(): Observable<TransactionCategory> {
+        return onCategorySelectSubject.hide()
+    }
+
+    fun getAddNewCategoryClick(): Observable<Context> {
+        return onAddNewCategorySubject.hide()
     }
 
     class TransactionCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
