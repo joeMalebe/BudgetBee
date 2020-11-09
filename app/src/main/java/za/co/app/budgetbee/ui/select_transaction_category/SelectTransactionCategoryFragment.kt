@@ -64,7 +64,7 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
         incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
 
         val transactionCategoryListAdapter =
-                TransactionCategoryListAdapter(transactionCategoryList)
+                TransactionCategoryListAdapter(transactionCategoryList.sortedBy { it.transactionCategoryName })
 
         transactionCategoryListAdapter.getSelectedTransactionCategory()
                 .subscribe { transactionCategory ->
