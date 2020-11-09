@@ -51,7 +51,7 @@ class TransactionsListAdapter(private val transactions: ArrayList<Transaction>) 
         fun display(transaction: Transaction, islastItem: Boolean) {
             transactionCategoryTextView.text = transaction.transactionCategoryName
             transactionDescriptionTextView.text = transaction.transactionDescription
-            transactionAmountTextView.text = transaction.transactionAmount.displayLongDouble()
+            transactionAmountTextView.text = displayTransactionAmount(transaction)
             transactionAmountTextView.setTextColor(itemView.resources.getColor(getTransactionColor(transaction)))
             divider.visibility = if (islastItem) View.GONE else View.VISIBLE
             itemView.setOnClickListener {
@@ -61,7 +61,13 @@ class TransactionsListAdapter(private val transactions: ArrayList<Transaction>) 
 
         private fun getTransactionColor(transaction: Transaction): Int {
             return if (transaction.transactionCategoryType == TransactionCategoryType.INCOME.value)
-                 R.color.limeGreen else R.color.red
+                R.color.limeGreen else R.color.red
+        }
+
+        private fun displayTransactionAmount(transaction: Transaction): String {
+            val amount = transaction.transactionAmount.displayLongDouble()
+            return if (transaction.transactionCategoryType == TransactionCategoryType.INCOME.value)
+                amount else itemView.resources.getString(R.string.negative_expense, amount)
         }
     }
 }
