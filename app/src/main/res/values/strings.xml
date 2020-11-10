@@ -24,7 +24,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_transaction_category">AddTransactionCategoryActivity</string>
-    <string name="amount">Amount</string>
+    <string name="amount">Amount*</string>
     <string name="date">Date</string>
     <string name="description">Description</string>
     <string name="submit">Submit</string>
@@ -41,4 +41,5 @@
     <string name="transaction">Transaction</string>
     <string name="no_recorded_transactions">No recorded transactions</string>
     <string name="negative_expense">-%s</string>
+    <string name="amount_error">Cannot be empty</string>
 </resources>

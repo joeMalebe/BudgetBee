@@ -6,7 +6,6 @@
     android:orientation="vertical"
     tools:context=".ui.edit_transaction.EditTransactionActivity">
 
-
     <include
         layout="@layout/transactions_activity_toolbar"
         android:id="@+id/toolbar" />
