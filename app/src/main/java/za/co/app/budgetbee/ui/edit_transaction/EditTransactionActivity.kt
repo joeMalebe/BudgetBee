@@ -1,5 +1,6 @@
 package za.co.app.budgetbee.ui.edit_transaction
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -90,7 +91,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         navigateToLanding(transactionDate)
     }
 
-    fun navigateToLanding(transactionDate: Long) {
+    private fun navigateToLanding(transactionDate: Long) {
         startActivity(LandingActivity.getStartIntent(this, transactionDate))
         finish()
     }
@@ -121,12 +122,25 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
             calendar.showDatePickerDialogAndDisplaySelectedDateTextToView(this, inputDate)
         }
 
-        deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
+        deleteButton.setOnClickListener {
+            val alert = gerDisclaimerDialog()
+            alert.show()
+        }
+
         button_edit_transaction.setOnClickListener {
             bindTransactionValues(transaction, calendar)
             presenter.updateTransaction(transaction)
 
         }
+    }
+
+    private fun gerDisclaimerDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(R.string.are_you_sure_you_want_to_delete_this_transaction).setTitle(R.string.delete_transaction)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes) { _, _ -> presenter.deleteTransaction(transaction) }
+                .setNegativeButton(R.string.no) { dialog, _ -> dialog.cancel() }
+        return builder.create()
     }
 
     private fun bindTransactionValues(transaction: Transaction, calendar: Calendar) {

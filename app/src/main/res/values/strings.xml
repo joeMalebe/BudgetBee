@@ -42,4 +42,8 @@
     <string name="no_recorded_transactions">No recorded transactions</string>
     <string name="negative_expense">-%s</string>
     <string name="amount_error">Cannot be empty</string>
+    <string name="delete_transaction">Delete transaction</string>
+    <string name="are_you_sure_you_want_to_delete_this_transaction">Are you sure you want to delete this transaction permanently</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
