@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/gutterSpace"
+    android:layout_marginEnd="@dimen/gutterSpace"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/gutterSpace">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/progress_bar_height"
+        android:layout_marginBottom="@dimen/gutterSpaceHalf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_transaction_description"
+        tools:progress="30"
+        style="@style/horizontal_progress_bar" />
+
+    <TextView
+        android:id="@+id/text_transaction_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="4521"
+        style="@style/text_body2" />
+
+    <TextView
+        android:id="@+id/text_transaction_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Cash"
+        style="@style/text_body2" />
+
+    <TextView
+        android:id="@+id/text_transaction_amount_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_transaction_description"
+        tools:text="40%" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_marginTop="@dimen/gutterSpace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_bar"
+        style="@style/divider" />
+</androidx.constraintlayout.widget.ConstraintLayout>
