@@ -18,6 +18,7 @@ import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import kotlinx.android.synthetic.main.activity_report.*
+import kotlinx.android.synthetic.main.home_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
@@ -41,6 +42,11 @@ class ReportActivity : AppCompatBaseActivity() {
         setContentView(R.layout.activity_report)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        val date = Calendar.getInstance()
+
+        month_switcher.init(
+                date
+        )
         val pieChart = findViewById<View>(R.id.pie_chart) as PieChart
         val transactions = intent.getParcelableArrayListExtra<Transaction>(EXTRA_TRANSACTIONS)
         if (transactions != null) {
@@ -58,14 +64,6 @@ class ReportActivity : AppCompatBaseActivity() {
             pieChart.description.isEnabled = false
 
             pieChart.legend.isEnabled = false
-            /*l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-            l.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-            l.orientation = Legend.LegendOrientation.VERTICAL
-            l.setDrawInside(false)
-            l.xEntrySpace = 7f
-            l.yEntrySpace = 0f
-            l.yOffset = 0f
-*/
             pieChart.animateXY(2000, 2000)
 
             pieChart.setUsePercentValues(true)

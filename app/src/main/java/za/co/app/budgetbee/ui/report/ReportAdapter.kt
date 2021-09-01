@@ -21,7 +21,11 @@ class ReportAdapter(val transactions: List<Transaction>, val colors: List<Int>) 
 
     override fun onBindViewHolder(holder: TransactionReportViewHolder, position: Int) {
         val transaction = transactions[position]
-        holder.display(transaction, transactions, colors[position], isLastItem(position))
+        holder.display(transaction, transactions, colors[getValidColorIndex(position,colors.size)], isLastItem(position))
+    }
+
+    fun getValidColorIndex(position: Int, numberOfColors: Int): Int {
+        return position % numberOfColors
     }
 
     fun isLastItem(position: Int) = transactions.size - 1 == position
