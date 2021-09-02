@@ -76,7 +76,7 @@ class LandingPresenter(
                 view.displayTotalIncome(totalIncome)
                 view.displayTotalExpense(totalExpense)
                 view.displayBalance(budgetBalance)
-                view.displayTransactions(value.transactions)
+                view.displayTransactions(transactions)
             } else {
                 view.displayNoTransactions()
             }

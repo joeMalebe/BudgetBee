@@ -27,13 +27,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="BudgetBeeMainTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="BudgetBeeMainTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="BudgetBeeMainTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="BudgetBeeMainTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="text_dark_87" parent="BudgetBeeMainTheme">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_dark</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:alpha">0.87</item>
     </style>
 
@@ -67,5 +67,11 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="horizontal_progress_bar" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:minHeight">10dip</item>
+        <item name="android:maxHeight">30dip</item>
+        <item name="android:progressBackgroundTint">@android:color/transparent</item>
     </style>
 </resources>

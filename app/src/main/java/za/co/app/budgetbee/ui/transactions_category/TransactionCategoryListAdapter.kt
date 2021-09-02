@@ -1,12 +1,12 @@
 package za.co.app.budgetbee.ui.transactions_category
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.item_add_new.view.*
 import kotlinx.android.synthetic.main.item_transaction_category.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
@@ -16,7 +16,8 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
     private val ADD_NEW_CATEGORY = 1
     private val DEFAULT_VIEW_TYPE = 0
     private val NEW_CATEGORY_VIEW_TYPE = 1
-    val onClickSubject: PublishSubject<TransactionCategory> = PublishSubject.create()
+    val onCategorySelectSubject: PublishSubject<TransactionCategory> = PublishSubject.create()
+    val onAddNewCategorySubject: PublishSubject<Context> = PublishSubject.create()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = getView(viewType, parent)
@@ -43,7 +44,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
         val layoutInflater = LayoutInflater.from(parent.context)
         return if (viewType == DEFAULT_VIEW_TYPE) layoutInflater
                 .inflate(R.layout.item_transaction_category, parent, false) else layoutInflater
-                .inflate(R.layout.item_add_new, parent, false)
+                .inflate(R.layout.item_add_new_category, parent, false)
     }
 
     fun getViewHolder(viewType: Int, view: View): RecyclerView.ViewHolder {
@@ -51,28 +52,34 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
     }
 
     private fun setupAddNewCategoryClickEvent(addNewViewHolder: AddNewViewHolder) {
-        addNewViewHolder.addNewLayout.setOnClickListener {
-            it.context.startActivity(AddTransactionCategoryActivity.getStartIntent(it.context))
+        addNewViewHolder.itemView.setOnClickListener {
+            onAddNewCategorySubject.onNext(it.context)
         }
     }
 
     fun bindTransactionCategoryViewHolder(holder: TransactionCategoryViewHolder, position: Int) {
         val transactionCategory = transactionCategoryList.get(position)
+
         holder.incomeText.text = transactionCategory.transactionCategoryName
-        holder.incomeText.setOnClickListener {
-            onClickSubject.onNext(transactionCategory)
+        holder.divider.visibility = if (position == itemCount - 2) View.GONE else View.VISIBLE
+        holder.incomeText.setOnClickListener {}
+        holder.itemView.setOnClickListener {
+            onCategorySelectSubject.onNext(transactionCategory)
         }
     }
 
-    fun getClickTransactionCategory(): Observable<TransactionCategory> {
-        return onClickSubject.hide()
+    fun getSelectedTransactionCategory(): Observable<TransactionCategory> {
+        return onCategorySelectSubject.hide()
+    }
+
+    fun getAddNewCategoryClick(): Observable<Context> {
+        return onAddNewCategorySubject.hide()
     }
 
     class TransactionCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val incomeText = itemView.item_text_view
+        val divider = itemView.transaction_category_divider
     }
 
-    class AddNewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val addNewLayout = itemView.add_new_layout
-    }
+    class AddNewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/gutterSpace"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -12,28 +12,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/gutterSpace"
-        android:paddingStart="@dimen/gutterSpace"
-        android:paddingTop="@dimen/gutterSpace">
+        android:padding="@dimen/imageGutterSpaceOffset">
 
         <TextView
-            android:id="@+id/item_text_view"
+            android:id="@+id/text_add_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="@dimen/gutterSpace"
-            app:layout_constraintBottom_toTopOf="@id/transaction_category_divider"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Salary"
+            android:layout_marginLeft="@dimen/gutterSpaceHalf"
+            android:layout_marginStart="@dimen/gutterSpaceHalf"
+            android:text="@string/add_new"
+            app:layout_constraintBottom_toBottomOf="@id/plus_image"
+            app:layout_constraintStart_toEndOf="@id/plus_image"
+            app:layout_constraintTop_toTopOf="@id/plus_image"
             style="@style/text_body1" />
 
-        <View
-            android:id="@+id/transaction_category_divider"
-            android:layout_marginTop="@dimen/gutterSpace"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/plus_image"
+            android:layout_width="@dimen/image_inline"
+            android:layout_height="@dimen/image_inline"
+            android:src="@drawable/ic_add_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            style="@style/divider" />
-
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

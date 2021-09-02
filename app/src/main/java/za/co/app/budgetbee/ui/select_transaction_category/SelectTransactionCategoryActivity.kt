@@ -11,7 +11,6 @@ import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionPagerAdapter
-import za.co.app.budgetbee.ui.transactions_category.AddTransactionCategoryActivity
 
 class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
 
@@ -34,20 +33,8 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
     override fun displayScreen() {
         val transactionViewPager = transaction_view_pager
         val transactionTabs = transaction_type_tab_layout
-        val addIncomeButton = add_income_fab
-
-        addIncomeButton.setOnClickListener { navigateToAddTransactionCategory() }
         transactionViewPager.adapter =
             AddTransactionPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
         transactionTabs.setupWithViewPager(transactionViewPager)
-    }
-
-    fun navigateToAddTransactionCategory() {
-        startActivityForResult(AddTransactionCategoryActivity.getStartIntent(this), 2)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
     }
 }

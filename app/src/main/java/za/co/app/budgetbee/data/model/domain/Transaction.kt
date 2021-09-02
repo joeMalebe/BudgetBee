@@ -16,10 +16,10 @@ data class Transaction(val transactionId: Int = 0,
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readLong(),
-            parcel.readString(),
+            parcel.readString()!!,
             parcel.readDouble(),
             parcel.readInt(),
-            parcel.readString(),
+            parcel.readString()!!,
             parcel.readInt()
     )
 

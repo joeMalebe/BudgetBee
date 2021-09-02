@@ -1,9 +1,11 @@
 package za.co.app.budgetbee.ui.edit_transaction
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_add_transaction.input_amount
@@ -17,6 +19,7 @@ import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
+import za.co.app.budgetbee.utils.TextValidator
 import za.co.app.budgetbee.utils.displayLongDouble
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
@@ -54,6 +57,16 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         presenter.attachView(this)
         screen_title.text = getString(R.string.transaction)
         inputAmount = input_amount
+        val editButton = button_edit_transaction
+        inputAmount.addTextChangedListener(object : TextValidator(inputAmount) {
+            override fun validate(textView: TextView, text: String) {
+                if (text.isEmpty()) {
+                    textView.error = (getString(R.string.amount_error))
+                    editButton.isEnabled = false
+                } else
+                    editButton.isEnabled = true
+            }
+        })
         inputDate = input_date
         inputDescription = input_description
         inputTransactionCategory = input_transaction_category
@@ -78,7 +91,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         navigateToLanding(transactionDate)
     }
 
-    fun navigateToLanding(transactionDate: Long) {
+    private fun navigateToLanding(transactionDate: Long) {
         startActivity(LandingActivity.getStartIntent(this, transactionDate))
         finish()
     }
@@ -109,12 +122,25 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
             calendar.showDatePickerDialogAndDisplaySelectedDateTextToView(this, inputDate)
         }
 
-        deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
+        deleteButton.setOnClickListener {
+            val alert = gerDisclaimerDialog()
+            alert.show()
+        }
+
         button_edit_transaction.setOnClickListener {
             bindTransactionValues(transaction, calendar)
             presenter.updateTransaction(transaction)
 
         }
+    }
+
+    private fun gerDisclaimerDialog(): AlertDialog {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(R.string.are_you_sure_you_want_to_delete_this_transaction).setTitle(R.string.delete_transaction)
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes) { _, _ -> presenter.deleteTransaction(transaction) }
+                .setNegativeButton(R.string.no) { dialog, _ -> dialog.cancel() }
+        return builder.create()
     }
 
     private fun bindTransactionValues(transaction: Transaction, calendar: Calendar) {

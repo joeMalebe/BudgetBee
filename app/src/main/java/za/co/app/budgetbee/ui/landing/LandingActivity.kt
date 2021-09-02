@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager
@@ -22,8 +23,10 @@ import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
+import za.co.app.budgetbee.ui.report.ReportActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
 import za.co.app.budgetbee.ui.views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.views.MonthSwitcher
@@ -50,6 +53,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     private lateinit var expenseValueText: TextView
     private lateinit var balanceValueText: TextView
     private lateinit var noTransactionsLayout: ConstraintLayout
+    private lateinit var transactions: ArrayList<Transaction>
 
     companion object {
         private val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
@@ -95,10 +99,12 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         Log.e(TAG, "showError")
     }
 
-    override fun displayTransactions(transactions: ArrayList<Transaction>) {
+    override fun displayTransactions(transactionsList: ArrayList<Transaction>) {
         dismissLoading()
         dialog.hide()
-        val adapter = TransactionsAdapter(transactions)
+
+        this.transactions = transactionsList
+        val adapter = TransactionsListAdapter(transactions)
         adapter.getSelectedTransaction().subscribe { transaction ->
             startActivity(EditTransactionActivity.getStartIntent(this, transaction))
         }.let { compositeDisposable.add(it) }
@@ -134,6 +140,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         balanceValueText.text = twoDecimalPointsValue(0.0)
         transactionsRecyclerView.visibility = GONE
         noTransactionsLayout.visibility = VISIBLE
+        transactions = arrayListOf()
     }
 
     override fun displayScreen() {
@@ -247,7 +254,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     private fun getStartAndEndDate(calendar: Calendar): Pair<Long, Long> {
         val startDate = Calendar.getInstance()
         val endDate = Calendar.getInstance()
-        startDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 1)
+        startDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0)
         endDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.getMaximum(Calendar.DAY_OF_MONTH))
         return Pair(startDate.timeInMillis, endDate.timeInMillis)
     }
@@ -269,5 +276,9 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
             val transactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
             startActivity(AddTransactionActivity.getStartIntent(this, transactionCategory))
         }
+    }
+
+    fun navigateToGraphs(view: View) {
+        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == TransactionCategoryType.INCOME.value }))
     }
 }
