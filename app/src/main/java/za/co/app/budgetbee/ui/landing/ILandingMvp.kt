@@ -3,6 +3,7 @@ package za.co.app.budgetbee.ui.landing
 import za.co.app.budgetbee.base.IBasePresenter
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.data.model.domain.Transaction
+import java.util.*
 
 interface ILandingMvp {
 
@@ -20,7 +21,7 @@ interface ILandingMvp {
 
     interface Presenter : IBasePresenter {
         fun getTransactions()
-        fun getTransactionsByDate(dateRange: Pair<Long, Long>)
+        fun getTransactionsByDate(calendar: Calendar)
         fun getTotalIncome(transactions: java.util.ArrayList<Transaction>)
         fun getTotalExpense(transactions: java.util.ArrayList<Transaction>): Any
         fun getStartAndEndDate(calendar: Calendar): Pair<Long, Long> {
