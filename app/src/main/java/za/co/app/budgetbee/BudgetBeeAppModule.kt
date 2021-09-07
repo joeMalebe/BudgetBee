@@ -12,6 +12,7 @@ import za.co.app.budgetbee.ui.edit_transaction.EditTransactionPresenter
 import za.co.app.budgetbee.ui.edit_transaction.IEditTransactionMvp
 import za.co.app.budgetbee.ui.landing.ILandingMvp
 import za.co.app.budgetbee.ui.landing.LandingPresenter
+import za.co.app.budgetbee.ui.report.ReportPresenter
 import za.co.app.budgetbee.ui.select_transaction_category.ISelectTransactionCategoryMvp
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryPresenter
 import za.co.app.budgetbee.ui.transaction.ITransactionMvp
@@ -73,5 +74,11 @@ class BudgetBeeAppModule(val application: BudgetBeeApplication) {
     @Singleton
     fun selectTransactionCategoryPresenter(transactionsRepository: IDatabaseRepository): ISelectTransactionCategoryMvp.Presenter {
         return SelectTransactionCategoryPresenter(transactionsRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun reportActivityPresenter(transactionsRepository: IDatabaseRepository): ReportPresenter {
+        return ReportPresenter(transactionsRepository)
     }
 }
