@@ -56,7 +56,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     private lateinit var transactions: ArrayList<Transaction>
 
     companion object {
-        private val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
+        val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
 
         fun getStartIntent(context: Context, transactionDate: Long): Intent {
             val intent = Intent(context, LandingActivity::class.java)
@@ -99,12 +99,12 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         Log.e(TAG, "showError")
     }
 
-    override fun displayTransactions(transactionsList: ArrayList<Transaction>) {
+    override fun displayTransactions(transactions: ArrayList<Transaction>) {
         dismissLoading()
         dialog.hide()
 
-        this.transactions = transactionsList
-        val adapter = TransactionsListAdapter(transactions)
+        this.transactions = transactions
+        val adapter = TransactionsListAdapter(this.transactions)
         adapter.getSelectedTransaction().subscribe { transaction ->
             startActivity(EditTransactionActivity.getStartIntent(this, transaction))
         }.let { compositeDisposable.add(it) }
@@ -157,9 +157,9 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
                 }
         )
 
-        presenter.getTransactionsByDate(getStartAndEndDate(date))
+        presenter.getTransactionsByDate(date)
         dialog = YearSwitcherDialog(this)
-        val dialogView = android.view.View.inflate(this, R.layout.layout_month_selector_dialog, null)
+        val dialogView = View.inflate(this, R.layout.layout_month_selector_dialog, null)
 
         val firstSixMonthsRecycler = dialogView.first_six_months_recycler
         val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(date)
@@ -213,8 +213,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val firstSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(0..5), date[Calendar.YEAR])
         firstSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
-            presenter.getTransactionsByDate(
-                    getStartAndEndDate(calendar))
+            presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
         return firstSixMonthsAdapter
@@ -224,8 +223,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val lastSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(6..11), date[Calendar.YEAR])
         lastSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
-            presenter.getTransactionsByDate(
-                    getStartAndEndDate(calendar))
+            presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
         return lastSixMonthsAdapter
@@ -246,17 +244,8 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     private fun getTransactionsInSelectedMonth() {
         return monthSwitcher.getSelectedDate().subscribe { calendar ->
-            presenter.getTransactionsByDate(
-                    getStartAndEndDate(calendar))
+            presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
-    }
-
-    private fun getStartAndEndDate(calendar: Calendar): Pair<Long, Long> {
-        val startDate = Calendar.getInstance()
-        val endDate = Calendar.getInstance()
-        startDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0)
-        endDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.getMaximum(Calendar.DAY_OF_MONTH))
-        return Pair(startDate.timeInMillis, endDate.timeInMillis)
     }
 
     override fun onDestroy() {
@@ -279,6 +268,6 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     }
 
     fun navigateToGraphs(view: View) {
-        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == TransactionCategoryType.INCOME.value }))
+        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == TransactionCategoryType.INCOME.value }, transactions.firstOrNull()?.transactionDate))
     }
 }
