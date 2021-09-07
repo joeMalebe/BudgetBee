@@ -23,5 +23,12 @@ interface ILandingMvp {
         fun getTransactionsByDate(dateRange: Pair<Long, Long>)
         fun getTotalIncome(transactions: java.util.ArrayList<Transaction>)
         fun getTotalExpense(transactions: java.util.ArrayList<Transaction>): Any
+        fun getStartAndEndDate(calendar: Calendar): Pair<Long, Long> {
+            val startDate = Calendar.getInstance()
+            val endDate = Calendar.getInstance()
+            startDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0)
+            endDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.getMaximum(Calendar.DAY_OF_MONTH))
+            return Pair(startDate.timeInMillis, endDate.timeInMillis)
+        }
     }
 }
