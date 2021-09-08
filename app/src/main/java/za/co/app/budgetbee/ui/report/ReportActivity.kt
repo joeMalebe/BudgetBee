@@ -40,13 +40,15 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     lateinit var presenter: ReportPresenter
 
     companion object {
+        private const val EXTRA_TRANSACTIONS_CATEGORY = "TRANSACTIONS_CATEGORY"
         private const val EXTRA_TRANSACTIONS = "EXTRA_TRANSACTIONS"
 
-        fun getStartIntent(context: Context, transactions: List<Transaction>, transactionDate: Long?): Intent {
+        fun getStartIntent(context: Context, transactions: List<Transaction>, transactionDate: Long?, transactionsCategory: Int): Intent {
             val intent = Intent(context, ReportActivity::class.java)
-            transactions[0].transactionDate
+
             intent.putParcelableArrayListExtra(EXTRA_TRANSACTIONS, transactions as ArrayList<out Parcelable>)
             intent.putExtra(LandingActivity.CURRENT_DATE_EXTRA, transactionDate ?: 0L)
+            intent.putExtra(EXTRA_TRANSACTIONS_CATEGORY, transactionsCategory)
 
             return intent
         }
@@ -162,8 +164,10 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     }
 
     override fun displayTransactions(transactions: ArrayList<Transaction>) {
-        displayTransactionsInPieChart(transactions)
-        displayTransactionsInRecyclerView(transactions)
+        val transactionsCategory = intent.getIntExtra(EXTRA_TRANSACTIONS_CATEGORY, 0)
+        val transactionsInSelectedCategory = transactions.filter { it.transactionCategoryType == transactionsCategory } as java.util.ArrayList<Transaction>
+        displayTransactionsInPieChart(transactionsInSelectedCategory)
+        displayTransactionsInRecyclerView(transactionsInSelectedCategory)
     }
 
     override fun openTransactionCategoryActivity() {

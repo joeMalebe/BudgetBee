@@ -39,6 +39,7 @@ import javax.inject.Inject
 class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
 
+    private val currentDate = Calendar.getInstance()
     private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
     val TAG = LandingActivity::class.simpleName
@@ -145,32 +146,32 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     override fun displayScreen() {
         showLoading()
-        val date = Calendar.getInstance()
-        val currentDate = intent.getLongExtra(CURRENT_DATE_EXTRA, 0L)
+
+        val newDate = intent.getLongExtra(CURRENT_DATE_EXTRA, 0L)
 
         monthSwitcher.init(
-                if (currentDate == 0L) {
-                    date
+                if (newDate == 0L) {
+                    this.currentDate
                 } else {
-                    date.timeInMillis = currentDate
-                    date
+                    this.currentDate.timeInMillis = newDate
+                    this.currentDate
                 }
         )
 
-        presenter.getTransactionsByDate(date)
+        presenter.getTransactionsByDate(this.currentDate)
         dialog = YearSwitcherDialog(this)
         val dialogView = View.inflate(this, R.layout.layout_month_selector_dialog, null)
 
         val firstSixMonthsRecycler = dialogView.first_six_months_recycler
-        val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(date)
+        val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(this.currentDate)
 
         val lastSixMonthsRecycler = dialogView.last_six_months_recycler
-        val lastSixMonthsAdapter = getLastSixMonthsRecyclerAdapter(date)
+        val lastSixMonthsAdapter = getLastSixMonthsRecyclerAdapter(this.currentDate)
 
         val yearSwitcher = dialogView.year_switcher
-        yearSwitcher.init(date)
+        yearSwitcher.init(this.currentDate)
         yearSwitcher.getSelectedYear().subscribe { selectedYear ->
-            date.set(Calendar.YEAR, selectedYear)
+            this.currentDate.set(Calendar.YEAR, selectedYear)
             updateYearSwitcherMonths(firstSixMonthsAdapter, selectedYear, lastSixMonthsAdapter)
         }.let { compositeDisposable.add(it) }
 
@@ -267,7 +268,15 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         }
     }
 
-    fun navigateToGraphs(view: View) {
-        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == TransactionCategoryType.INCOME.value }, transactions.firstOrNull()?.transactionDate))
+    fun navigateToIncomeReports(view: View) {
+        startReportActivityByCategory(TransactionCategoryType.INCOME.value)
+    }
+
+    fun navigateToExpenseReports(view: View) {
+        startReportActivityByCategory(TransactionCategoryType.EXPENSE.value)
+    }
+
+    private fun startReportActivityByCategory(transactionCategory: Int) {
+        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == transactionCategory }, currentDate.timeInMillis, transactionCategory))
     }
 }
