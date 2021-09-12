@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <za.co.app.budgetbee.ui.views.YearSwitcher
+    <za.co.app.budgetbee.ui.custom_views.YearSwitcher
         android:id="@+id/year_switcher"
         android:layout_width="match_parent"
         android:layout_height="@dimen/year_switcher_height"
