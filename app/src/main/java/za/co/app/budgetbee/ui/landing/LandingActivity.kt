@@ -25,12 +25,12 @@ import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
+import za.co.app.budgetbee.ui.custom_views.MonthDialogAdapter
+import za.co.app.budgetbee.ui.custom_views.MonthSwitcher
+import za.co.app.budgetbee.ui.custom_views.YearSwitcherDialog
 import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.report.ReportActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
-import za.co.app.budgetbee.ui.views.MonthDialogAdapter
-import za.co.app.budgetbee.ui.views.MonthSwitcher
-import za.co.app.budgetbee.ui.views.YearSwitcherDialog
 import java.text.DateFormatSymbols
 import java.text.DecimalFormat
 import java.util.*

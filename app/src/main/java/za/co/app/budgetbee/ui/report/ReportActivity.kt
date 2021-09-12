@@ -24,9 +24,9 @@ import kotlinx.android.synthetic.main.home_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
+import za.co.app.budgetbee.ui.custom_views.MonthSwitcher
 import za.co.app.budgetbee.ui.landing.ILandingMvp
 import za.co.app.budgetbee.ui.landing.LandingActivity
-import za.co.app.budgetbee.ui.views.MonthSwitcher
 import java.util.*
 import javax.inject.Inject
 
