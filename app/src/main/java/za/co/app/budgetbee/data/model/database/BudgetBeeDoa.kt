@@ -27,7 +27,7 @@ interface BudgetBeeDoa {
     fun insertTransactionCategory(transactionCategoryDataModel: TransactionCategoryDataModel): Completable
 
     @Insert
-    fun insertAllTransactionCategory(transactionCategoryDataModel: Array<TransactionCategoryDataModel>): Completable
+    fun insertAllTransactionCategory(transactionCategoryDataModel: List<TransactionCategoryDataModel>): Completable
 
     @Insert
     fun insertTransaction(transaction: TransactionDataModel): Completable
