@@ -1,6 +1,5 @@
 package za.co.app.budgetbee.ui.select_transaction_category
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import za.co.app.budgetbee.R
@@ -18,28 +18,21 @@ import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity.Companion.E
 import za.co.app.budgetbee.ui.transactions_category.AddTransactionCategoryActivity
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryListAdapter
 import java.util.*
-import javax.inject.Inject
 
 
-class SelectTransactionCategoryFragment(val transactionCategoryType: TransactionCategoryType) :
+class SelectTransactionCategoryFragment(val transactionCategoryType: TransactionCategoryType, private val transactionCategoryList: MutableList<TransactionCategory>, var presenter: ISelectTransactionCategoryMvp.Presenter
+) :
         BaseFragment(), ISelectTransactionCategoryMvp.View {
 
+    private lateinit var incomeRecyclerView: RecyclerView
     val TAG = SelectTransactionCategoryFragment::class.simpleName
-
-    @Inject
-    lateinit var presenter: ISelectTransactionCategoryMvp.Presenter
 
     private val compositeDisposable = CompositeDisposable()
 
     companion object {
-        fun newInstance(transactionCategoryType: TransactionCategoryType): SelectTransactionCategoryFragment {
-            return SelectTransactionCategoryFragment(transactionCategoryType)
+        fun newInstance(transactionCategoryType: TransactionCategoryType, presenter: ISelectTransactionCategoryMvp.Presenter): SelectTransactionCategoryFragment {
+            return SelectTransactionCategoryFragment(transactionCategoryType, mutableListOf(), presenter)
         }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        presenter.attachView(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,8 +41,11 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
         return view
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        presenter.attachView(this)
+        incomeRecyclerView = this.income_category_recyclerView
+        incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
         displayScreen()
     }
 
@@ -59,12 +55,9 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
         presenter.detachView()
     }
 
-    fun buildScreen(transactionCategoryList: List<TransactionCategory>) {
-        val incomeRecyclerView = income_category_recyclerView
-        incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
-
+    fun buildScreen() {
         val transactionCategoryListAdapter =
-                TransactionCategoryListAdapter(transactionCategoryList.sortedBy { it.transactionCategoryName })
+                TransactionCategoryListAdapter(transactionCategoryList)
 
         transactionCategoryListAdapter.getSelectedTransactionCategory()
                 .subscribe { transactionCategory ->
@@ -83,7 +76,19 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
     }
 
     override fun displayCategories(transactionCategories: ArrayList<TransactionCategory>) {
-        buildScreen(transactionCategories)
+        val adapter = incomeRecyclerView.adapter
+        if (adapter == null) {
+            this.transactionCategoryList.addAll(transactionCategories.sortedBy { it.transactionCategoryName }.toMutableList())
+            buildScreen()
+        } else {
+            updateTransactionsCategories(transactionCategories, adapter)
+        }
+    }
+
+    private fun updateTransactionsCategories(transactionCategories: ArrayList<TransactionCategory>, adapter: RecyclerView.Adapter<*>) {
+        transactionCategoryList.clear()
+        transactionCategoryList.addAll(transactionCategories.sortedBy { it.transactionCategoryName })
+        adapter.notifyDataSetChanged()
     }
 
     override fun showError() {

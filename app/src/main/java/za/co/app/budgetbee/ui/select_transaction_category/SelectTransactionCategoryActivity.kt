@@ -4,17 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_transaction_category.*
 import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionPagerAdapter
+import javax.inject.Inject
+import javax.inject.Named
 
 class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
 
-    lateinit var addIncomeButton: FloatingActionButton
+    @Inject
+    @field:Named("income")
+    lateinit var incomePresenter: ISelectTransactionCategoryMvp.Presenter
+
+    @Inject
+    @field:Named("expense")
+    lateinit var expensePresenter: ISelectTransactionCategoryMvp.Presenter
 
     companion object {
         fun getStartIntent(context: Context): Intent {
@@ -34,7 +41,7 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
         val transactionViewPager = transaction_view_pager
         val transactionTabs = transaction_type_tab_layout
         transactionViewPager.adapter =
-            AddTransactionPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT)
+                AddTransactionPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, incomePresenter, expensePresenter)
         transactionTabs.setupWithViewPager(transactionViewPager)
     }
 }
