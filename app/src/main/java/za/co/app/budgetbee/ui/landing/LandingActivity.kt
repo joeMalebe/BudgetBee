@@ -25,12 +25,12 @@ import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
+import za.co.app.budgetbee.ui.custom_views.MonthDialogAdapter
+import za.co.app.budgetbee.ui.custom_views.MonthSwitcher
+import za.co.app.budgetbee.ui.custom_views.YearSwitcherDialog
 import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.report.ReportActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
-import za.co.app.budgetbee.ui.views.MonthDialogAdapter
-import za.co.app.budgetbee.ui.views.MonthSwitcher
-import za.co.app.budgetbee.ui.views.YearSwitcherDialog
 import java.text.DateFormatSymbols
 import java.text.DecimalFormat
 import java.util.*
@@ -39,6 +39,7 @@ import javax.inject.Inject
 class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
 
+    private val currentDate = Calendar.getInstance()
     private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
     val TAG = LandingActivity::class.simpleName
@@ -56,7 +57,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     private lateinit var transactions: ArrayList<Transaction>
 
     companion object {
-        private val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
+        val CURRENT_DATE_EXTRA = "CURRENT_DATE_EXTRA"
 
         fun getStartIntent(context: Context, transactionDate: Long): Intent {
             val intent = Intent(context, LandingActivity::class.java)
@@ -99,12 +100,12 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         Log.e(TAG, "showError")
     }
 
-    override fun displayTransactions(transactionsList: ArrayList<Transaction>) {
+    override fun displayTransactions(transactions: ArrayList<Transaction>) {
         dismissLoading()
         dialog.hide()
 
-        this.transactions = transactionsList
-        val adapter = TransactionsListAdapter(transactions)
+        this.transactions = transactions
+        val adapter = TransactionsListAdapter(this.transactions)
         adapter.getSelectedTransaction().subscribe { transaction ->
             startActivity(EditTransactionActivity.getStartIntent(this, transaction))
         }.let { compositeDisposable.add(it) }
@@ -145,32 +146,32 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     override fun displayScreen() {
         showLoading()
-        val date = Calendar.getInstance()
-        val currentDate = intent.getLongExtra(CURRENT_DATE_EXTRA, 0L)
+
+        val newDate = intent.getLongExtra(CURRENT_DATE_EXTRA, 0L)
 
         monthSwitcher.init(
-                if (currentDate == 0L) {
-                    date
+                if (newDate == 0L) {
+                    this.currentDate
                 } else {
-                    date.timeInMillis = currentDate
-                    date
+                    this.currentDate.timeInMillis = newDate
+                    this.currentDate
                 }
         )
 
-        presenter.getTransactionsByDate(getStartAndEndDate(date))
+        presenter.getTransactionsByDate(this.currentDate)
         dialog = YearSwitcherDialog(this)
-        val dialogView = android.view.View.inflate(this, R.layout.layout_month_selector_dialog, null)
+        val dialogView = View.inflate(this, R.layout.layout_month_selector_dialog, null)
 
         val firstSixMonthsRecycler = dialogView.first_six_months_recycler
-        val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(date)
+        val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(this.currentDate)
 
         val lastSixMonthsRecycler = dialogView.last_six_months_recycler
-        val lastSixMonthsAdapter = getLastSixMonthsRecyclerAdapter(date)
+        val lastSixMonthsAdapter = getLastSixMonthsRecyclerAdapter(this.currentDate)
 
         val yearSwitcher = dialogView.year_switcher
-        yearSwitcher.init(date)
+        yearSwitcher.init(this.currentDate)
         yearSwitcher.getSelectedYear().subscribe { selectedYear ->
-            date.set(Calendar.YEAR, selectedYear)
+            this.currentDate.set(Calendar.YEAR, selectedYear)
             updateYearSwitcherMonths(firstSixMonthsAdapter, selectedYear, lastSixMonthsAdapter)
         }.let { compositeDisposable.add(it) }
 
@@ -213,8 +214,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val firstSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(0..5), date[Calendar.YEAR])
         firstSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
-            presenter.getTransactionsByDate(
-                    getStartAndEndDate(calendar))
+            presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
         return firstSixMonthsAdapter
@@ -224,8 +224,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val lastSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(6..11), date[Calendar.YEAR])
         lastSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
-            presenter.getTransactionsByDate(
-                    getStartAndEndDate(calendar))
+            presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
         return lastSixMonthsAdapter
@@ -246,17 +245,8 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     private fun getTransactionsInSelectedMonth() {
         return monthSwitcher.getSelectedDate().subscribe { calendar ->
-            presenter.getTransactionsByDate(
-                    getStartAndEndDate(calendar))
+            presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
-    }
-
-    private fun getStartAndEndDate(calendar: Calendar): Pair<Long, Long> {
-        val startDate = Calendar.getInstance()
-        val endDate = Calendar.getInstance()
-        startDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), 0)
-        endDate.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.getMaximum(Calendar.DAY_OF_MONTH))
-        return Pair(startDate.timeInMillis, endDate.timeInMillis)
     }
 
     override fun onDestroy() {
@@ -278,7 +268,15 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         }
     }
 
-    fun navigateToGraphs(view: View) {
-        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == TransactionCategoryType.INCOME.value }))
+    fun navigateToIncomeReports(view: View) {
+        startReportActivityByCategory(TransactionCategoryType.INCOME.value)
+    }
+
+    fun navigateToExpenseReports(view: View) {
+        startReportActivityByCategory(TransactionCategoryType.EXPENSE.value)
+    }
+
+    private fun startReportActivityByCategory(transactionCategory: Int) {
+        startActivity(ReportActivity.getStartIntent(this, transactions.filter { it.transactionCategoryType == transactionCategory }, currentDate.timeInMillis, transactionCategory))
     }
 }

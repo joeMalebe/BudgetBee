@@ -12,9 +12,10 @@ import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import za.co.app.budgetbee.data.repository.TransactionsRepository
+import java.util.*
 import java.util.logging.Logger
 
-class LandingPresenter(
+open class LandingPresenter(
         val transactionsRepository: IDatabaseRepository
 ) : ILandingMvp.Presenter {
     private lateinit var view: ILandingMvp.View
@@ -35,11 +36,12 @@ class LandingPresenter(
         )
     }
 
-    override fun getTransactionsByDate(dateRange: Pair<Long, Long>) {
+    override fun getTransactionsByDate(calendar: Calendar) {
+        val dateRange = getStartAndEndDate(calendar)
         Observable.zip(
                 transactionsRepository.getAllTransactionCategories(),
                 transactionsRepository.getTransactionsByDateRange(dateRange),
-                BiFunction<ArrayList<TransactionCategory>, ArrayList<Transaction>, CombinedTransactionAndCategory> { transactionsCategrory, transactions ->
+                { transactionsCategrory, transactions ->
                     CombinedTransactionAndCategory(transactions, transactionsCategrory)
                 })
                 .subscribeOn(Schedulers.io())

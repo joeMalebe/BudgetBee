@@ -12,11 +12,13 @@ import za.co.app.budgetbee.ui.edit_transaction.EditTransactionPresenter
 import za.co.app.budgetbee.ui.edit_transaction.IEditTransactionMvp
 import za.co.app.budgetbee.ui.landing.ILandingMvp
 import za.co.app.budgetbee.ui.landing.LandingPresenter
+import za.co.app.budgetbee.ui.report.ReportPresenter
 import za.co.app.budgetbee.ui.select_transaction_category.ISelectTransactionCategoryMvp
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryPresenter
 import za.co.app.budgetbee.ui.transaction.ITransactionMvp
 import za.co.app.budgetbee.ui.transaction.TransactionPresenter
 import za.co.app.budgetbee.ui.transactions_category.ITransactionCategoryMvp
+import javax.inject.Named
 import javax.inject.Singleton
 
 class BudgetBeeAppModule(val application: BudgetBeeApplication) {
@@ -70,8 +72,22 @@ class BudgetBeeAppModule(val application: BudgetBeeApplication) {
     }
 
     @Provides
+    @Named("expense")
     @Singleton
-    fun selectTransactionCategoryPresenter(transactionsRepository: IDatabaseRepository): ISelectTransactionCategoryMvp.Presenter {
+    fun transactionCategoryAddExpenseCategoryActivityPresenter(transactionsRepository: IDatabaseRepository): ISelectTransactionCategoryMvp.Presenter {
         return SelectTransactionCategoryPresenter(transactionsRepository)
+    }
+
+    @Provides
+    @Named("income")
+    @Singleton
+    fun transactionCategoryAddIncomeCategoryActivityPresenter(transactionsRepository: IDatabaseRepository): ISelectTransactionCategoryMvp.Presenter {
+        return SelectTransactionCategoryPresenter(transactionsRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun reportActivityPresenter(transactionsRepository: IDatabaseRepository): ReportPresenter {
+        return ReportPresenter(transactionsRepository)
     }
 }

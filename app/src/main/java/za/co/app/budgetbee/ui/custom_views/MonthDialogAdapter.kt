@@ -1,4 +1,4 @@
-package za.co.app.budgetbee.ui.views
+package za.co.app.budgetbee.ui.custom_views
 
 import android.view.LayoutInflater
 import android.view.View
