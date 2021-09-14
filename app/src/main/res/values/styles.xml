@@ -17,6 +17,7 @@
 
     <style name="headings_text_base_font" parent="BudgetBeeMainTheme">
         <item name="fontFamily">@font/lora</item>
+        <item name="color">@color/primary_text</item>
     </style>
     <style name="body_text_base_font" parent="BudgetBeeMainTheme">
         <item name="fontFamily">@font/poppins_regular</item>
@@ -37,24 +38,34 @@
 
     <style name="text_body_dark_87" parent="body_text_base_font">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/primary_text</item>
         <item name="android:alpha">0.87</item>
+        <item name="color">@color/primary_text</item>
     </style>
 
     <style name="text_heading_dark_87" parent="headings_text_base_font">
         <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/primary_text</item>
         <item name="android:alpha">0.87</item>
     </style>
 
     <style name="text_body1" parent="text_body_dark_87">
         <item name="android:textSize">16sp</item>
+        <item name="color">@color/primary_text</item>
+
+    </style>
+
+    <style name="text_body1_bold">
+        <item name="android:textSize">16sp</item>
+        <item name="color">@color/primary_text</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
 
     </style>
 
     <style name="text_body2" parent="text_body_dark_87">
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/poppins_light</item>
+        <item name="color">@color/secondary_text</item>
     </style>
 
     <style name="text_heading6" parent="headings_text_base_font">
@@ -64,6 +75,7 @@
     <style name="text_heading6_light" parent="headings_text_base_font">
         <item name="android:textSize">18sp</item>
         <item name="android:alpha">0.54</item>
+        <item name="color">@color/secondary_text</item>
     </style>
 
     <style name="text_heading5" parent="headings_text_base_font">
@@ -79,6 +91,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">?android:attr/listDivider</item>
+        <item name="color">@color/divider</item>
     </style>
 
     <style name="horizontal_progress_bar" parent="android:Widget.ProgressBar.Horizontal">
