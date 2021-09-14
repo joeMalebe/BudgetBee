@@ -38,7 +38,7 @@ private fun setupDateDialogue(calendar: Calendar, context: Context, displaySelec
 }
 
 private fun displaySelectedDateToView(calendar: Calendar, displaySelectedDateTextView: TextInputEditText): (DatePicker, Int, Int, Int) -> Unit {
-    return { datePicker, selectedYear, selectedMonth, selectedDay ->
+    return { _, selectedYear, selectedMonth, selectedDay ->
         calendar.set(selectedYear, selectedMonth, selectedDay)
         displaySelectedDateTextView.setText(calendar.getDateStringByFormat())
     }

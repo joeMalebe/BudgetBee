@@ -16,13 +16,22 @@
         android:paddingStart="@dimen/gutterSpace"
         android:paddingTop="@dimen/gutterSpace">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_arrow"
+            android:layout_width="@dimen/gutterSpace"
+            android:layout_height="@dimen/gutterSpace"
+            app:layout_constraintBottom_toBottomOf="@+id/text_transaction_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_arrow_down" />
+
         <TextView
             android:id="@+id/text_transaction_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/gutterSpaceHalf"
+            android:layout_marginStart="@dimen/gutterSpace"
             app:layout_constraintBottom_toTopOf="@id/text_transaction_description"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_arrow"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Salary"
             style="@style/text_body1" />
@@ -33,19 +42,30 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/gutterSpace"
             app:layout_constraintBottom_toTopOf="@id/transaction_divider"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_transaction_category"
             tools:text="Pay day"
             style="@style/text_body2" />
+
+        <TextView
+            android:id="@+id/text_plus_minus_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/text_body1_bold"
+            android:layout_marginEnd="@dimen/gutterSpaceHalf"
+            app:layout_constraintBottom_toBottomOf="@+id/text_transaction_amount"
+            app:layout_constraintEnd_toStartOf="@id/text_transaction_amount"
+            tools:text="+"
+            android:textColor="@color/red"
+            app:layout_constraintTop_toTopOf="@+id/text_transaction_amount" />
 
         <TextView
             android:id="@+id/text_transaction_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/text_transaction_category"
+            app:layout_constraintBottom_toBottomOf="@+id/image_arrow"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/text_transaction_category"
-            tools:text="+ 2000"
+            app:layout_constraintTop_toTopOf="@+id/image_arrow"
+            tools:text="2000"
             style="@style/text_body1" />
 
         <View
