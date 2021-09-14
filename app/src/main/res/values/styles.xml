@@ -13,9 +13,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
-        <item name="android:fontFamily">sans-serif</item>
-        <item name="fontFamily">sans-serif</item>
+    <style name="headings_text_base_font" parent="BudgetBeeMainTheme">
+        <item name="fontFamily">@font/lora</item>
+    </style>
+    <style name="body_text_base_font" parent="BudgetBeeMainTheme">
+        <item name="fontFamily">@font/poppins_regular</item>
     </style>
 
     <style name="BudgetBeeMainTheme.Launcher">
@@ -31,34 +35,42 @@
 
     <style name="BudgetBeeMainTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="text_dark_87" parent="BudgetBeeMainTheme">
+    <style name="text_body_dark_87" parent="body_text_base_font">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:alpha">0.87</item>
     </style>
 
-    <style name="text_body1" parent="text_dark_87">
+    <style name="text_heading_dark_87" parent="headings_text_base_font">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:alpha">0.87</item>
+    </style>
+
+    <style name="text_body1" parent="text_body_dark_87">
         <item name="android:textSize">16sp</item>
+
     </style>
 
-    <style name="text_body2" parent="text_dark_87">
+    <style name="text_body2" parent="text_body_dark_87">
         <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/poppins_light</item>
     </style>
 
-    <style name="text_heading6" parent="text_dark_87">
+    <style name="text_heading6" parent="headings_text_base_font">
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="text_heading6_light" parent="text_dark_87">
+    <style name="text_heading6_light" parent="headings_text_base_font">
         <item name="android:textSize">18sp</item>
         <item name="android:alpha">0.54</item>
     </style>
 
-    <style name="text_heading5" parent="text_dark_87">
+    <style name="text_heading5" parent="headings_text_base_font">
         <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="text_toolbar" parent="text_dark_87">
+    <style name="text_toolbar" parent="headings_text_base_font">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
