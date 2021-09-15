@@ -5,16 +5,16 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@mipmap/ic_budget_bee_logo"
+        android:icon="@drawable/ic_budget_bliss_icon"
         android:label="@string/app_name"
         android:name=".BudgetBeeApplication"
-        android:roundIcon="@mipmap/ic_budget_bee_logo_round"
+        android:roundIcon="@drawable/ic_budget_bliss_icon"
         android:supportsRtl="true"
         android:theme="@style/BudgetBeeMainTheme">
         <activity
             android:label="@string/title_activity_report"
             android:name=".ui.report.ReportActivity"
-            android:theme="@style/BudgetBeeMainTheme.NoActionBar"></activity>
+            android:theme="@style/BudgetBeeMainTheme.NoActionBar"/>
         <activity android:name=".ui.edit_transaction.EditTransactionActivity" />
         <activity android:name=".ui.transaction.TransactionActivity" />
         <activity android:name=".ui.add_transaction.AddTransactionActivity" />
