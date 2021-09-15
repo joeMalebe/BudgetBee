@@ -15,6 +15,10 @@
         android:theme="@style/BudgetBeeMainTheme">
 
         <activity
+            android:name=".ui.report.BalanceReportActivity"
+            android:theme="@style/BudgetBeeMainTheme" />
+
+        <activity
             android:label="@string/title_activity_report"
             android:name=".ui.report.ReportActivity"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar"/>
