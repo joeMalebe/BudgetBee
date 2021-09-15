@@ -4,8 +4,8 @@ import android.util.Log
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
-abstract class BaseObserver<T> : Observer<T> {
-    val TAG = BaseObserver::class.simpleName
+abstract class BasePresenterObserver<T>(open val view: IBaseView) : Observer<T> {
+    val TAG = BasePresenterObserver::class.simpleName
 
     override fun onComplete() {
         Log.d(TAG, "onComplete called")

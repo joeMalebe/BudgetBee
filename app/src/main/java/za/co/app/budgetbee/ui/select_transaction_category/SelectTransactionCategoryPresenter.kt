@@ -2,7 +2,7 @@ package za.co.app.budgetbee.ui.select_transaction_category
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import za.co.app.budgetbee.base.BaseObserver
+import za.co.app.budgetbee.base.BasePresenterObserver
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
@@ -27,8 +27,8 @@ class SelectTransactionCategoryPresenter(val transactionsRepository: IDatabaseRe
         Logger.getAnonymousLogger().info("SelectTransactionCategoryPresenter Stopped")
     }
 
-    class TransactionCategoryObserver(val view: ISelectTransactionCategoryMvp.View) :
-            BaseObserver<ArrayList<TransactionCategory>>() {
+    class TransactionCategoryObserver(override val view: ISelectTransactionCategoryMvp.View) :
+            BasePresenterObserver<ArrayList<TransactionCategory>>(view) {
 
         override fun onNext(value: ArrayList<TransactionCategory>) {
             view.dismissLoading()

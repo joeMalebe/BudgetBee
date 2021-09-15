@@ -5,7 +5,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
-import za.co.app.budgetbee.base.BaseObserver
+import za.co.app.budgetbee.base.BasePresenterObserver
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
@@ -65,8 +65,8 @@ open class LandingPresenter(
         Logger.getAnonymousLogger().info("LandingPresenter Stopped")
     }
 
-    inner class TransactionsObserver(val view: ILandingMvp.View) :
-            BaseObserver<CombinedTransactionAndCategory>() {
+    inner class TransactionsObserver(override val view: ILandingMvp.View) :
+            BasePresenterObserver<CombinedTransactionAndCategory>(view) {
         override fun onNext(value: CombinedTransactionAndCategory) {
             val transactions = value.transactions
             if (transactions.isNotEmpty()) {
