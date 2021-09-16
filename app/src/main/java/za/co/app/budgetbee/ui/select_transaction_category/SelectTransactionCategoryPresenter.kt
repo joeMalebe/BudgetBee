@@ -37,7 +37,7 @@ class SelectTransactionCategoryPresenter(val transactionsRepository: IDatabaseRe
 
         override fun onError(error: Throwable) {
             view.dismissLoading()
-            view.showError()
+            view.showError(error)
         }
     }
 }
