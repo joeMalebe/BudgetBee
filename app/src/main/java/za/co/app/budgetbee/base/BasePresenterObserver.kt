@@ -21,7 +21,7 @@ abstract class BasePresenterObserver<T>(open val view: IServiceCallView) : Obser
 
     override fun onError(error: Throwable) {
         view.dismissLoading()
-        view.showError()
+        view.showError(error)
         Log.d(TAG, "onError called with ${error.message}")
     }
 
