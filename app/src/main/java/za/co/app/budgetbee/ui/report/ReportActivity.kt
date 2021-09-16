@@ -88,16 +88,20 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
     private fun displayTransactionsInRecyclerView(transactions: java.util.ArrayList<Transaction>) {
         val recyclerView = recycler_transactions_list
+        val groupedTransactions = getGroupedTransactions(transactions)
+        val adapter = ReportAdapter(groupedTransactions, ColorTemplate.VORDIPLOM_COLORS.toList())
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    fun getGroupedTransactions(transactions: ArrayList<Transaction>): ArrayList<Transaction> {
         val groupedTransactions = arrayListOf<Transaction>()
         transactions.groupBy { it.transactionCategoryName }
                 .forEach { transactionsByCategoryName ->
                     val transaction = Transaction(0L, transactionsByCategoryName.key, (transactionsByCategoryName.value.sumBy { transaction -> transaction.transactionAmount.toInt() }.toDouble()), 0, transactionsByCategoryName.key, 0)
                     groupedTransactions.add(transaction)
                 }
-
-        val adapter = ReportAdapter(groupedTransactions, ColorTemplate.VORDIPLOM_COLORS.toList())
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        return groupedTransactions
     }
 
     private fun displayTransactionsInPieChart(transactions: java.util.ArrayList<Transaction>) {

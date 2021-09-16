@@ -12,6 +12,6 @@ interface IBalanceReportMvp {
     }
 
     interface Presenter: IBasePresenter {
-        fun getTransactions()
+        fun getTransactionsGroupedByCategoryName()
     }
 }
