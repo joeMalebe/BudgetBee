@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
@@ -105,8 +107,8 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
         data.setValueFormatter(PercentFormatter())
         data.setValueTextSize(11f)
-        data.setValueTextColor(Color.BLACK)
-        data.setValueTypeface(Typeface.SANS_SERIF)
+        data.setValueTextColor(ContextCompat.getColor(this, R.color.primary_text))
+        data.setValueTypeface(ResourcesCompat.getFont(this, R.font.poppins_regular))
         pieChart.data = data
 
         val description = Description()
