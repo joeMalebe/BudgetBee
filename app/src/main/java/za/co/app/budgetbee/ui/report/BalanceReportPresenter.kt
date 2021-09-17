@@ -11,7 +11,7 @@ import java.util.logging.Logger
 class BalanceReportPresenter(val transactionsRepository: IDatabaseRepository) : IBalanceReportMvp.Presenter {
     private lateinit var view: IBalanceReportMvp.View
 
-    override fun getTransactionsGroupedByCategoryName() {
+    override fun getTransactionsGroupedByCategoryType() {
         view.showLoading()
         transactionsRepository.getTransactions()
                 .subscribeOn(Schedulers.io())
@@ -32,14 +32,8 @@ class BalanceReportPresenter(val transactionsRepository: IDatabaseRepository) : 
             view.displayTransactions(getGroupedTransactions(value))
         }
 
-        fun getGroupedTransactions(transactions: ArrayList<Transaction>): ArrayList<Transaction> {
-            val groupedTransactions = arrayListOf<Transaction>()
-            transactions.groupBy { it.transactionCategoryName }
-                    .forEach { transactionsByCategoryName ->
-                        val transaction = Transaction(0L, transactionsByCategoryName.key, (transactionsByCategoryName.value.sumBy { transaction -> transaction.transactionAmount.toInt() }.toDouble()), 0, transactionsByCategoryName.key, 0)
-                        groupedTransactions.add(transaction)
-                    }
-            return groupedTransactions
+        fun getGroupedTransactions(transactions: ArrayList<Transaction>): Map<Int, List<Transaction>> {
+            return transactions.groupBy { it.transactionCategoryType }
         }
     }
 }

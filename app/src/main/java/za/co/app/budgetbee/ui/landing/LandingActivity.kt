@@ -29,6 +29,7 @@ import za.co.app.budgetbee.ui.custom_views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.custom_views.MonthSwitcher
 import za.co.app.budgetbee.ui.custom_views.YearSwitcherDialog
 import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
+import za.co.app.budgetbee.ui.report.BalanceReportActivity
 import za.co.app.budgetbee.ui.report.ReportActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
 import java.text.DateFormatSymbols
@@ -274,6 +275,10 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     fun navigateToExpenseReports(view: View) {
         startReportActivityByCategory(TransactionCategoryType.EXPENSE.value)
+    }
+
+    fun navigateToBalanceReports(view: View) {
+        startActivity(BalanceReportActivity.getStartIntent(this))
     }
 
     private fun startReportActivityByCategory(transactionCategory: Int) {

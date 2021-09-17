@@ -6,6 +6,9 @@
     android:orientation="vertical"
     tools:context=".ui.report.BalanceReportActivity">
 
+
+    <include layout="@layout/home_toolbar" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -13,7 +16,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/line_chart"
             android:layout_width="match_parent"
-            android:layout_height="320dp"/>
+            android:layout_height="320dp" />
 
     </androidx.cardview.widget.CardView>
 

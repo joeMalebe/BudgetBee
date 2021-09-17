@@ -8,10 +8,10 @@ import za.co.app.budgetbee.data.model.domain.Transaction
 interface IBalanceReportMvp {
 
     interface View :IBaseView, IServiceCallView {
-        fun displayTransactions(transactions: List<Transaction>)
+        fun displayTransactions(transactionsByCategory: Map<Int, List<Transaction>>)
     }
 
     interface Presenter: IBasePresenter {
-        fun getTransactionsGroupedByCategoryName()
+        fun getTransactionsGroupedByCategoryType()
     }
 }
