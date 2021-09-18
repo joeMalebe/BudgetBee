@@ -1,5 +1,5 @@
 package za.co.app.budgetbee.base
 
 interface IServiceCallView : ILoadableView {
-    fun showError()
+    fun showError(error: Throwable)
 }

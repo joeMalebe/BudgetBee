@@ -91,7 +91,7 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
         adapter.notifyDataSetChanged()
     }
 
-    override fun showError() {
+    override fun showError(error: Throwable) {
         Log.d(TAG, "showError() called")
     }
     override fun showLoading() {

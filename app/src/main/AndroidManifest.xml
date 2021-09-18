@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="za.co.app.budgetbee">
     <!-- To access Google+ APIs: -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -11,18 +13,36 @@
         android:roundIcon="@drawable/ic_budget_bliss_icon"
         android:supportsRtl="true"
         android:theme="@style/BudgetBeeMainTheme">
+
+        <activity
+            android:name=".ui.report.BalanceReportActivity"
+            android:theme="@style/BudgetBeeMainTheme" />
+
         <activity
             android:label="@string/title_activity_report"
             android:name=".ui.report.ReportActivity"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar"/>
-        <activity android:name=".ui.edit_transaction.EditTransactionActivity" />
-        <activity android:name=".ui.transaction.TransactionActivity" />
-        <activity android:name=".ui.add_transaction.AddTransactionActivity" />
+
+        <activity
+            android:name=".ui.edit_transaction.EditTransactionActivity"
+            android:theme="@style/BudgetBeeMainTheme" />
+
+        <activity
+            android:name=".ui.transaction.TransactionActivity"
+            android:theme="@style/BudgetBeeMainTheme" />
+
+        <activity
+            android:name=".ui.add_transaction.AddTransactionActivity"
+            android:theme="@style/BudgetBeeMainTheme" />
+
         <activity
             android:label="@string/title_activity_add_transaction_category"
             android:name=".ui.transactions_category.AddTransactionCategoryActivity"
-            android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
-        <activity android:name=".ui.select_transaction_category.SelectTransactionCategoryActivity" />
+            android:theme="@style/BudgetBeeMainTheme" />
+
+        <activity android:name=".ui.select_transaction_category.SelectTransactionCategoryActivity"
+            android:theme="@style/BudgetBeeMainTheme"/>
+
         <activity
             android:name=".ui.landing.LandingActivity"
             android:theme="@style/BudgetBeeMainTheme">
@@ -34,7 +54,4 @@
             </intent-filter>
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 </manifest>
