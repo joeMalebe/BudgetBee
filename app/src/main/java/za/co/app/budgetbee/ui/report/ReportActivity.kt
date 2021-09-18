@@ -7,11 +7,11 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Description
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -36,12 +36,12 @@ import javax.inject.Inject
 class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
     private lateinit var monthSwitcher: MonthSwitcher
-    val TAG = ReportActivity::class.simpleName
     private val compositeDisposable = CompositeDisposable()
     @Inject
     lateinit var presenter: ReportPresenter
 
     companion object {
+        private val TAG = ReportActivity::class.simpleName
         private const val EXTRA_TRANSACTIONS_CATEGORY = "TRANSACTIONS_CATEGORY"
         private const val EXTRA_TRANSACTIONS = "EXTRA_TRANSACTIONS"
 
@@ -63,7 +63,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         presenter.attachView(this)
 
         val date = Calendar.getInstance()
-        monthSwitcher = month_switcher;
+        monthSwitcher = month_switcher
 
         val currentDate = intent.getLongExtra(LandingActivity.CURRENT_DATE_EXTRA, 0L)
 
@@ -86,15 +86,16 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         }
     }
 
-    private fun displayTransactionsInRecyclerView(transactions: java.util.ArrayList<Transaction>) {
+    private fun displayTransactionsInRecyclerView(transactions: ArrayList<Transaction>) {
         val recyclerView = recycler_transactions_list
-        val groupedTransactions = getGroupedTransactions(transactions)
-        val adapter = ReportAdapter(groupedTransactions, ColorTemplate.VORDIPLOM_COLORS.toList())
+        recyclerView.visibility = VISIBLE
+
+        val adapter = ReportAdapter(getGroupedTransactions(transactions), ColorTemplate.VORDIPLOM_COLORS.toList())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    fun getGroupedTransactions(transactions: ArrayList<Transaction>): ArrayList<Transaction> {
+    private fun getGroupedTransactions(transactions: ArrayList<Transaction>): ArrayList<Transaction> {
         val groupedTransactions = arrayListOf<Transaction>()
         transactions.groupBy { it.transactionCategoryName }
                 .forEach { transactionsByCategoryName ->
@@ -104,9 +105,8 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         return groupedTransactions
     }
 
-    private fun displayTransactionsInPieChart(transactions: java.util.ArrayList<Transaction>) {
-        val pieChart = findViewById<View>(R.id.pie_chart) as PieChart
-
+    private fun displayTransactionsInPieChart(transactions: ArrayList<Transaction>) {
+        val pieChart = pie_chart
         val data = PieData(getDataSet(transactions))
 
         data.setValueFormatter(PercentFormatter())
@@ -128,21 +128,21 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         pieChart.isDrawHoleEnabled = false
         pieChart.setHoleColor(Color.WHITE)
 
-        pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setTransparentCircleAlpha(110);
+        pieChart.setTransparentCircleColor(Color.WHITE)
+        pieChart.setTransparentCircleAlpha(110)
 
-        pieChart.holeRadius = 58f;
-        pieChart.transparentCircleRadius = 61f;
+        pieChart.holeRadius = 58f
+        pieChart.transparentCircleRadius = 61f
 
-        pieChart.setEntryLabelColor(Color.CYAN);
-        pieChart.setEntryLabelTypeface(Typeface.SANS_SERIF);
-        pieChart.setEntryLabelTextSize(0f);
+        pieChart.setEntryLabelColor(Color.CYAN)
+        pieChart.setEntryLabelTypeface(Typeface.SANS_SERIF)
+        pieChart.setEntryLabelTextSize(0f)
         pieChart.invalidate()
     }
 
     private fun getDataSet(transactions: ArrayList<Transaction>): IPieDataSet {
         val transactionAmounts = arrayListOf<PieEntry>()
-        val total = transactions.sumBy { it.transactionAmount.toInt() }
+        transactions.sumBy { it.transactionAmount.toInt() }
         val groupedTransactions = transactions.groupBy { it.transactionCategoryName }
         groupedTransactions.forEach { transactionsByCategoryName ->
             val pieEntry = PieEntry((transactionsByCategoryName.value.sumBy { transaction -> transaction.transactionAmount.toInt() }.toFloat()), transactionsByCategoryName.key)
@@ -171,7 +171,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
     override fun displayTransactions(transactions: ArrayList<Transaction>) {
         val transactionsCategory = intent.getIntExtra(EXTRA_TRANSACTIONS_CATEGORY, 0)
-        val transactionsInSelectedCategory = transactions.filter { it.transactionCategoryType == transactionsCategory } as java.util.ArrayList<Transaction>
+        val transactionsInSelectedCategory = transactions.filter { it.transactionCategoryType == transactionsCategory } as ArrayList<Transaction>
         displayTransactionsInPieChart(transactionsInSelectedCategory)
         displayTransactionsInRecyclerView(transactionsInSelectedCategory)
     }
@@ -193,7 +193,8 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     }
 
     override fun displayNoTransactions() {
-
+        pie_chart.clear()
+        recycler_transactions_list.visibility = GONE
     }
 
     override fun displayScreen() {
