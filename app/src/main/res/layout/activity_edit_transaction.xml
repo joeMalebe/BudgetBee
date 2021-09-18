@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.edit_transaction.EditTransactionActivity">
 
@@ -24,6 +25,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/hint_text_appearance"
+                style="@style/input_text_outlined"
                 android:layout_marginBottom="@dimen/gutterSpace"
                 android:hint="@string/amount">
 
@@ -31,13 +34,15 @@
                     android:id="@+id/input_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    style="@style/edit_text"
                     android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:hintTextAppearance="@style/hint_text_appearance"
+                style="@style/input_text_outlined"
                 android:layout_marginBottom="@dimen/gutterSpace"
                 android:hint="@string/description">
 
@@ -46,12 +51,14 @@
                     android:layout_width="match_parent"
                     android:maxLines="1"
                     android:inputType="text"
-                    android:fontFamily="@font/poppins_regular"
+                    style="@style/edit_text"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                app:hintTextAppearance="@style/hint_text_appearance"
+                style="@style/input_text_outlined"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/gutterSpace"
                 android:hint="@string/category">
@@ -60,6 +67,7 @@
                     android:id="@+id/input_transaction_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/edit_text"
                     android:fontFamily="@font/poppins_regular"
                     android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +75,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/input_text_outlined"
+                app:hintTextAppearance="@style/hint_text_appearance"
                 android:layout_marginBottom="@dimen/gutterSpace"
                 android:focusable="false"
                 android:hint="@string/date">
@@ -75,10 +85,8 @@
                     android:id="@+id/input_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
+                    style="@style/edit_text"
                     android:drawableEnd="@drawable/ic_calendar"
-                    android:drawableRight="@drawable/ic_calendar"
-                    android:drawableTint="@color/colorAccent"
                     android:focusable="false"
                     android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
