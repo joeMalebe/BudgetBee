@@ -75,7 +75,7 @@
                     android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <za.co.app.budgetbee.ui.custom_views.StandardButton
+            <Button
                 android:id="@+id/button_add_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
