@@ -114,7 +114,8 @@
     </style>
 
     <style name="standardButton" parent="Widget.AppCompat.Button">
-        <item name="textFont">@font/lora_italic</item>
+        <item name="android:fontFamily">@font/lora_italic</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/colorPrimaryDark</item>
     </style>
 </resources>

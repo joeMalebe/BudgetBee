@@ -95,6 +95,7 @@
                 android:id="@+id/button_edit_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/standardButton"
                 android:layout_marginTop="@dimen/gutterSpace"
                 android:text="@string/save" />
         </LinearLayout>

@@ -75,12 +75,12 @@
                     android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <za.co.app.budgetbee.ui.custom_views.StandardButton
                 android:id="@+id/button_add_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/gutterSpace"
-                android:fontFamily="@font/poppins_regular"
+                style="@style/standardButton"
                 android:text="@string/save" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
