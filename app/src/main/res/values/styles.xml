@@ -112,4 +112,9 @@
         <item name="android:textSize">10sp</item>
         <item name="fontFamily">@font/poppins_thin</item>
     </style>
+
+    <style name="standardButton" parent="Widget.AppCompat.Button">
+        <item name="textFont">@font/lora_italic</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
