@@ -62,10 +62,9 @@
             android:id="@+id/button_add_transaction_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-
+            style="@style/standardButton"
             android:layout_marginTop="@dimen/gutterSpace"
             android:onClick="addTransactionCategory"
-            android:text="@string/add_category" />
+            android:text="@string/add" />
     </LinearLayout>
 </LinearLayout>
