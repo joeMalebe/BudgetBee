@@ -6,17 +6,22 @@ import za.co.app.budgetbee.base.BasePresenterObserver
 import za.co.app.budgetbee.base.IBaseView
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.repository.IDatabaseRepository
+import java.util.*
 import java.util.logging.Logger
 
-class BalanceReportPresenter(val transactionsRepository: IDatabaseRepository) : IBalanceReportMvp.Presenter {
+class BalanceReportPresenter(private val transactionsRepository: IDatabaseRepository) : IBalanceReportMvp.Presenter {
     private lateinit var view: IBalanceReportMvp.View
 
-    override fun getTransactionsGroupedByCategoryType() {
+    enum class PERIOD {
+        LAST_WEEK, LAST_MONTH, LAST_YEAR, ALL_TIME
+    }
+
+    override fun getTransactionsGroupedByCategoryType(period: PERIOD) {
         view.showLoading()
         transactionsRepository.getTransactions()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(TransactionsObserver(this.view))
+                .subscribe(TransactionsObserver(this.view, period))
     }
 
     override fun attachView(view: IBaseView) {
@@ -27,12 +32,42 @@ class BalanceReportPresenter(val transactionsRepository: IDatabaseRepository) : 
         Logger.getAnonymousLogger().info("detach View")
     }
 
-    internal class TransactionsObserver(override val view: IBalanceReportMvp.View) : BasePresenterObserver<ArrayList<Transaction>>(view) {
+    internal class TransactionsObserver(override val view: IBalanceReportMvp.View,val period: PERIOD = PERIOD.ALL_TIME) : BasePresenterObserver<ArrayList<Transaction>>(view) {
+
         override fun onNext(value: ArrayList<Transaction>) {
-            view.displayTransactions(getGroupedTransactions(value))
+            view.displayTransactions(filteredTransactionsByPeriod(value))
         }
 
-        fun getGroupedTransactions(transactions: ArrayList<Transaction>): Map<Int, List<Transaction>> {
+        private fun filteredTransactionsByPeriod(value: ArrayList<Transaction>): Map<Int, List<Transaction>> {
+            return when (period) {
+                PERIOD.LAST_MONTH -> {
+                    getGroupedTransactions(getTransactionsByTimePeriod(value, 30))
+                }
+
+                PERIOD.LAST_WEEK -> {
+                    getGroupedTransactions(getTransactionsByTimePeriod(value, 7))
+                }
+
+                PERIOD.LAST_YEAR -> {
+                    getGroupedTransactions(getTransactionsByTimePeriod(value, 365))
+
+                }
+
+                else -> {
+                    getGroupedTransactions(value)
+                }
+            }
+        }
+
+        private fun getTransactionsByTimePeriod(value: ArrayList<Transaction>, daysToMinus: Int): List<Transaction> {
+            return value.filter { transaction ->
+                val date = Calendar.getInstance()
+                date.add(Calendar.DAY_OF_MONTH, -daysToMinus)
+                transaction.transactionDate >= date.timeInMillis
+            }
+        }
+
+        private fun getGroupedTransactions(transactions: List<Transaction>): Map<Int, List<Transaction>> {
             return transactions.groupBy { it.transactionCategoryType }
         }
     }
