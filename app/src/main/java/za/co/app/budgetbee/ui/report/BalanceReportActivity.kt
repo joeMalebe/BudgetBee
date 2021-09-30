@@ -47,10 +47,10 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
         } else {
 
             val incomeLineDataSet = getFormattedLineDateSet(getEntriesByCategoryType(transactionsByCategory
-                    .get(TransactionCategoryType.INCOME.value), TransactionCategoryType.INCOME), "Income", R.color.green)
+                    [TransactionCategoryType.INCOME.value], TransactionCategoryType.INCOME), "Income", R.color.green)
 
             val expenseLineDataSet = getFormattedLineDateSet(getEntriesByCategoryType(transactionsByCategory
-                    .get(TransactionCategoryType.EXPENSE.value), TransactionCategoryType.EXPENSE), "Expense", R.color.red)
+                    [TransactionCategoryType.EXPENSE.value], TransactionCategoryType.EXPENSE), "Expense", R.color.red)
 
             val transactionsDataSet = arrayListOf<ILineDataSet>()
             transactionsDataSet.add(incomeLineDataSet)
@@ -127,7 +127,7 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
     }
 
     override fun displayScreen() {
-        presenter.getTransactionsGroupedByCategoryType()
+        presenter.getTransactionsGroupedByCategoryType(BalanceReportPresenter.PERIOD.LAST_WEEK)
     }
 
     override fun showError(error: Throwable) {
