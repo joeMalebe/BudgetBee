@@ -13,7 +13,9 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.EntryXComparator
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_balance_report.*
+import kotlinx.android.synthetic.main.balance_chart_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
@@ -23,6 +25,8 @@ import java.util.*
 import javax.inject.Inject
 
 class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
+
+    private val compositeDisposable = CompositeDisposable()
 
     @Inject
     private lateinit var presenter: IBalanceReportMvp.Presenter
@@ -38,6 +42,11 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance_report)
         presenter.attachView(this)
+        val timePeriodSwitcher = time_period_switcher
+        timePeriodSwitcher.init(BalanceReportPresenter.PERIOD.values()[0])
+        timePeriodSwitcher.getSelectedTimePeriod().subscribe { timePeriod ->
+            presenter.updateTimePeriod(timePeriod)
+        }.let { compositeDisposable.add(it) }
         displayScreen()
     }
 
@@ -47,10 +56,10 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
         } else {
 
             val incomeLineDataSet = getFormattedLineDateSet(getEntriesByCategoryType(transactionsByCategory
-                    [TransactionCategoryType.INCOME.value], TransactionCategoryType.INCOME), "Income", R.color.green)
+                    [TransactionCategoryType.INCOME.value]), "Income", R.color.green)
 
             val expenseLineDataSet = getFormattedLineDateSet(getEntriesByCategoryType(transactionsByCategory
-                    [TransactionCategoryType.EXPENSE.value], TransactionCategoryType.EXPENSE), "Expense", R.color.red)
+                    [TransactionCategoryType.EXPENSE.value]), "Expense", R.color.red)
 
             val transactionsDataSet = arrayListOf<ILineDataSet>()
             transactionsDataSet.add(incomeLineDataSet)
@@ -118,7 +127,7 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
         lineDataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> line_chart.getAxisLeft().getAxisMinimum() }
     }
 
-    private fun getEntriesByCategoryType(transactions: List<Transaction>?, transactionCategoryType: TransactionCategoryType): ArrayList<Entry> {
+    private fun getEntriesByCategoryType(transactions: List<Transaction>?): ArrayList<Entry> {
         val transactionEntries = arrayListOf<Entry>()
         transactions?.forEach {
             transactionEntries.add(LineChartEntry(it.transactionDate / 1000f, it.transactionAmount.toFloat(), it.transactionDate))
