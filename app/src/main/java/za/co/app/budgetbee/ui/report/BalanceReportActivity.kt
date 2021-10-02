@@ -106,6 +106,12 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
+        compositeDisposable.dispose()
+    }
+
     private fun getFormattedLineDateSet(entriesByCategoryType: ArrayList<Entry>, description: String, color: Int): LineDataSet {
         val lineDataSet = LineDataSet(entriesByCategoryType, description)
         lineDataSet.color = ContextCompat.getColor(this, color)
