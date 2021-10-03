@@ -13,5 +13,6 @@ interface IBalanceReportMvp {
 
     interface Presenter: IBasePresenter {
         fun getTransactionsGroupedByCategoryType(period: BalanceReportPresenter.PERIOD)
+        fun updateTimePeriod(period: BalanceReportPresenter.PERIOD)
     }
 }

@@ -3,4 +3,8 @@
     <declare-styleable name="MonthSwitcherStyle">
         <attr format="color" name="switcher_color" />
     </declare-styleable>
+
+    <declare-styleable name="TimePeriodSwitcherStyle">
+        <attr format="color" name="time_switcher_color" />
+    </declare-styleable>
 </resources>

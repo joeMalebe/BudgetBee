@@ -23,7 +23,7 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
     var rightSelector: AppCompatImageView
 
     private val publishCalender = PublishSubject.create<Calendar>()
-    private val publishClickMnnthSubject = PublishSubject.create<Boolean>()
+    private val publishClickMonthSubject = PublishSubject.create<Boolean>()
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_month_switcher, this)
@@ -45,7 +45,7 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
 
         monthTextView.text = this.calendar.getDateStringByFormat(MONTH_YEAR_DATE_FORMAT)
         monthTextView.setOnClickListener {
-            publishClickMnnthSubject.onNext(true)
+            publishClickMonthSubject.onNext(true)
         }
 
         leftSelector.setOnClickListener {
@@ -69,7 +69,7 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
     }
 
     fun onMonthClicked(): Observable<Boolean> {
-        return publishClickMnnthSubject.hide()
+        return publishClickMonthSubject.hide()
     }
 
     fun updateDate(calendar: Calendar) {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:orientation="horizontal">
+
+<androidx.appcompat.widget.AppCompatImageView
+    android:id="@+id/left_selector"
+    android:layout_width="@dimen/image_medium"
+    android:layout_height="@dimen/image_medium"
+    android:contentDescription="@string/left_selector_to_decrement_value"
+    android:src="@drawable/ic_chevron_left_24dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<androidx.appcompat.widget.AppCompatImageView
+    android:id="@+id/right_selector"
+    android:layout_width="@dimen/image_medium"
+    android:layout_height="@dimen/image_medium"
+    android:contentDescription="@string/right_selector_to_increment_value"
+    android:src="@drawable/ic_chevron_right_24dp"
+    app:layout_constraintBottom_toBottomOf="@id/time_period_text"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/time_period_text"
+    app:layout_constraintTop_toTopOf="@id/time_period_text" />
+
+<TextView
+    android:id="@+id/time_period_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/gutterSpace"
+    android:paddingStart="@dimen/gutterSpace"
+    app:layout_constraintBottom_toBottomOf="@id/left_selector"
+    app:layout_constraintStart_toEndOf="@id/left_selector"
+    app:layout_constraintTop_toTopOf="@id/left_selector"
+    tools:text="Last week"
+    style="@style/text_heading6" />
+</androidx.constraintlayout.widget.ConstraintLayout>

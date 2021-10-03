@@ -11,9 +11,10 @@ import java.util.logging.Logger
 
 class BalanceReportPresenter(private val transactionsRepository: IDatabaseRepository) : IBalanceReportMvp.Presenter {
     private lateinit var view: IBalanceReportMvp.View
+    private lateinit var transactions: ArrayList<Transaction>
 
-    enum class PERIOD {
-        LAST_WEEK, LAST_MONTH, LAST_YEAR, ALL_TIME
+    enum class PERIOD(val textValue: String) {
+        LAST_WEEK("Last week"), LAST_MONTH("Last month"), LAST_YEAR("Last year"), ALL_TIME("All time")
     }
 
     override fun getTransactionsGroupedByCategoryType(period: PERIOD) {
@@ -24,6 +25,10 @@ class BalanceReportPresenter(private val transactionsRepository: IDatabaseReposi
                 .subscribe(TransactionsObserver(this.view, period))
     }
 
+    override fun updateTimePeriod(period: PERIOD) {
+        view.displayTransactions(filteredTransactionsByPeriod(period, transactions))
+    }
+
     override fun attachView(view: IBaseView) {
         this.view = view as IBalanceReportMvp.View
     }
@@ -32,43 +37,44 @@ class BalanceReportPresenter(private val transactionsRepository: IDatabaseReposi
         Logger.getAnonymousLogger().info("detach View")
     }
 
-    internal class TransactionsObserver(override val view: IBalanceReportMvp.View,val period: PERIOD = PERIOD.ALL_TIME) : BasePresenterObserver<ArrayList<Transaction>>(view) {
+    private fun filteredTransactionsByPeriod(period: PERIOD, value: ArrayList<Transaction>): Map<Int, List<Transaction>> {
+        return when (period) {
+            PERIOD.LAST_MONTH -> {
+                getGroupedTransactions(getTransactionsByTimePeriod(30))
+            }
+
+            PERIOD.LAST_WEEK -> {
+                getGroupedTransactions(getTransactionsByTimePeriod(7))
+            }
+
+            PERIOD.LAST_YEAR -> {
+                getGroupedTransactions(getTransactionsByTimePeriod(365))
+
+            }
+
+            else -> {
+                getGroupedTransactions(value)
+            }
+        }
+    }
+
+    private fun getTransactionsByTimePeriod(daysToMinus: Int): List<Transaction> {
+        return transactions.filter { transaction ->
+            val date = Calendar.getInstance()
+            date.add(Calendar.DAY_OF_MONTH, -daysToMinus)
+            transaction.transactionDate >= date.timeInMillis
+        }
+    }
+
+    private fun getGroupedTransactions(transactions: List<Transaction>): Map<Int, List<Transaction>> {
+        return transactions.groupBy { it.transactionCategoryType }
+    }
+
+    inner class TransactionsObserver(override val view: IBalanceReportMvp.View, var period: PERIOD = PERIOD.ALL_TIME) : BasePresenterObserver<ArrayList<Transaction>>(view) {
 
         override fun onNext(value: ArrayList<Transaction>) {
-            view.displayTransactions(filteredTransactionsByPeriod(value))
-        }
-
-        private fun filteredTransactionsByPeriod(value: ArrayList<Transaction>): Map<Int, List<Transaction>> {
-            return when (period) {
-                PERIOD.LAST_MONTH -> {
-                    getGroupedTransactions(getTransactionsByTimePeriod(value, 30))
-                }
-
-                PERIOD.LAST_WEEK -> {
-                    getGroupedTransactions(getTransactionsByTimePeriod(value, 7))
-                }
-
-                PERIOD.LAST_YEAR -> {
-                    getGroupedTransactions(getTransactionsByTimePeriod(value, 365))
-
-                }
-
-                else -> {
-                    getGroupedTransactions(value)
-                }
-            }
-        }
-
-        private fun getTransactionsByTimePeriod(value: ArrayList<Transaction>, daysToMinus: Int): List<Transaction> {
-            return value.filter { transaction ->
-                val date = Calendar.getInstance()
-                date.add(Calendar.DAY_OF_MONTH, -daysToMinus)
-                transaction.transactionDate >= date.timeInMillis
-            }
-        }
-
-        private fun getGroupedTransactions(transactions: List<Transaction>): Map<Int, List<Transaction>> {
-            return transactions.groupBy { it.transactionCategoryType }
+            transactions = value
+            view.displayTransactions(filteredTransactionsByPeriod(period, value))
         }
     }
 }
