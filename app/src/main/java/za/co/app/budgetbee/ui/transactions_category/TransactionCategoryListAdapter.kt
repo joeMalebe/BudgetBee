@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.item_add_new_category.view.*
 import kotlinx.android.synthetic.main.item_transaction_category.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
@@ -52,7 +54,10 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
     }
 
     private fun setupAddNewCategoryClickEvent(addNewViewHolder: AddNewViewHolder) {
-        addNewViewHolder.itemView.setOnClickListener {
+        val view = addNewViewHolder.itemView
+        val button = view.add_new_category
+                button.typeface = ResourcesCompat.getFont(view.context, R.font.poppins_regular)
+        button.setOnClickListener {
             onAddNewCategorySubject.onNext(it.context)
         }
     }

@@ -4,35 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/gutterSpace"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
     app:cardBackgroundColor="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_new_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/imageGutterSpaceOffset">
-
-        <TextView
-            android:id="@+id/text_add_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/gutterSpaceHalf"
-            android:layout_marginStart="@dimen/gutterSpaceHalf"
-            android:text="@string/add_new"
-            app:layout_constraintBottom_toBottomOf="@id/plus_image"
-            app:layout_constraintStart_toEndOf="@id/plus_image"
-            app:layout_constraintTop_toTopOf="@id/plus_image"
-            style="@style/text_body1" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/plus_image"
-            android:layout_width="@dimen/image_inline"
-            android:layout_height="@dimen/image_inline"
-            android:src="@drawable/ic_add_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginHorizontal="@dimen/gutterSpace"
+        android:text="@string/add_new"
+        android:textColor="@color/colorPrimaryDark"
+        app:backgroundTint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/colorPrimaryDark"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 </androidx.cardview.widget.CardView>
