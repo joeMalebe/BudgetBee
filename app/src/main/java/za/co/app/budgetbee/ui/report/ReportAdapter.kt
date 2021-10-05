@@ -40,6 +40,9 @@ class ReportAdapter(val transactions: List<Transaction>, val colors: Array<Strin
                 text_transaction_description.text = transaction.transactionCategoryName
                 text_transaction_amount.text = transaction.transactionAmount.toString()
                 val percentage = getAveragePercentage(transactionsList, transaction)
+                if(percentage > 60) {
+                    text_transaction_amount_percentage.setTextColor(Color.WHITE)
+                }
                 progress_bar.progress = percentage
                 progress_bar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(color)));
                 text_transaction_amount_percentage.text = "$percentage%"
