@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.github.mikephil.charting.utils.MPPointF
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_report.*
@@ -35,6 +34,7 @@ import javax.inject.Inject
 
 class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
+    private lateinit var colors: Array<String>
     private lateinit var monthSwitcher: MonthSwitcher
     private val compositeDisposable = CompositeDisposable()
     @Inject
@@ -60,6 +60,8 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report)
         setSupportActionBar(findViewById(R.id.toolbar))
+        colors = resources.getStringArray(R.array.pie_chart_colors)
+        colors.shuffle(kotlin.random.Random(Calendar.getInstance().timeInMillis))
         presenter.attachView(this)
 
         val date = Calendar.getInstance()
@@ -90,7 +92,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         val recyclerView = recycler_transactions_list
         recyclerView.visibility = VISIBLE
 
-        val adapter = ReportAdapter(getGroupedTransactions(transactions), ColorTemplate.VORDIPLOM_COLORS.toList())
+        val adapter = ReportAdapter(getGroupedTransactions(transactions).sortedByDescending { it.transactionAmount }, colors)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -111,7 +113,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
         data.setValueFormatter(PercentFormatter())
         data.setValueTextSize(11f)
-        data.setValueTextColor(ContextCompat.getColor(this, R.color.primary_text))
+        data.setValueTextColor(ContextCompat.getColor(this, R.color.white))
         data.setValueTypeface(ResourcesCompat.getFont(this, R.font.poppins_regular))
         pieChart.data = data
 
@@ -148,8 +150,8 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
             val pieEntry = PieEntry((transactionsByCategoryName.value.sumBy { transaction -> transaction.transactionAmount.toInt() }.toFloat()), transactionsByCategoryName.key)
             transactionAmounts.add(pieEntry)
         }
-        val dataSet = PieDataSet(transactionAmounts, "Amount")
-        dataSet.colors = ColorTemplate.VORDIPLOM_COLORS.toList()
+        val dataSet = PieDataSet(transactionAmounts.sortedByDescending { it.y }, "Amount")
+        dataSet.colors = colors.map { Color.parseColor(it) }
         dataSet.valueTextSize = 0f
         dataSet.sliceSpace = 3f
         dataSet.iconsOffset = MPPointF(0f, 40f)

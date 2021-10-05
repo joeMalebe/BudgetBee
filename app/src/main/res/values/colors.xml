@@ -17,4 +17,37 @@
     <color name="divider">#BDBDBD</color>
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/colorPrimaryDark</color>
+
+    <string-array name="pie_chart_colors">
+<!--        <item>#303F9F</item>-->
+<!--        <item>#2196F3</item>-->
+<!--        <item>#00BCD4</item>-->
+<!--        <item>#009688</item>-->
+<!--        <item>#4CAF50</item>-->
+<!--        <item>#CDDC39</item>-->
+<!--        <item>#FFC107</item>-->
+<!--        <item>#607D8B</item>-->
+<!--        <item>#FF5252</item>-->
+<!--        <item>#9C27B0</item>-->
+<!--        <item>#673AB7</item>-->
+<!--        <item>#3F51B5</item>-->
+
+
+        <item>#003f5c</item>
+
+        <item>#2f4b7c</item>
+
+        <item>#665191</item>
+
+        <item>#a05195</item>
+
+        <item>#d45087</item>
+
+        <item>#f95d6a</item>
+
+        <item>#ff7c43</item>
+
+        <item>#ffa600</item>
+
+    </string-array>
 </resources>

@@ -2,6 +2,7 @@ package za.co.app.budgetbee.ui.report
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.item_transaction_report.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.Transaction
 
-class ReportAdapter(val transactions: List<Transaction>, val colors: List<Int>) : RecyclerView.Adapter<ReportAdapter.TransactionReportViewHolder>() {
+class ReportAdapter(val transactions: List<Transaction>, val colors: Array<String>) : RecyclerView.Adapter<ReportAdapter.TransactionReportViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionReportViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_transaction_report, parent, false)
@@ -34,13 +35,13 @@ class ReportAdapter(val transactions: List<Transaction>, val colors: List<Int>) 
 
     class TransactionReportViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("SetTextI18n")
-        fun display(transaction: Transaction, transactionsList: List<Transaction>, color: Int, isLastItem: Boolean) {
+        fun display(transaction: Transaction, transactionsList: List<Transaction>, color: String, isLastItem: Boolean) {
             view.apply {
                 text_transaction_description.text = transaction.transactionCategoryName
                 text_transaction_amount.text = transaction.transactionAmount.toString()
                 val percentage = getAveragePercentage(transactionsList, transaction)
                 progress_bar.progress = percentage
-                progress_bar.setProgressTintList(ColorStateList.valueOf(color));
+                progress_bar.setProgressTintList(ColorStateList.valueOf(Color.parseColor(color)));
                 text_transaction_amount_percentage.text = "$percentage%"
                 divider.visibility = if (isLastItem) {
                     GONE
