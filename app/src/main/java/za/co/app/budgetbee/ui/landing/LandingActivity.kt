@@ -218,6 +218,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val firstSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(0..5), date[Calendar.YEAR])
         firstSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
+            currentDate.timeInMillis = calendar.timeInMillis
             presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
@@ -228,6 +229,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val lastSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(6..11), date[Calendar.YEAR])
         lastSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
+            currentDate.timeInMillis = calendar.timeInMillis
             presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
@@ -249,6 +251,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     private fun getTransactionsInSelectedMonth() {
         return monthSwitcher.getSelectedDate().subscribe { calendar ->
+            currentDate.timeInMillis = calendar.timeInMillis
             presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
     }
