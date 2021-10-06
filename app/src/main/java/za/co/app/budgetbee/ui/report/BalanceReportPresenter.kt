@@ -26,7 +26,11 @@ class BalanceReportPresenter(private val transactionsRepository: IDatabaseReposi
     }
 
     override fun updateTimePeriod(period: PERIOD) {
-        view.displayTransactions(filteredTransactionsByPeriod(period, transactions))
+        if (transactions.isEmpty()) {
+            view.displayNoTransactions()
+        } else {
+            view.displayTransactions(filteredTransactionsByPeriod(period, transactions))
+        }
     }
 
     override fun attachView(view: IBaseView) {
@@ -74,7 +78,11 @@ class BalanceReportPresenter(private val transactionsRepository: IDatabaseReposi
 
         override fun onNext(value: ArrayList<Transaction>) {
             transactions = value
-            view.displayTransactions(filteredTransactionsByPeriod(period, value))
+            if (transactions.isEmpty()) {
+                view.displayNoTransactions()
+            } else {
+                view.displayTransactions(filteredTransactionsByPeriod(period, value))
+            }
         }
     }
 }

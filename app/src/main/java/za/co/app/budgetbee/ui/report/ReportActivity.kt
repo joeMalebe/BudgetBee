@@ -60,6 +60,9 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report)
         setSupportActionBar(findViewById(R.id.toolbar))
+        pie_chart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
+        pie_chart.setNoDataTextColor(R.color.colorPrimaryDark)
+
         colors = resources.getStringArray(R.array.pie_chart_colors)
         colors.shuffle(kotlin.random.Random(Calendar.getInstance().timeInMillis))
         presenter.attachView(this)
@@ -81,11 +84,6 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
                 date
         )
         getTransactionsInSelectedMonth()
-        val transactions = intent.getParcelableArrayListExtra<Transaction>(EXTRA_TRANSACTIONS)
-        if (transactions != null) {
-            displayTransactionsInPieChart(transactions)
-            displayTransactionsInRecyclerView(transactions)
-        }
     }
 
     private fun displayTransactionsInRecyclerView(transactions: ArrayList<Transaction>) {
@@ -204,6 +202,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
     override fun displayNoTransactions() {
         pie_chart.clear()
+
         recycler_transactions_list.visibility = GONE
         transactions_card_view.visibility = GONE
     }

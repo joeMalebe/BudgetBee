@@ -41,6 +41,9 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_balance_report)
+        line_chart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
+        line_chart.setNoDataTextColor(R.color.colorPrimaryDark)
+
         presenter.attachView(this)
         val timePeriodSwitcher = time_period_switcher
         timePeriodSwitcher.init(BalanceReportPresenter.PERIOD.values()[0])
@@ -104,6 +107,10 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
             line_chart.invalidate()
         }
 
+    }
+
+    override fun displayNoTransactions() {
+        line_chart.clear()
     }
 
     override fun onDestroy() {
