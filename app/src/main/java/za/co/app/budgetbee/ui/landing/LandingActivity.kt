@@ -68,6 +68,9 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Make sure this is before calling super.onCreate
+        setTheme(R.style.BudgetBeeMainTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
         presenter.attachView(this)

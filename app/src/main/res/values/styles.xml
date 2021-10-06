@@ -1,5 +1,9 @@
 <resources>
 
+    <style name="SplashScreenTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/ic_splash_screen</item>
+        <item name="android:gravity">fill_horizontal|fill_vertical</item>
+    </style>c
     <!-- Base application theme. -->
     <style name="BudgetBeeMainTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
