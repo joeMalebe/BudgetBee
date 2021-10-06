@@ -91,6 +91,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     private fun displayTransactionsInRecyclerView(transactions: ArrayList<Transaction>) {
         val recyclerView = recycler_transactions_list
         recyclerView.visibility = VISIBLE
+        transactions_card_view.visibility = VISIBLE
 
         val adapter = ReportAdapter(getGroupedTransactions(transactions).sortedByDescending { it.transactionAmount }, colors)
         recyclerView.adapter = adapter
@@ -139,6 +140,9 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         pieChart.setEntryLabelColor(Color.CYAN)
         pieChart.setEntryLabelTypeface(Typeface.SANS_SERIF)
         pieChart.setEntryLabelTextSize(0f)
+
+        pieChart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
+        pieChart.setNoDataTextColor(R.color.colorPrimaryDark)
         pieChart.invalidate()
     }
 
@@ -174,8 +178,12 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     override fun displayTransactions(transactions: ArrayList<Transaction>) {
         val transactionsCategory = intent.getIntExtra(EXTRA_TRANSACTIONS_CATEGORY, 0)
         val transactionsInSelectedCategory = transactions.filter { it.transactionCategoryType == transactionsCategory } as ArrayList<Transaction>
-        displayTransactionsInPieChart(transactionsInSelectedCategory)
-        displayTransactionsInRecyclerView(transactionsInSelectedCategory)
+        if (transactionsInSelectedCategory.isEmpty()) {
+            displayNoTransactions()
+        } else {
+            displayTransactionsInPieChart(transactionsInSelectedCategory)
+            displayTransactionsInRecyclerView(transactionsInSelectedCategory)
+        }
     }
 
     override fun openTransactionCategoryActivity() {
@@ -197,6 +205,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     override fun displayNoTransactions() {
         pie_chart.clear()
         recycler_transactions_list.visibility = GONE
+        transactions_card_view.visibility = GONE
     }
 
     override fun displayScreen() {
