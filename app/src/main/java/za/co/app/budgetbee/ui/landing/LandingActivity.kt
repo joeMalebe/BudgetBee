@@ -11,6 +11,7 @@ import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
@@ -188,6 +189,16 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         monthSwitcher.onMonthClicked().subscribe {
             dialog.show()
         }.let { compositeDisposable.add(it) }
+
+        dialogView.button_today.setOnClickListener {
+            val today = Calendar.getInstance()
+            updateDate(today)
+            currentDate.timeInMillis = today.timeInMillis
+            presenter.getTransactionsByDate(today)
+            yearSwitcher.init(today)
+            dialog.hide()
+        }
+        dialogView.button_today.typeface = ResourcesCompat.getFont(this, R.font.lora)
 
         getTransactionsInSelectedMonth()
 
