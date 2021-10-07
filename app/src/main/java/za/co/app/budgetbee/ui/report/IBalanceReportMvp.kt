@@ -9,6 +9,7 @@ interface IBalanceReportMvp {
 
     interface View :IBaseView, IServiceCallView {
         fun displayTransactions(transactionsByCategory: Map<Int, List<Transaction>>)
+        fun displayNoTransactions()
     }
 
     interface Presenter: IBasePresenter {

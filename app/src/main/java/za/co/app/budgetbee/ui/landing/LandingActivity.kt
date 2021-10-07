@@ -68,6 +68,9 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Make sure this is before calling super.onCreate
+        setTheme(R.style.BudgetBeeMainTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
         presenter.attachView(this)
@@ -215,6 +218,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val firstSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(0..5), date[Calendar.YEAR])
         firstSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
+            currentDate.timeInMillis = calendar.timeInMillis
             presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
@@ -225,6 +229,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         val lastSixMonthsAdapter = MonthDialogAdapter(getMonthsInRange(6..11), date[Calendar.YEAR])
         lastSixMonthsAdapter.getSelectedMonth().subscribe { calendar ->
             updateDate(calendar)
+            currentDate.timeInMillis = calendar.timeInMillis
             presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
 
@@ -246,6 +251,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     private fun getTransactionsInSelectedMonth() {
         return monthSwitcher.getSelectedDate().subscribe { calendar ->
+            currentDate.timeInMillis = calendar.timeInMillis
             presenter.getTransactionsByDate(calendar)
         }.let { compositeDisposable.add(it) }
     }
