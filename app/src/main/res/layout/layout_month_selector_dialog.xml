@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="@dimen/gutterSpaceHalf"
-        android:layout_marginStart="@dimen/gutterSpaceHalf"
+        android:layout_marginHorizontal="@dimen/gutterSpace"
         android:layout_marginTop="@dimen/gutterSpace"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -31,11 +30,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="@dimen/gutterSpace"
-        android:layout_marginLeft="@dimen/gutterSpaceHalf"
-        android:layout_marginStart="@dimen/gutterSpaceHalf"
+        android:layout_marginHorizontal="@dimen/gutterSpace"
         android:layout_marginTop="@dimen/gutterSpaceHalf"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="6"
         tools:listitem="@layout/item_months" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_today"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:strokeColor="@color/colorPrimaryDark"
+        android:layout_marginHorizontal="@dimen/gutterSpace"
+        android:text="@string/today"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginBottom="@dimen/gutterSpace"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
 </LinearLayout>
