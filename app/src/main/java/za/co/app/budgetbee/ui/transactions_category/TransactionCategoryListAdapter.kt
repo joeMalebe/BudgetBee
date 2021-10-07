@@ -64,13 +64,7 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
 
     fun bindTransactionCategoryViewHolder(holder: TransactionCategoryViewHolder, position: Int) {
         val transactionCategory = transactionCategoryList.get(position)
-
-        holder.incomeText.text = transactionCategory.transactionCategoryName
-        holder.divider.visibility = if (position == itemCount - 2) View.GONE else View.VISIBLE
-        holder.incomeText.setOnClickListener {}
-        holder.itemView.setOnClickListener {
-            onCategorySelectSubject.onNext(transactionCategory)
-        }
+        holder.display(transactionCategory)
     }
 
     fun getSelectedTransactionCategory(): Observable<TransactionCategory> {
@@ -81,9 +75,17 @@ class TransactionCategoryListAdapter(val transactionCategoryList: List<Transacti
         return onAddNewCategorySubject.hide()
     }
 
-    class TransactionCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TransactionCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val incomeText = itemView.item_text_view
         val divider = itemView.transaction_category_divider
+
+        fun display(transactionCategory: TransactionCategory) {
+            incomeText.text = transactionCategory.transactionCategoryName
+            divider.visibility = if (position == itemCount - 2) View.GONE else View.VISIBLE
+            itemView.setOnClickListener {
+                onCategorySelectSubject.onNext(transactionCategory)
+            }
+        }
     }
 
     class AddNewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
