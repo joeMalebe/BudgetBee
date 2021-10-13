@@ -31,7 +31,7 @@ abstract class BudgetBeeDatabase : RoomDatabase() {
         val databaseName = "BudgetBeeDatabase.db"
         Room.databaseBuilder(it.applicationContext, BudgetBeeDatabase::class.java, databaseName)
                 .addCallback(InitialiseDatabase(it.applicationContext))
-                .fallbackToDestructiveMigration()// TODO: 10/12/2020 AD Remove this when going live https://stackoverflow.com/questions/44197309/room-cannot-verify-the-data-integrity
+                //.fallbackToDestructiveMigration()// TODO: 10/12/2020 AD Remove this when going live https://stackoverflow.com/questions/44197309/room-cannot-verify-the-data-integrity
                 .build()
     })
 }
