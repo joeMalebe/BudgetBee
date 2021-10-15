@@ -24,7 +24,7 @@ class TransactionPresenter(val transactionsRepository: IDatabaseRepository) : IT
                 .subscribe({
                     view.dismissLoading()
                     view.navigateToLanding(transaction.transactionDate)
-                }, { error -> Log.e("deleteTransaction", error.message) }).let { compositeDisposable.add(it) }
+                }, { error -> Log.e("deleteTransaction", error.message ?: "error") }).let { compositeDisposable.add(it) }
     }
 
     override fun detachView() {

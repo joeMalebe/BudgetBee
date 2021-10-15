@@ -32,7 +32,7 @@ class EditTransactionPresenter(val transactionsRepository: IDatabaseRepository) 
                 .subscribe({
                     view.dismissLoading()
                     view.deleteSuccessful(transaction.transactionDate)
-                }, { error -> Log.e("deleteTransaction", error.message) }).let { compositeDisposable.add(it) }
+                }, { error -> Log.e("deleteTransaction", error.message ?: "Error") }).let { compositeDisposable.add(it) }
     }
 
     override fun attachView(view: IBaseView) {
