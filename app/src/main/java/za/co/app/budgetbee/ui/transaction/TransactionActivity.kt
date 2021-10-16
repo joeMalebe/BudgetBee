@@ -44,13 +44,19 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction)
-        presenter.attachView(this)
-        transaction = intent.getParcelableExtra(EXTRA_TRANSACTION)
-        backButton = back_button
-        backButton.setOnClickListener { onBackPressed() }
-        editButton = edit_button
-        deleteButton = delete_button
-
+        if (intent.hasExtra(EXTRA_TRANSACTION)) {
+            val parsedTransaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
+            if (parsedTransaction == null) {
+                return
+            } else {
+                presenter.attachView(this)
+                transaction = parsedTransaction
+                backButton = back_button
+                backButton.setOnClickListener { onBackPressed() }
+                editButton = edit_button
+                deleteButton = delete_button
+            }
+        }
     }
 
     override fun onResume() {
@@ -99,7 +105,10 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
         super.onActivityResult(requestCode, resultCode, data)
         val SUCCESS = 200
         if (resultCode == SUCCESS && data != null) {
-            transaction = data.getParcelableExtra(EXTRA_TRANSACTION)
+            val parsedTransaction = data.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
+            if (parsedTransaction != null) {
+                transaction = parsedTransaction
+            }
             displayScreen()
         } else {
             showError()

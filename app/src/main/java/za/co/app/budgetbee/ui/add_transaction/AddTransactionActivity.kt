@@ -33,7 +33,7 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         const val EXTRA_TRANSACTION_CATEGORY = "EXTRA_TRANSACTION_CATEGORY"
         const val EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
 
-        fun getStartIntent(context: Context?, transactionCategory: TransactionCategory): Intent {
+        fun getStartIntent(context: Context?, transactionCategory: TransactionCategory?): Intent {
             val intent = Intent(context, AddTransactionActivity::class.java)
             intent.putExtra(EXTRA_TRANSACTION_CATEGORY, transactionCategory)
             return intent
@@ -114,9 +114,9 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
             intent.getParcelableExtra<TransactionCategory>(EXTRA_TRANSACTION_CATEGORY)
         if(intent.hasExtra(EXTRA_TRANSACTION)){
             val transaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
-            inputAmount.setText(transaction.transactionAmount.toString())
+            inputAmount.setText(transaction?.transactionAmount.toString())
             val calendar = Calendar.getInstance()
-            calendar.timeInMillis = transaction.transactionDate
+            calendar.timeInMillis = transaction?.transactionDate ?: 0L
             inputDate.setText(calendar.getDateStringByFormat("dd MMMM yyyy"))
 
         }
@@ -127,7 +127,9 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         }
 
         addTransactionButton.setOnClickListener {
-            addTransaction(calendar, transactionCategory)
+            if (transactionCategory != null) {
+                addTransaction(calendar, transactionCategory)
+            }
         }
     }
 

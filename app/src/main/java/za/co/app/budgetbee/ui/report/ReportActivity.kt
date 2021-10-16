@@ -80,10 +80,9 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
                     date
                 }
         )
-        monthSwitcher.init(
-                date
-        )
+
         getTransactionsInSelectedMonth()
+        presenter.getTransactionsByDate(date)
     }
 
     private fun displayTransactionsInRecyclerView(transactions: ArrayList<Transaction>) {

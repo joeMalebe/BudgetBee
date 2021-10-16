@@ -16,35 +16,44 @@
 
         <activity
             android:name=".ui.report.BalanceReportActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:label="@string/title_activity_report"
             android:name=".ui.report.ReportActivity"
-            android:theme="@style/BudgetBeeMainTheme.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
 
         <activity
             android:name=".ui.edit_transaction.EditTransactionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.transaction.TransactionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.add_transaction.AddTransactionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:label="@string/title_activity_add_transaction_category"
             android:name=".ui.transactions_category.AddTransactionCategoryActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
-        <activity android:name=".ui.select_transaction_category.SelectTransactionCategoryActivity"
-            android:theme="@style/BudgetBeeMainTheme"/>
+        <activity
+            android:name=".ui.select_transaction_category.SelectTransactionCategoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.landing.LandingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

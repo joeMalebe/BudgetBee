@@ -55,6 +55,12 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_transaction)
         presenter.attachView(this)
+        val parsedTransaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
+        if(parsedTransaction == null){
+            return
+        } else {
+
+
         screen_title.text = getString(R.string.transaction)
         inputAmount = input_amount
         val editButton = button_edit_transaction
@@ -73,10 +79,11 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         backButton = back_button
         backButton.setOnClickListener { onBackPressed() }
         deleteButton = delete_button
-        transaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
+        transaction = parsedTransaction
         transactionCategory = TransactionCategory(transaction.transactionCategoryId, transaction.transactionCategoryName, transaction.transactionCategoryType)
 
         displayScreen()
+        }
     }
 
     override fun updateSuccessful() {
@@ -155,8 +162,13 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
-            transactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
-            inputTransactionCategory.setText(transactionCategory.transactionCategoryName)
+            val parsedTransactionCategory = data.getParcelableExtra<TransactionCategory>(AddTransactionActivity.EXTRA_TRANSACTION_CATEGORY)
+            if (parsedTransactionCategory == null) {
+                return
+            } else {
+                transactionCategory = parsedTransactionCategory
+                inputTransactionCategory.setText(transactionCategory.transactionCategoryName)
+            }
         }
     }
 }
