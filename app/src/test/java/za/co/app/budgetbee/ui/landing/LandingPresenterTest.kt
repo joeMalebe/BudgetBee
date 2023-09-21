@@ -4,13 +4,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
 import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
 import za.co.app.budgetbee.data.repository.IDatabaseRepository
 import za.co.app.budgetbee.data.repository.TransactionsRepository
-import java.util.*
+import java.util.Calendar
 
 class LandingPresenterTest {
 
@@ -89,6 +90,7 @@ class LandingPresenterTest {
 
     @Before
     fun setUp() {
+        MockitoAnnotations.openMocks(this)
         repository = TransactionsRepository(budgetBeeDoa)
         presenter = LandingPresenter(repository)
     }
