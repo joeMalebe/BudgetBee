@@ -7,7 +7,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     defaultConfig {
         applicationId "za.co.app.budgetbee"
         minSdkVersion 24
@@ -46,7 +46,7 @@ repositories {
 }
 dependencies {
 
-    def room_version = "2.5.2"
+    def room_version = "2.6.0"
     def rxAndroid_version = "2.1.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -79,7 +79,7 @@ dependencies {
 
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.5.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.6.0'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
 
 }
