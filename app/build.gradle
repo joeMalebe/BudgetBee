@@ -40,6 +40,10 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 repositories {
     maven { url "https://jitpack.io" }
