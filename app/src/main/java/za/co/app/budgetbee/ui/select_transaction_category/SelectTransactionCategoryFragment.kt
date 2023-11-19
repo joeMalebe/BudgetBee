@@ -9,42 +9,56 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_add_transaction.*
-import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.BaseFragment
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.databinding.FragmentAddTransactionBinding
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity.Companion.EXTRA_TRANSACTION_CATEGORY
 import za.co.app.budgetbee.ui.transactions_category.AddTransactionCategoryActivity
 import za.co.app.budgetbee.ui.transactions_category.TransactionCategoryListAdapter
-import java.util.*
 
+private const val TRANSACTION_CATEGORY = 2
 
-class SelectTransactionCategoryFragment(val transactionCategoryType: TransactionCategoryType, private val transactionCategoryList: MutableList<TransactionCategory>, var presenter: ISelectTransactionCategoryMvp.Presenter
+class SelectTransactionCategoryFragment(
+    val transactionCategoryType: TransactionCategoryType,
+    private val transactionCategoryList: MutableList<TransactionCategory>,
+    var presenter: ISelectTransactionCategoryMvp.Presenter
 ) :
-        BaseFragment(), ISelectTransactionCategoryMvp.View {
+    BaseFragment(), ISelectTransactionCategoryMvp.View {
 
+    private lateinit var binding: FragmentAddTransactionBinding
     private lateinit var incomeRecyclerView: RecyclerView
     val TAG = SelectTransactionCategoryFragment::class.simpleName
 
     private val compositeDisposable = CompositeDisposable()
 
     companion object {
-        fun newInstance(transactionCategoryType: TransactionCategoryType, presenter: ISelectTransactionCategoryMvp.Presenter): SelectTransactionCategoryFragment {
-            return SelectTransactionCategoryFragment(transactionCategoryType, mutableListOf(), presenter)
+        fun newInstance(
+            transactionCategoryType: TransactionCategoryType,
+            presenter: ISelectTransactionCategoryMvp.Presenter
+        ): SelectTransactionCategoryFragment {
+            return SelectTransactionCategoryFragment(
+                transactionCategoryType,
+                mutableListOf(),
+                presenter
+            )
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add_transaction, container, false)
-        return view
+        binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.attachView(this)
-        incomeRecyclerView = this.income_category_recyclerView
+        incomeRecyclerView = binding.incomeCategoryRecyclerView
         incomeRecyclerView.layoutManager = LinearLayoutManager(this.context)
         displayScreen()
     }
@@ -55,37 +69,41 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
         presenter.detachView()
     }
 
-    fun buildScreen() {
+    private fun buildScreen() {
         val transactionCategoryListAdapter =
-                TransactionCategoryListAdapter(transactionCategoryList)
+            TransactionCategoryListAdapter(transactionCategoryList)
 
         transactionCategoryListAdapter.getSelectedTransactionCategory()
-                .subscribe { transactionCategory ->
-                    val intent = Intent()
-                    intent.putExtra(EXTRA_TRANSACTION_CATEGORY,transactionCategory)
-                    val TRANSACTION_CATEGORY = 2
-                    activity?.setResult(TRANSACTION_CATEGORY, intent)
-                    activity?.finish()
-                }.let { compositeDisposable.add(it) }
+            .subscribe { transactionCategory ->
+                val intent = Intent()
+                intent.putExtra(EXTRA_TRANSACTION_CATEGORY, transactionCategory)
+
+                activity?.setResult(TRANSACTION_CATEGORY, intent)
+                activity?.finish()
+            }.let { compositeDisposable.add(it) }
 
         transactionCategoryListAdapter.getAddNewCategoryClick()
-                .subscribe {
-                    startActivityForResult(AddTransactionCategoryActivity.getStartIntent(it), 2)
-                }.let { compositeDisposable.add(it) }
+            .subscribe {
+                startActivityForResult(AddTransactionCategoryActivity.getStartIntent(it), 2)
+            }.let { compositeDisposable.add(it) }
         incomeRecyclerView.adapter = transactionCategoryListAdapter
     }
 
     override fun displayCategories(transactionCategories: ArrayList<TransactionCategory>) {
         val adapter = incomeRecyclerView.adapter
         if (adapter == null) {
-            this.transactionCategoryList.addAll(transactionCategories.sortedBy { it.transactionCategoryName }.toMutableList())
+            this.transactionCategoryList.addAll(transactionCategories.sortedBy { it.transactionCategoryName }
+                .toMutableList())
             buildScreen()
         } else {
             updateTransactionsCategories(transactionCategories, adapter)
         }
     }
 
-    private fun updateTransactionsCategories(transactionCategories: ArrayList<TransactionCategory>, adapter: RecyclerView.Adapter<*>) {
+    private fun updateTransactionsCategories(
+        transactionCategories: ArrayList<TransactionCategory>,
+        adapter: RecyclerView.Adapter<*>
+    ) {
         transactionCategoryList.clear()
         transactionCategoryList.addAll(transactionCategories.sortedBy { it.transactionCategoryName })
         adapter.notifyDataSetChanged()
@@ -94,6 +112,7 @@ class SelectTransactionCategoryFragment(val transactionCategoryType: Transaction
     override fun showError(error: Throwable) {
         Log.d(TAG, "showError() called")
     }
+
     override fun showLoading() {
         Log.d(TAG, "showLoading() called")
     }
