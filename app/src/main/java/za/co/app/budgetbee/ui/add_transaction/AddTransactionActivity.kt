@@ -6,18 +6,17 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.activity_add_transaction.*
-import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.databinding.ActivityAddTransactionBinding
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.TextValidator
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View {
@@ -25,6 +24,7 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
     private lateinit var addTransactionButton: Button
     private lateinit var inputDate: TextInputEditText
     private lateinit var inputAmount: TextInputEditText
+    private lateinit var binding: ActivityAddTransactionBinding
 
     @Inject
     lateinit var presenter: IAddTransactionMvp.Presenter
@@ -38,22 +38,16 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
             intent.putExtra(EXTRA_TRANSACTION_CATEGORY, transactionCategory)
             return intent
         }
-
-        fun getStartIntent(context: Context?, transactionCategory: TransactionCategory, transaction: Transaction): Intent {
-            val intent = Intent(context, AddTransactionActivity::class.java)
-            intent.putExtra(EXTRA_TRANSACTION_CATEGORY, transactionCategory)
-            intent.putExtra(EXTRA_TRANSACTION, transaction)
-            return intent
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_transaction)
+        binding = ActivityAddTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
-        addTransactionButton = button_add_transaction
+        addTransactionButton = binding.buttonAddTransaction
         addTransactionButton.isEnabled = false
-        inputAmount = input_amount
+        inputAmount = binding.inputAmount
         inputAmount.addTextChangedListener(object : TextValidator(inputAmount) {
             override fun validate(textView: TextView, text: String) {
                 if (text.isEmpty()) {
@@ -64,15 +58,16 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
             }
         })
 
-        inputDate = input_date
-        screen_title.text = getString(R.string.add_transaction)
-        back_button.setOnClickListener { onBackPressed() }
+        inputDate = binding.inputDate
+        binding.toolbar.screenTitle.text = getString(R.string.add_transaction)
+        binding.toolbar.backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         displayScreen()
     }
 
     private fun getTransactionDescription(transactionCategoryType: Int): String {
-        return if (!input_description.text.toString().isEmpty()) {
-            input_description.text.toString()
+        val inputDescription = binding.inputDescription
+        return if (!inputDescription.text.toString().isEmpty()) {
+            inputDescription.text.toString()
         } else {
             getTransactionCategoryType(transactionCategoryType)
         }
@@ -92,27 +87,27 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         val amount = inputAmount.text.toString().toDouble()
 
         presenter.submitTransaction(
-                date,
-                description,
-                amount,
-                transactionCategory.transactionCategoryName,
-                transactionCategory.transactionCategoryId,
-                transactionCategory.transactionCategoryType
+            date,
+            description,
+            amount,
+            transactionCategory.transactionCategoryName,
+            transactionCategory.transactionCategoryId,
+            transactionCategory.transactionCategoryType
         )
     }
 
     override fun navigateToLanding(transactionDate: Long) {
         startActivity(
-                LandingActivity.getStartIntent(
-                        this, transactionDate
-                )
+            LandingActivity.getStartIntent(
+                this, transactionDate
+            )
         )
     }
 
     override fun displayScreen() {
         val transactionCategory =
             intent.getParcelableExtra<TransactionCategory>(EXTRA_TRANSACTION_CATEGORY)
-        if(intent.hasExtra(EXTRA_TRANSACTION)){
+        if (intent.hasExtra(EXTRA_TRANSACTION)) {
             val transaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
             inputAmount.setText(transaction?.transactionAmount.toString())
             val calendar = Calendar.getInstance()
