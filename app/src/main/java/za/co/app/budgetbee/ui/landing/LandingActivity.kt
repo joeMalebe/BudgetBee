@@ -15,16 +15,14 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_landing.*
-import kotlinx.android.synthetic.main.home_toolbar.*
-import kotlinx.android.synthetic.main.layout_month_selector_dialog.view.*
-import kotlinx.android.synthetic.main.no_transaction_layout.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Month
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.databinding.ActivityLandingBinding
+import za.co.app.budgetbee.databinding.LayoutMonthSelectorDialogBinding
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.custom_views.MonthDialogAdapter
 import za.co.app.budgetbee.ui.custom_views.MonthSwitcher
@@ -35,7 +33,7 @@ import za.co.app.budgetbee.ui.report.ReportActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
 import java.text.DateFormatSymbols
 import java.text.DecimalFormat
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
@@ -48,7 +46,7 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
     @Inject
     lateinit var presenter: ILandingMvp.Presenter
-
+    private lateinit var binding: ActivityLandingBinding
     private lateinit var transactionsRecyclerView: RecyclerView
     private lateinit var dialog: YearSwitcherDialog
     private lateinit var monthSwitcher: MonthSwitcher
@@ -73,23 +71,21 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         setTheme(R.style.BudgetBeeMainTheme)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_landing)
+        binding = ActivityLandingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
         initialiseViews()
         displayScreen()
     }
 
     private fun initialiseViews() {
-        monthSwitcher = month_switcher
-        incomeValueText = income_value_text
-        expenseValueText = expense_value_text
-        balanceValueText = balance_value_text
-        transactionsRecyclerView = recycler_transactions
-        noTransactionsLayout = no_transactions_layout
-    }
 
-    override fun onResume() {
-        super.onResume()
+        monthSwitcher =  binding.toolbar.monthSwitcher
+        incomeValueText = binding.incomeValueText
+        expenseValueText = binding.expenseValueText
+        balanceValueText = binding.balanceValueText
+        transactionsRecyclerView = binding.recyclerTransactions
+        noTransactionsLayout = binding.emptyTransactionsLayout.noTransactionsLayout
 
     }
 
@@ -165,15 +161,15 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
         presenter.getTransactionsByDate(this.currentDate)
         dialog = YearSwitcherDialog(this)
-        val dialogView = View.inflate(this, R.layout.layout_month_selector_dialog, null)
+        val dialogView = LayoutMonthSelectorDialogBinding.bind(View.inflate(this, R.layout.layout_month_selector_dialog, null))
 
-        val firstSixMonthsRecycler = dialogView.first_six_months_recycler
+        val firstSixMonthsRecycler = dialogView.firstSixMonthsRecycler
         val firstSixMonthsAdapter = getfirstSixMonthsRecyclerAdapter(this.currentDate)
 
-        val lastSixMonthsRecycler = dialogView.last_six_months_recycler
+        val lastSixMonthsRecycler = dialogView.lastSixMonthsRecycler
         val lastSixMonthsAdapter = getLastSixMonthsRecyclerAdapter(this.currentDate)
 
-        val yearSwitcher = dialogView.year_switcher
+        val yearSwitcher = dialogView.yearSwitcher
         yearSwitcher.init(this.currentDate)
         yearSwitcher.getSelectedYear().subscribe { selectedYear ->
             this.currentDate.set(Calendar.YEAR, selectedYear)
@@ -183,14 +179,14 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
         firstSixMonthsRecycler.adapter = firstSixMonthsAdapter
         lastSixMonthsRecycler.adapter = lastSixMonthsAdapter
 
-        dialog.init(firstSixMonthsAdapter, lastSixMonthsAdapter, dialogView, yearSwitcher, monthSwitcher)
+        dialog.init(firstSixMonthsAdapter, lastSixMonthsAdapter, dialogView.root, yearSwitcher, monthSwitcher)
         showDialogAtTheTopOfTheScreen()
 
         monthSwitcher.onMonthClicked().subscribe {
             dialog.show()
         }.let { compositeDisposable.add(it) }
 
-        dialogView.button_today.setOnClickListener {
+        dialogView.buttonToday.setOnClickListener {
             val today = Calendar.getInstance()
             updateDate(today)
             currentDate.timeInMillis = today.timeInMillis
@@ -198,11 +194,11 @@ class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
             yearSwitcher.init(today)
             dialog.hide()
         }
-        dialogView.button_today.typeface = ResourcesCompat.getFont(this, R.font.lora)
+        dialogView.buttonToday.typeface = ResourcesCompat.getFont(this, R.font.lora)
 
         getTransactionsInSelectedMonth()
 
-        val addTransactionButton = add_transaction_fab
+        val addTransactionButton = binding.addTransactionFab
         addTransactionButton.setOnClickListener {
             openTransactionCategoryActivity()
         }
