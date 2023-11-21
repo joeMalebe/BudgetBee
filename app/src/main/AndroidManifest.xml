@@ -16,44 +16,44 @@
 
         <activity
             android:name=".ui.report.BalanceReportActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:label="@string/title_activity_report"
             android:name=".ui.report.ReportActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme.NoActionBar" />
 
         <activity
             android:name=".ui.edit_transaction.EditTransactionActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.transaction.TransactionActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.add_transaction.AddTransactionActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:label="@string/title_activity_add_transaction_category"
             android:name=".ui.transactions_category.AddTransactionCategoryActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.select_transaction_category.SelectTransactionCategoryActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:theme="@style/BudgetBeeMainTheme" />
 
         <activity
             android:name=".ui.landing.LandingActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>

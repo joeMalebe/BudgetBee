@@ -1,6 +1,7 @@
 package za.co.app.budgetbee
 
 import android.util.Log
+import androidx.annotation.Keep
 import org.codejargon.feather.Provides
 import za.co.app.budgetbee.data.model.database.BudgetBeeDatabase
 import za.co.app.budgetbee.data.model.database.BudgetBeeDoa
@@ -23,6 +24,7 @@ import za.co.app.budgetbee.ui.transactions_category.ITransactionCategoryMvp
 import javax.inject.Named
 import javax.inject.Singleton
 
+@Keep
 class BudgetBeeAppModule(val application: BudgetBeeApplication) {
     val TAG = BudgetBeeAppModule::class.simpleName
 
