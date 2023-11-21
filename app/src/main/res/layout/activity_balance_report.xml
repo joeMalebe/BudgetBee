@@ -6,7 +6,8 @@
     android:orientation="vertical"
     tools:context=".ui.report.BalanceReportActivity">
 
-    <include layout="@layout/balance_chart_toolbar" />
+    <include layout="@layout/balance_chart_toolbar"
+        android:id="@+id/toolbar"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
