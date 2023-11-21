@@ -38,7 +38,6 @@ import javax.inject.Inject
 
 class LandingActivity : AppCompatBaseActivity(), ILandingMvp.View {
 
-
     private val currentDate = Calendar.getInstance()
     private val compositeDisposable = CompositeDisposable()
     private val DECIMAL_FORMAT_PATTERN = "0.00"
