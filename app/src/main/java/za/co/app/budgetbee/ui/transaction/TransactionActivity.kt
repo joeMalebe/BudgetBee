@@ -1,23 +1,19 @@
 package za.co.app.budgetbee.ui.transaction
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.widget.AppCompatImageView
-import kotlinx.android.synthetic.main.activity_transaction.*
-import kotlinx.android.synthetic.main.default_toolbar.back_button
-import kotlinx.android.synthetic.main.default_toolbar.screen_title
-import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.databinding.ActivityTransactionBinding
 import za.co.app.budgetbee.ui.edit_transaction.EditTransactionActivity
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.utils.getDateStringByFormat
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
@@ -27,6 +23,7 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     private lateinit var editButton: Button
     private lateinit var backButton: AppCompatImageView
     private lateinit var transaction: Transaction
+    private lateinit var binding: ActivityTransactionBinding
 
     @Inject
     private lateinit var presenter: ITransactionMvp.Presenter
@@ -34,16 +31,12 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     companion object {
         private val EXTRA_TRANSACTION = "EXTRA_TRANSACTION"
 
-        fun getStartIntent(context: Context, transaction: Transaction): Intent {
-            val intent = Intent(context, TransactionActivity::class.java)
-            intent.putExtra(EXTRA_TRANSACTION, transaction)
-            return intent
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transaction)
+        binding = ActivityTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         if (intent.hasExtra(EXTRA_TRANSACTION)) {
             val parsedTransaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
             if (parsedTransaction == null) {
@@ -51,10 +44,10 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
             } else {
                 presenter.attachView(this)
                 transaction = parsedTransaction
-                backButton = back_button
-                backButton.setOnClickListener { onBackPressed() }
-                editButton = edit_button
-                deleteButton = delete_button
+                backButton = binding.toolbar.backButton
+                backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+                editButton = binding.editButton
+                deleteButton = binding.toolbar.deleteButton
             }
         }
     }
@@ -82,14 +75,14 @@ class TransactionActivity : AppCompatBaseActivity(), ITransactionMvp.View {
     }
 
     override fun displayScreen() {
-        screen_title.text = getString(R.string.transaction)
-        category_name_text.text = transaction.transactionCategoryName
-        category_type_text.text = getCategoryTypeString()
-        amount_text.text = transaction.transactionAmount.toString()
-        description_text.text = transaction.transactionDescription
+        binding.toolbar.screenTitle.text = getString(R.string.transaction)
+        binding.categoryNameText.text = transaction.transactionCategoryName
+        binding.categoryTypeText.text = getCategoryTypeString()
+        binding.amountText.text = transaction.transactionAmount.toString()
+        binding.descriptionText.text = transaction.transactionDescription
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = transaction.transactionDate
-        date_text.text = calendar.getDateStringByFormat("dd MMMM yyyy")
+        binding.dateText.text = calendar.getDateStringByFormat("dd MMMM yyyy")
         deleteButton.setOnClickListener { presenter.deleteTransaction(transaction) }
         editButton.setOnClickListener { startActivityForResult(EditTransactionActivity.getStartIntent(this, transaction), 2) }
     }

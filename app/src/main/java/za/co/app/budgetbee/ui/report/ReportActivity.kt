@@ -20,15 +20,14 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet
 import com.github.mikephil.charting.utils.MPPointF
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_report.*
-import kotlinx.android.synthetic.main.home_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
+import za.co.app.budgetbee.databinding.ActivityReportBinding
 import za.co.app.budgetbee.ui.custom_views.MonthSwitcher
 import za.co.app.budgetbee.ui.landing.ILandingMvp
 import za.co.app.budgetbee.ui.landing.LandingActivity
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -39,6 +38,7 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     private val compositeDisposable = CompositeDisposable()
     @Inject
     lateinit var presenter: ReportPresenter
+    private lateinit var binding: ActivityReportBinding
 
     companion object {
         private val TAG = ReportActivity::class.simpleName
@@ -58,17 +58,17 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_report)
-        setSupportActionBar(findViewById(R.id.toolbar))
-        pie_chart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
-        pie_chart.setNoDataTextColor(R.color.colorPrimaryDark)
+        binding = ActivityReportBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.pieChart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
+        binding.pieChart.setNoDataTextColor(R.color.colorPrimaryDark)
 
         colors = resources.getStringArray(R.array.pie_chart_colors)
         colors.shuffle(kotlin.random.Random(Calendar.getInstance().timeInMillis))
         presenter.attachView(this)
 
         val date = Calendar.getInstance()
-        monthSwitcher = month_switcher
+        monthSwitcher = binding.toolbar.monthSwitcher
 
         val currentDate = intent.getLongExtra(LandingActivity.CURRENT_DATE_EXTRA, 0L)
 
@@ -86,9 +86,9 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     }
 
     private fun displayTransactionsInRecyclerView(transactions: ArrayList<Transaction>) {
-        val recyclerView = recycler_transactions_list
+        val recyclerView = binding.recyclerTransactionsList
         recyclerView.visibility = VISIBLE
-        transactions_card_view.visibility = VISIBLE
+        binding.transactionsCardView.visibility = VISIBLE
 
         val adapter = ReportAdapter(getGroupedTransactions(transactions).sortedByDescending { it.transactionAmount }, colors)
         recyclerView.adapter = adapter
@@ -99,14 +99,14 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
         val groupedTransactions = arrayListOf<Transaction>()
         transactions.groupBy { it.transactionCategoryName }
                 .forEach { transactionsByCategoryName ->
-                    val transaction = Transaction(0L, transactionsByCategoryName.key, (transactionsByCategoryName.value.sumBy { transaction -> transaction.transactionAmount.toInt() }.toDouble()), 0, transactionsByCategoryName.key, 0)
+                    val transaction = Transaction(0L, transactionsByCategoryName.key, (transactionsByCategoryName.value.sumOf { transaction -> transaction.transactionAmount.toInt() }.toDouble()), 0, transactionsByCategoryName.key, 0)
                     groupedTransactions.add(transaction)
                 }
         return groupedTransactions
     }
 
     private fun displayTransactionsInPieChart(transactions: ArrayList<Transaction>) {
-        val pieChart = pie_chart
+        val pieChart = binding.pieChart
         val data = PieData(getDataSet(transactions))
 
         data.setValueFormatter(PercentFormatter())
@@ -145,10 +145,10 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
 
     private fun getDataSet(transactions: ArrayList<Transaction>): IPieDataSet {
         val transactionAmounts = arrayListOf<PieEntry>()
-        transactions.sumBy { it.transactionAmount.toInt() }
+        transactions.sumOf { it.transactionAmount.toInt() }
         val groupedTransactions = transactions.groupBy { it.transactionCategoryName }
         groupedTransactions.forEach { transactionsByCategoryName ->
-            val pieEntry = PieEntry((transactionsByCategoryName.value.sumBy { transaction -> transaction.transactionAmount.toInt() }.toFloat()), transactionsByCategoryName.key)
+            val pieEntry = PieEntry((transactionsByCategoryName.value.sumOf { transaction -> transaction.transactionAmount.toInt() }.toFloat()), transactionsByCategoryName.key)
             transactionAmounts.add(pieEntry)
         }
         val dataSet = PieDataSet(transactionAmounts.sortedByDescending { it.y }, "Amount")
@@ -200,10 +200,10 @@ class ReportActivity : AppCompatBaseActivity() , ILandingMvp.View{
     }
 
     override fun displayNoTransactions() {
-        pie_chart.clear()
+        binding.pieChart.clear()
 
-        recycler_transactions_list.visibility = GONE
-        transactions_card_view.visibility = GONE
+        binding.recyclerTransactionsList.visibility = GONE
+        binding.transactionsCardView.visibility = GONE
     }
 
     override fun displayScreen() {
