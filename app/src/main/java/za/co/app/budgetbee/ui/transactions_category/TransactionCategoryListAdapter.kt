@@ -8,7 +8,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.item_add_new_category.view.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
 import za.co.app.budgetbee.databinding.ItemAddNewCategoryBinding
@@ -62,7 +61,7 @@ class TransactionCategoryListAdapter(private val transactionCategoryList: List<T
 
     private fun setupAddNewCategoryClickEvent(addNewViewHolder: AddNewViewHolder) {
         val view = addNewViewHolder.itemView
-        val button = view.add_new_category
+        val button = addNewViewHolder.binding.addNewCategory
         button.typeface = ResourcesCompat.getFont(view.context, R.font.poppins_regular)
         button.setOnClickListener {
             onAddNewCategorySubject.onNext(it.context)
@@ -98,6 +97,6 @@ class TransactionCategoryListAdapter(private val transactionCategoryList: List<T
         }
     }
 
-    class AddNewViewHolder(binding: ItemAddNewCategoryBinding) :
+    class AddNewViewHolder(val binding: ItemAddNewCategoryBinding) :
         RecyclerView.ViewHolder(binding.root)
 }
