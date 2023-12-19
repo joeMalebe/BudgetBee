@@ -66,9 +66,7 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
 
     private fun getTransactionDescription(transactionCategoryType: Int): String {
         val inputDescription = binding.inputDescription
-        return if (!inputDescription.text.toString().isEmpty()) {
-            inputDescription.text.toString()
-        } else {
+        return inputDescription.text.toString().ifEmpty {
             getTransactionCategoryType(transactionCategoryType)
         }
     }
@@ -100,7 +98,7 @@ class AddTransactionActivity : AppCompatBaseActivity(), IAddTransactionMvp.View 
         startActivity(
             LandingActivity.getStartIntent(
                 this, transactionDate
-            )
+            ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         )
     }
 
