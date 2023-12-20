@@ -6,33 +6,37 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.layout_year_switcher.view.*
-import za.co.app.budgetbee.R
-import java.util.*
+import za.co.app.budgetbee.databinding.LayoutYearSwitcherBinding
+import java.util.Calendar
 
-class YearSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, dyfStyleAttr: Int = 0) :
-        ConstraintLayout(context, attrs, dyfStyleAttr) {
+class YearSwitcher @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    dyfStyleAttr: Int = 0
+) :
+    ConstraintLayout(context, attrs, dyfStyleAttr) {
 
     private val publishYear = PublishSubject.create<Int>()
+    private var binding: LayoutYearSwitcherBinding
     var year = 0
         set(value) {
             field = value
-            year_text.text = year.toString()
+            binding.yearText.text = year.toString()
         }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_year_switcher, this)
+        binding = LayoutYearSwitcherBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     fun init(calendar: Calendar) {
 
         year = calendar[Calendar.YEAR]
-        year_text.text = year.toString()
-        left_selector.setOnClickListener {
+        binding.yearText.text = year.toString()
+        binding.leftSelector.setOnClickListener {
             year = year.dec()
             publishYearAndUpdateText()
         }
-        right_selector.setOnClickListener {
+        binding.rightSelector.setOnClickListener {
             year = year.inc()
             publishYearAndUpdateText()
         }
@@ -40,7 +44,7 @@ class YearSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun publishYearAndUpdateText() {
         publishYear.onNext(year)
-        year_text.text = year.toString()
+        binding.yearText.text = year.toString()
     }
 
     fun getSelectedYear(): Observable<Int> {
