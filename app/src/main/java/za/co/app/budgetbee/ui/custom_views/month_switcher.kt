@@ -8,29 +8,37 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.layout_month_switcher.view.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.databinding.LayoutMonthSwitcherBinding
 import za.co.app.budgetbee.utils.getDateStringByFormat
-import java.util.*
+import java.util.Calendar
 
-class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, dyfStyleAttr: Int = 0) :
-        ConstraintLayout(context, attrs, dyfStyleAttr) {
+private const val MONTH_YEAR_DATE_FORMAT = "MMM yyyy"
 
-    private val MONTH_YEAR_DATE_FORMAT = "MMM yyyy"
+class MonthSwitcher @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    dyfStyleAttr: Int = 0
+) :
+    ConstraintLayout(context, attrs, dyfStyleAttr) {
+
+
     val calendar: Calendar = Calendar.getInstance()
-    var monthTextView: TextView
-    var leftSelector: AppCompatImageView
-    var rightSelector: AppCompatImageView
+    private var monthTextView: TextView
+    private var leftSelector: AppCompatImageView
+    private var rightSelector: AppCompatImageView
+    private var binding: LayoutMonthSwitcherBinding
 
     private val publishCalender = PublishSubject.create<Calendar>()
     private val publishClickMonthSubject = PublishSubject.create<Boolean>()
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_month_switcher, this)
-        monthTextView = month_text
-        leftSelector = left_selector
-        rightSelector = right_selector
-        val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.MonthSwitcherStyle, 0, 0)
+        binding = LayoutMonthSwitcherBinding.inflate(LayoutInflater.from(context), this, true)
+        monthTextView = binding.monthText
+        leftSelector = binding.leftSelector
+        rightSelector = binding.rightSelector
+        val typedArray =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.MonthSwitcherStyle, 0, 0)
         val switcherColor = typedArray.getColor(R.styleable.MonthSwitcherStyle_switcher_color, -1)
         monthTextView.setTextColor(switcherColor)
         leftSelector.setColorFilter(switcherColor)
@@ -39,8 +47,8 @@ class MonthSwitcher @JvmOverloads constructor(context: Context, attrs: Attribute
 
     fun init(calendar: Calendar) {
         this.calendar.set(
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH), 1
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH), 1
         )
 
         monthTextView.text = this.calendar.getDateStringByFormat(MONTH_YEAR_DATE_FORMAT)
