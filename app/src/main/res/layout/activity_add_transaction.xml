@@ -51,7 +51,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_description"
                     android:layout_width="match_parent"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:textColor="@color/primary_text"
                     android:maxLines="1"
                     style="@style/edit_text"
