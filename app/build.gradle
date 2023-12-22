@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.devtools.ksp'
 
 android {
     compileSdk 34
@@ -81,7 +81,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_version"
 
     annotationProcessor "androidx.room:room-compiler:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.7.0'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
 
