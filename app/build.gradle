@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.devtools.ksp'
 
 android {
     compileSdk 34
@@ -43,13 +42,14 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'za.co.app.budgetbee'
 }
 repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
 
-    def room_version = "2.6.0"
+    def room_version = "2.6.1"
     def rxAndroid_version = "2.1.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -57,7 +57,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.annotation:annotation:1.7.0'
+    implementation 'androidx.annotation:annotation:1.7.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-plus:17.0.0'
@@ -81,8 +81,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_version"
 
     annotationProcessor "androidx.room:room-compiler:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.6.0'
+    ksp "androidx.room:room-compiler:$room_version"
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.7.0'
     testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
 
 }
