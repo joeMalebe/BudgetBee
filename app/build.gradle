@@ -6,11 +6,11 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.devtools.ksp'
 
 android {
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "za.co.app.budgetbee"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 5
         versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -49,16 +49,16 @@ repositories {
 }
 dependencies {
 
-    def room_version = "2.6.1"
+    def room_version = "2.8.3"
     def rxAndroid_version = "2.1.1"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.annotation:annotation:1.7.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-plus:17.0.0'
     testImplementation 'junit:junit:4.13.2'
@@ -67,9 +67,9 @@ dependencies {
     implementation 'org.codejargon.feather:feather:1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation platform('com.google.firebase:firebase-bom:28.4.2')
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation platform('com.google.firebase:firebase-bom:34.5.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
@@ -82,7 +82,7 @@ dependencies {
 
     annotationProcessor "androidx.room:room-compiler:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.7.0'
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.1.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.20.0'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:6.1.0'
 
 }
