@@ -6,7 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <include layout="@layout/normal_toolbar" />
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/normal_toolbar" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -49,7 +51,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_description"
                     android:layout_width="match_parent"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
                     android:textColor="@color/primary_text"
                     android:maxLines="1"
                     style="@style/edit_text"

@@ -7,11 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_add_transaction_category.*
-import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.databinding.ActivityAddTransactionCategoryBinding
 import javax.inject.Inject
 
 class AddTransactionCategoryActivity : AppCompatBaseActivity(),
@@ -21,7 +20,7 @@ class AddTransactionCategoryActivity : AppCompatBaseActivity(),
 
     @Inject
     lateinit var presenter: ITransactionCategoryMvp.Presenter
-
+    private lateinit var binding: ActivityAddTransactionCategoryBinding
     companion object {
 
         const val UNCHECKED = -1
@@ -32,25 +31,26 @@ class AddTransactionCategoryActivity : AppCompatBaseActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_transaction_category)
+        binding = ActivityAddTransactionCategoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
-        screen_title.text = getString(R.string.add_category)
-        back_button.setOnClickListener { navigateToTransactionCategorySelectScreen() }
+        binding.toolbar.screenTitle.text = getString(R.string.add_category)
+        binding.toolbar.backButton.setOnClickListener { navigateToTransactionCategorySelectScreen() }
         displayScreen()
     }
 
     fun addTransactionCategory(view: View) {
 
-        if (radio_group_transation_category.checkedRadioButtonId == UNCHECKED) {
+        if (binding.radioGroupTransationCategory.checkedRadioButtonId == UNCHECKED) {
             Toast.makeText(view.context, "Please select a category", Toast.LENGTH_SHORT).show()
         } else {
 
-            val categoryType = if (radio_income.isChecked) {
+            val categoryType = if (binding.radioIncome.isChecked) {
                 TransactionCategoryType.INCOME
             } else {
                 TransactionCategoryType.EXPENSE
             }
-            val categoryName = input_category_name_editText.text.toString()
+            val categoryName = binding.inputCategoryNameEditText.text.toString()
             showLoading()
             presenter.submitTransactionCategory(categoryName, categoryType)
 

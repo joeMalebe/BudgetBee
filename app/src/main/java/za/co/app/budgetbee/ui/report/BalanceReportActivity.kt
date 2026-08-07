@@ -14,14 +14,13 @@ import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.EntryXComparator
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.activity_balance_report.*
-import kotlinx.android.synthetic.main.balance_chart_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategoryType
+import za.co.app.budgetbee.databinding.ActivityBalanceReportBinding
 import za.co.app.budgetbee.ui.custom_views.LineChartMarkerView
-import java.util.*
+import java.util.Collections
 import javax.inject.Inject
 
 class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
@@ -30,6 +29,7 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
 
     @Inject
     private lateinit var presenter: IBalanceReportMvp.Presenter
+    private lateinit var binding: ActivityBalanceReportBinding
 
     companion object {
 
@@ -40,12 +40,14 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_balance_report)
-        line_chart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
-        line_chart.setNoDataTextColor(R.color.colorPrimaryDark)
+        binding = ActivityBalanceReportBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.lineChart.setNoDataTextTypeface(ResourcesCompat.getFont(this, R.font.poppins_bold))
+        binding.lineChart.setNoDataTextColor(R.color.colorPrimaryDark)
 
         presenter.attachView(this)
-        val timePeriodSwitcher = time_period_switcher
+        val timePeriodSwitcher = binding.toolbar.timePeriodSwitcher
         timePeriodSwitcher.init(BalanceReportPresenter.PERIOD.values()[0])
         timePeriodSwitcher.getSelectedTimePeriod().subscribe { timePeriod ->
             presenter.updateTimePeriod(timePeriod)
@@ -55,7 +57,7 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
 
     override fun displayTransactions(transactionsByCategory: Map<Int, List<Transaction>>) {
         if (transactionsByCategory.isEmpty()) {
-            line_chart.clear()
+            binding.lineChart.clear()
         } else {
 
             val incomeLineDataSet = getFormattedLineDateSet(getEntriesByCategoryType(transactionsByCategory
@@ -71,16 +73,16 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
             val lineData = LineData(transactionsDataSet)
             lineData.setDrawValues(false)
 
-            line_chart.getDescription().setEnabled(false)
-            line_chart.setTouchEnabled(true)
-            line_chart.setDragEnabled(true)
-            line_chart.setScaleEnabled(true)
-            line_chart.setPinchZoom(true)
-            line_chart.setDrawGridBackground(false)
-            line_chart.setMaxHighlightDistance(300f)
+            binding.lineChart.getDescription().setEnabled(false)
+            binding.lineChart.setTouchEnabled(true)
+            binding.lineChart.setDragEnabled(true)
+            binding.lineChart.setScaleEnabled(true)
+            binding.lineChart.setPinchZoom(true)
+            binding.lineChart.setDrawGridBackground(false)
+            binding.lineChart.setMaxHighlightDistance(300f)
 
             //x axis styling
-            val x: XAxis = line_chart.getXAxis()
+            val x: XAxis = binding.lineChart.getXAxis()
             x.isEnabled = true
             x.valueFormatter = LineChartXAxisValueFormatter()
             x.setLabelCount(5, false)
@@ -90,7 +92,7 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
             x.setPosition(XAxis.XAxisPosition.BOTTOM)
 
             //y axis styling
-            val y: YAxis = line_chart.getAxisLeft()
+            val y: YAxis = binding.lineChart.getAxisLeft()
             y.typeface = ResourcesCompat.getFont(this, R.font.lora_italic)
             y.setLabelCount(6, false)
             y.textColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
@@ -98,19 +100,19 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
             y.setDrawGridLines(false)
             y.axisLineColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
 
-            line_chart.getAxisRight().setEnabled(false)
-            line_chart.data = lineData
-            line_chart.getLegend().setEnabled(false)
-            line_chart.animateXY(2000, 2000)
-            line_chart.extraBottomOffset = 16f
-            line_chart.marker = LineChartMarkerView(this, R.layout.line_chart_marker)
-            line_chart.invalidate()
+            binding.lineChart.getAxisRight().setEnabled(false)
+            binding.lineChart.data = lineData
+            binding.lineChart.getLegend().setEnabled(false)
+            binding.lineChart.animateXY(2000, 2000)
+            binding.lineChart.extraBottomOffset = 16f
+            binding.lineChart.marker = LineChartMarkerView(this, R.layout.line_chart_marker)
+            binding.lineChart.invalidate()
         }
 
     }
 
     override fun displayNoTransactions() {
-        line_chart.clear()
+        binding.lineChart.clear()
     }
 
     override fun onDestroy() {
@@ -137,7 +139,7 @@ class BalanceReportActivity : AppCompatBaseActivity(), IBalanceReportMvp.View {
         lineDataSet.fillColor = ContextCompat.getColor(this, colorResource)
         lineDataSet.fillAlpha = 50
         lineDataSet.setDrawHorizontalHighlightIndicator(true)
-        lineDataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> line_chart.getAxisLeft().getAxisMinimum() }
+        lineDataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> binding.lineChart.getAxisLeft().getAxisMinimum() }
     }
 
     private fun getEntriesByCategoryType(transactions: List<Transaction>?): ArrayList<Entry> {

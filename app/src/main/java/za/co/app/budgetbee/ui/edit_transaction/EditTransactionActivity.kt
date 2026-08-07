@@ -8,14 +8,11 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.activity_add_transaction.input_amount
-import kotlinx.android.synthetic.main.activity_add_transaction.input_date
-import kotlinx.android.synthetic.main.activity_edit_transaction.*
-import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.data.model.domain.Transaction
 import za.co.app.budgetbee.data.model.domain.TransactionCategory
+import za.co.app.budgetbee.databinding.ActivityEditTransactionBinding
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionActivity
 import za.co.app.budgetbee.ui.landing.LandingActivity
 import za.co.app.budgetbee.ui.select_transaction_category.SelectTransactionCategoryActivity
@@ -23,7 +20,7 @@ import za.co.app.budgetbee.utils.TextValidator
 import za.co.app.budgetbee.utils.displayLongDouble
 import za.co.app.budgetbee.utils.getDateStringByFormat
 import za.co.app.budgetbee.utils.showDatePickerDialogAndDisplaySelectedDateTextToView
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.View {
@@ -36,6 +33,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
     private lateinit var inputTransactionCategory: TextInputEditText
     private lateinit var deleteButton: AppCompatImageView
     private lateinit var backButton: AppCompatImageView
+    private lateinit var binding: ActivityEditTransactionBinding
 
     @Inject
     lateinit var presenter: IEditTransactionMvp.Presenter
@@ -53,36 +51,39 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_transaction)
+        binding = ActivityEditTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
         val parsedTransaction = intent.getParcelableExtra<Transaction>(EXTRA_TRANSACTION)
-        if(parsedTransaction == null){
+        if (parsedTransaction == null) {
             return
         } else {
+            binding.toolbar.screenTitle.text = getString(R.string.transaction)
+            inputAmount = binding.inputAmount
+            val editButton = binding.buttonEditTransaction
+            inputAmount.addTextChangedListener(object : TextValidator(inputAmount) {
+                override fun validate(textView: TextView, text: String) {
+                    if (text.isEmpty()) {
+                        textView.error = (getString(R.string.amount_error))
+                        editButton.isEnabled = false
+                    } else
+                        editButton.isEnabled = true
+                }
+            })
+            inputDate = binding.inputDate
+            inputDescription = binding.inputDescription
+            inputTransactionCategory = binding.inputTransactionCategory
+            backButton = binding.toolbar.backButton
+            backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+            deleteButton = binding.toolbar.deleteButton
+            transaction = parsedTransaction
+            transactionCategory = TransactionCategory(
+                transaction.transactionCategoryId,
+                transaction.transactionCategoryName,
+                transaction.transactionCategoryType
+            )
 
-
-        screen_title.text = getString(R.string.transaction)
-        inputAmount = input_amount
-        val editButton = button_edit_transaction
-        inputAmount.addTextChangedListener(object : TextValidator(inputAmount) {
-            override fun validate(textView: TextView, text: String) {
-                if (text.isEmpty()) {
-                    textView.error = (getString(R.string.amount_error))
-                    editButton.isEnabled = false
-                } else
-                    editButton.isEnabled = true
-            }
-        })
-        inputDate = input_date
-        inputDescription = input_description
-        inputTransactionCategory = input_transaction_category
-        backButton = back_button
-        backButton.setOnClickListener { onBackPressed() }
-        deleteButton = delete_button
-        transaction = parsedTransaction
-        transactionCategory = TransactionCategory(transaction.transactionCategoryId, transaction.transactionCategoryName, transaction.transactionCategoryType)
-
-        displayScreen()
+            displayScreen()
         }
     }
 
@@ -122,7 +123,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
         inputDate.setText(calendar.getDateStringByFormat())
 
         inputTransactionCategory.setOnClickListener {
-            startActivityForResult(SelectTransactionCategoryActivity.getStartIntent(it.context),2)
+            startActivityForResult(SelectTransactionCategoryActivity.getStartIntent(it.context), 2)
         }
 
         inputDate.setOnClickListener {
@@ -134,7 +135,7 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
             alert.show()
         }
 
-        button_edit_transaction.setOnClickListener {
+        binding.buttonEditTransaction.setOnClickListener {
             bindTransactionValues(transaction, calendar)
             presenter.updateTransaction(transaction)
 
@@ -143,10 +144,11 @@ class EditTransactionActivity : AppCompatBaseActivity(), IEditTransactionMvp.Vie
 
     private fun gerDisclaimerDialog(): AlertDialog {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage(R.string.are_you_sure_you_want_to_delete_this_transaction).setTitle(R.string.delete_transaction)
-                .setCancelable(false)
-                .setPositiveButton(R.string.yes) { _, _ -> presenter.deleteTransaction(transaction) }
-                .setNegativeButton(R.string.no) { dialog, _ -> dialog.cancel() }
+        builder.setMessage(R.string.are_you_sure_you_want_to_delete_this_transaction)
+            .setTitle(R.string.delete_transaction)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { _, _ -> presenter.deleteTransaction(transaction) }
+            .setNegativeButton(R.string.no) { dialog, _ -> dialog.cancel() }
         return builder.create()
     }
 

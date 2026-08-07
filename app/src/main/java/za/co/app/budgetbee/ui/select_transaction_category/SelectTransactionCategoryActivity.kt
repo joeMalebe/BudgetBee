@@ -4,11 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-import kotlinx.android.synthetic.main.activity_transaction_category.*
-import kotlinx.android.synthetic.main.transactions_activity_toolbar.*
 import za.co.app.budgetbee.R
 import za.co.app.budgetbee.base.AppCompatBaseActivity
 import za.co.app.budgetbee.base.IBaseView
+import za.co.app.budgetbee.databinding.ActivityTransactionCategoryBinding
 import za.co.app.budgetbee.ui.add_transaction.AddTransactionPagerAdapter
 import javax.inject.Inject
 import javax.inject.Named
@@ -23,6 +22,7 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
     @field:Named("expense")
     lateinit var expensePresenter: ISelectTransactionCategoryMvp.Presenter
 
+    private lateinit var binding: ActivityTransactionCategoryBinding
     companion object {
         fun getStartIntent(context: Context): Intent {
             return Intent(context, SelectTransactionCategoryActivity::class.java)
@@ -31,15 +31,17 @@ class SelectTransactionCategoryActivity : AppCompatBaseActivity(), IBaseView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transaction_category)
-        screen_title.text = getString(R.string.category)
-        back_button.setOnClickListener { onBackPressed() }
+        binding = ActivityTransactionCategoryBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.toolbar.screenTitle.text = getString(R.string.category)
+        binding.toolbar.backButton.setOnClickListener { onBackPressedDispatcher.onBackPressed() }
         displayScreen()
     }
 
     override fun displayScreen() {
-        val transactionViewPager = transaction_view_pager
-        val transactionTabs = transaction_type_tab_layout
+        val transactionViewPager = binding.transactionViewPager
+        val transactionTabs = binding.transactionTypeTabLayout
         transactionViewPager.adapter =
                 AddTransactionPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT, incomePresenter, expensePresenter)
         transactionTabs.setupWithViewPager(transactionViewPager)

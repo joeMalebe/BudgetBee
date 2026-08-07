@@ -8,43 +8,51 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.layout_time_period_switcher.view.*
 import za.co.app.budgetbee.R
+import za.co.app.budgetbee.databinding.LayoutTimePeriodSwitcherBinding
 import za.co.app.budgetbee.ui.report.BalanceReportPresenter
 
-class TimePeriodSwitcher @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, dyfStyleAttr: Int = 0) :
-        ConstraintLayout(context, attrs, dyfStyleAttr) {
+class TimePeriodSwitcher @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    dyfStyleAttr: Int = 0
+) :
+    ConstraintLayout(context, attrs, dyfStyleAttr) {
 
-    var timePeriodTextView: TextView
-    var leftSelector: AppCompatImageView
-    var rightSelector: AppCompatImageView
+    private var timePeriodTextView: TextView
+    private var leftSelector: AppCompatImageView
+    private var rightSelector: AppCompatImageView
     private val publishTimePeriod = PublishSubject.create<BalanceReportPresenter.PERIOD>()
-    val timePeriods = BalanceReportPresenter.PERIOD.values()
-    var currentTimePeriod = 0
+    private val timePeriods = BalanceReportPresenter.PERIOD.values()
+    private var currentTimePeriod = 0
         set(value) {
             field = value
-            time_period_text.text =  timePeriods[currentTimePeriod].textValue
+            binding.timePeriodText.text = timePeriods[currentTimePeriod].textValue
         }
+    private var binding: LayoutTimePeriodSwitcherBinding
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_time_period_switcher, this)
+        binding = LayoutTimePeriodSwitcherBinding.inflate(LayoutInflater.from(context), this, true)
 
-        timePeriodTextView = time_period_text
-        leftSelector = left_selector
-        rightSelector = right_selector
-        val typedArray = context.theme.obtainStyledAttributes(attrs, R.styleable.TimePeriodSwitcherStyle, 0, 0)
-        val switcherColor = typedArray.getColor(R.styleable.TimePeriodSwitcherStyle_time_switcher_color, -1)
+        timePeriodTextView = binding.timePeriodText
+        leftSelector = binding.leftSelector
+        rightSelector = binding.rightSelector
+        val typedArray =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.TimePeriodSwitcherStyle, 0, 0)
+        val switcherColor =
+            typedArray.getColor(R.styleable.TimePeriodSwitcherStyle_time_switcher_color, -1)
         timePeriodTextView.setTextColor(switcherColor)
         leftSelector.setColorFilter(switcherColor)
         rightSelector.setColorFilter(switcherColor)
     }
 
-    fun init(period : BalanceReportPresenter.PERIOD) {
+    fun init(period: BalanceReportPresenter.PERIOD) {
 
         timePeriodTextView.text = period.textValue
         val numberOfTimePeriods = timePeriods.size
         leftSelector.setOnClickListener {
-            currentTimePeriod = if (currentTimePeriod == 0) numberOfTimePeriods - 1 else currentTimePeriod.dec()
+            currentTimePeriod =
+                if (currentTimePeriod == 0) numberOfTimePeriods - 1 else currentTimePeriod.dec()
             publishTimePeriodText()
         }
         rightSelector.setOnClickListener {

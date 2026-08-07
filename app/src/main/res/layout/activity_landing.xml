@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/home_toolbar" />
+    <include layout="@layout/home_toolbar"
+        android:id="@+id/toolbar"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -154,6 +155,7 @@
             tools:listitem="@layout/item_transaction" />
 
         <include
+            android:id="@+id/empty_transactions_layout"
             layout="@layout/no_transaction_layout"
             android:visibility="gone" />
 

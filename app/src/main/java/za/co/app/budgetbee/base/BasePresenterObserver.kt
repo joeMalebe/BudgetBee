@@ -16,9 +16,6 @@ abstract class BasePresenterObserver<T>(open val view: IServiceCallView) : Obser
         Log.d(TAG, "onSubscribe called with disposable $disposable")
     }
 
-    abstract override fun onNext(value: T)
-
-
     override fun onError(error: Throwable) {
         view.dismissLoading()
         view.showError(error)

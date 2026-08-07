@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <include layout="@layout/normal_toolbar"/>
+    <include layout="@layout/normal_toolbar"
+        android:id="@+id/toolbar"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -31,6 +32,7 @@
                 android:id="@+id/input_category_name_editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
                 style="@style/edit_text"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="@string/category_name" />
