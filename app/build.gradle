@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.devtools.ksp'
 
 android {
-    compileSdk 35
+    compileSdk 36
     defaultConfig {
         applicationId "za.co.app.budgetbee"
         minSdkVersion 24
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 5
         versionName "1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -18,6 +17,10 @@ android {
         lintOptions {
             warning 'InvalidPackage'
         }
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
     buildTypes {
         release {
@@ -32,11 +35,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = '17'
+        sourceCompatibility JavaVersion.VERSION_25
+        targetCompatibility JavaVersion.VERSION_25
     }
 
     buildFeatures {
@@ -57,8 +57,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.annotation:annotation:1.9.1'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.annotation:annotation:1.10.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.2'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-plus:17.0.0'
     testImplementation 'junit:junit:4.13.2'
@@ -67,7 +67,7 @@ dependencies {
     implementation 'org.codejargon.feather:feather:1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    implementation platform('com.google.firebase:firebase-bom:34.5.0')
+    implementation platform('com.google.firebase:firebase-bom:34.17.0')
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
@@ -82,7 +82,7 @@ dependencies {
 
     annotationProcessor "androidx.room:room-compiler:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.20.0'
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:6.1.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.23.0'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:6.3.0'
 
 }

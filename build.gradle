@@ -2,10 +2,10 @@
 
 buildscript {
     ext {
-        agp_version = '8.11.2'
+        agp_version = '9.1.0'
     }
 
-    ext.kotlin_version = '2.1.21'
+    ext.kotlin_version = '2.4.10'
     repositories {
         google()
         mavenCentral()
@@ -15,15 +15,15 @@ buildscript {
         classpath "com.android.tools.build:gradle:$agp_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.4.4'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.6'
+        classpath 'com.google.gms:google-services:4.5.0'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:3.0.7'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 
 plugins {
-    id 'com.google.devtools.ksp' version '2.1.21-2.0.1' apply false
+    id 'com.google.devtools.ksp' version '2.3.10' apply false
 }
 
 allprojects {
