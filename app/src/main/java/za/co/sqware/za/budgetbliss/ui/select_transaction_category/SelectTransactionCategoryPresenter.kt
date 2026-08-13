@@ -1,0 +1,43 @@
+package za.co.sqware.za.budgetbliss.ui.select_transaction_category
+
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import za.co.sqware.za.budgetbliss.base.BasePresenterObserver
+import za.co.sqware.za.budgetbliss.base.IBaseView
+import za.co.sqware.za.budgetbliss.data.model.domain.TransactionCategory
+import za.co.sqware.za.budgetbliss.data.model.domain.TransactionCategoryType
+import za.co.sqware.za.budgetbliss.data.repository.IDatabaseRepository
+import java.util.logging.Logger
+
+class SelectTransactionCategoryPresenter(val transactionsRepository: IDatabaseRepository) : ISelectTransactionCategoryMvp.Presenter {
+    private lateinit var view: ISelectTransactionCategoryMvp.View
+
+    override fun getAllTransactionCategoriesByType(transactionCategoryType: TransactionCategoryType) {
+        transactionsRepository.getAllTransactionCategoriesByType(transactionCategoryType.value)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(TransactionCategoryObserver(view))
+    }
+
+    override fun attachView(view: IBaseView) {
+        this.view = view as ISelectTransactionCategoryMvp.View
+    }
+
+    override fun detachView() {
+        Logger.getAnonymousLogger().info("SelectTransactionCategoryPresenter Stopped")
+    }
+
+    class TransactionCategoryObserver(override val view: ISelectTransactionCategoryMvp.View) :
+            BasePresenterObserver<ArrayList<TransactionCategory>>(view) {
+
+        override fun onNext(value: ArrayList<TransactionCategory>) {
+            view.dismissLoading()
+            view.displayCategories(value)
+        }
+
+        override fun onError(error: Throwable) {
+            view.dismissLoading()
+            view.showError(error)
+        }
+    }
+}
