@@ -6,7 +6,7 @@
     xmlns:TimePeriodSwitcherStyle="http://schemas.android.com/tools"
     android:background="@color/colorPrimary">
 
-    <za.co.app.budgetbee.ui.custom_views.TimePeriodSwitcher
+    <za.co.sqware.za.budgetbliss.ui.custom_views.TimePeriodSwitcher
         android:id="@+id/time_period_switcher"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/year_switcher_height"
